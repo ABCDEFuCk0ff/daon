@@ -59,16 +59,6 @@
             </div>
         </div>
     </main>
-    
-    <!-- Floating Navigation Buttons -->
-    <button id="prev-btn" class="action-btn nav-btn floating-nav-btn">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-        <span class="btn-text">이전 작품</span>
-    </button>
-    <button id="next-btn" class="action-btn nav-btn floating-nav-btn">
-        <span class="btn-text">다음 작품</span>
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-    </button>
 
     <script>
         // body에 dark-mode 클래스 적용
@@ -798,35 +788,6 @@
                 contentDiv.innerHTML = "<p>해당 작품에 대한 상세 정보가 아직 등록되지 않았습니다.</p>";
             }
 
-            // 이전/다음 작품 버튼 로직
-            const prevBtn = document.getElementById('prev-btn');
-            const nextBtn = document.getElementById('next-btn');
-            const currentIndex = workList.indexOf(title);
-
-            if (currentIndex !== -1) {
-                // 이전 작품이 있는 경우
-                if (currentIndex > 0) {
-                    const prevTitle = workList[currentIndex - 1];
-                    prevBtn.onclick = () => location.replace(`novel_detail.html?title=${prevTitle}`);
-                    prevBtn.setAttribute('data-tooltip', prevTitle);
-                } else {
-                    prevBtn.classList.add('disabled');
-                }
-
-                // 다음 작품이 있는 경우
-                if (currentIndex < workList.length - 1) {
-                    const nextTitle = workList[currentIndex + 1];
-                    nextBtn.onclick = () => location.replace(`novel_detail.html?title=${nextTitle}`);
-                    nextBtn.setAttribute('data-tooltip', nextTitle);
-                } else {
-                    nextBtn.classList.add('disabled');
-                }
-            } else {
-                // 목록에 없는 작품인 경우 둘 다 비활성화
-                prevBtn.classList.add('disabled');
-                nextBtn.classList.add('disabled');
-            }
-
             // 게스트 모드 확인
             const isGuest = localStorage.getItem('isGuest');
 
@@ -952,24 +913,39 @@
                 handleSwipe();
             });
 
+            const currentIndex = workList.indexOf(title);
+            let prevTitle = null;
+            let nextTitle = null;
+
+            if (currentIndex > 0) {
+                prevTitle = workList[currentIndex - 1];
+            }
+            if (currentIndex < workList.length - 1) {
+                nextTitle = workList[currentIndex + 1];
+            }
+
             function handleSwipe() {
                 const threshold = 50; // 최소 스와이프 거리
                 if (touchStartX - touchEndX > threshold) {
                     // 왼쪽으로 스와이프 -> 다음 작품
-                    if (!document.getElementById('next-btn').classList.contains('disabled')) document.getElementById('next-btn').click();
+                    if (nextTitle) {
+                        location.replace(`novel_detail.html?title=${encodeURIComponent(nextTitle)}`);
+                    }
                 }
                 if (touchEndX - touchStartX > threshold) {
                     // 오른쪽으로 스와이프 -> 이전 작품
-                    if (!document.getElementById('prev-btn').classList.contains('disabled')) document.getElementById('prev-btn').click();
+                    if (prevTitle) {
+                        location.replace(`novel_detail.html?title=${encodeURIComponent(prevTitle)}`);
+                    }
                 }
             }
 
             // 키보드 방향키 이벤트 (컴퓨터 테스트용)
             document.addEventListener('keydown', (e) => {
-                if (e.key === 'ArrowLeft') {
-                    if (!prevBtn.classList.contains('disabled')) prevBtn.click();
-                } else if (e.key === 'ArrowRight') {
-                    if (!nextBtn.classList.contains('disabled')) nextBtn.click();
+                if (e.key === 'ArrowLeft' && prevTitle) {
+                    location.replace(`novel_detail.html?title=${encodeURIComponent(prevTitle)}`);
+                } else if (e.key === 'ArrowRight' && nextTitle) {
+                    location.replace(`novel_detail.html?title=${encodeURIComponent(nextTitle)}`);
                 }
             });
         }
