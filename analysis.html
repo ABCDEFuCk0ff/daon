@@ -21,7 +21,7 @@
     <div id="toast" class="toast top"></div>
     <main>
         <header class="page-header">
-            <h1>분석 페이지</h1>
+            <h1>분석</h1>
         </header>
         <section class="chat-section">
             <div class="chat-container">
@@ -67,8 +67,6 @@
     </nav>
 
     <script>
-        // Google AI Studio에서 발급받은 API 키
-        const API_KEY = "AIzaSyAA_V9l6OMhBJ5TxdzYIZS6SHbiXC2xYBI";
         const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent';
 
         const chatMessages = document.getElementById('chat-messages');
@@ -205,12 +203,17 @@ ${levelDescription}
             const loadingMessage = addMessage('<div class="typing-indicator"><span></span><span></span><span></span></div>', 'ai', 'loading-message', true);
 
             try {
+                const apiKey = import.meta.env.GEMINI_API_KEY;
+                if (!apiKey) {
+                    throw new Error("GEMINI_API_KEY 환경변수가 설정되지 않았습니다.");
+                }
+
                 const requestBody = {
                     contents: conversationHistory,
                     systemInstruction: systemInstruction,
                 };
 
-                const response = await fetch(`${API_URL}?key=${API_KEY}`, {
+                const response = await fetch(`${API_URL}?key=${apiKey}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(requestBody),
@@ -277,7 +280,7 @@ ${levelDescription}
 
         function loadRandomSuggestions() {
             const shuffled = suggestionPool.sort(() => 0.5 - Math.random());
-            const selected = shuffled.slice(0, 4);
+            const selected = shuffled.slice(0, 3);
             
             suggestionContainer.innerHTML = '';
             selected.forEach(text => {

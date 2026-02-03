@@ -403,27 +403,49 @@ body.dark-mode .detail-content h3 {
 }
 
 .suggestion-container {
-    padding: 10px 20px;
+    padding: 0;
     border-top: 1px solid #ddd;
-    background-color: #f9f9f9;
+    background-color: #fff;
     display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
+    flex-direction: column;
+    gap: 0;
+    align-items: stretch;
 }
 
 .suggestion-button {
     background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 20px;
-    padding: 8px 12px;
+    border: none;
+    border-bottom: 1px solid #eee;
+    border-radius: 0;
+    padding: 10px 20px 10px 40px;
     font-size: 14px;
     cursor: pointer;
     transition: background-color 0.2s;
+    text-align: left;
+    position: relative;
+}
+
+.suggestion-button::before {
+    content: '>';
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-weight: bold;
+    color: #007bff;
+    font-size: 16px;
 }
 
 .suggestion-button:hover {
     background-color: #f0f0f0;
+}
+
+.suggestion-button:last-child {
+    border-bottom: none;
+}
+
+body.dark-mode .suggestion-button::before {
+    color: #58a6ff;
 }
 
 .typing-indicator {
