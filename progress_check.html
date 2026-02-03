@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>진도 확인</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .progress-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+        .progress-item {
+            margin-bottom: 30px;
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 1px solid #eee;
+        }
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-weight: bold;
+            font-size: 18px;
+            color: #333;
+        }
+        .progress-bar-bg {
+            width: 100%;
+            height: 20px;
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background-color: #4caf50;
+            width: 0%;
+            border-radius: 10px;
+            transition: width 1s ease-in-out;
+        }
+        .progress-percent {
+            text-align: right;
+            margin-top: 10px;
+            font-size: 28px;
+            font-weight: bold;
+            color: #4caf50;
+        }
+        .progress-count {
+            font-size: 14px;
+            color: #888;
+            font-weight: normal;
+            align-self: center;
+        }
+        body.dark-mode .progress-count {
+            color: #ccc;
+        }
+    </style>
+    <script>
+        if (!localStorage.getItem('isLoggedIn') && !localStorage.getItem('isGuest')) {
+            window.location.href = 'index.html';
+        }
+    </script>
+    <script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark-mode');
+        }
+    </script>
+</head>
+<body>
+    <main>
+        <header class="page-header">
+            <a href="my-page.html" class="back-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </a>
+            <h1>진도 확인</h1>
+        </header>
+        <div class="detail-content">
+            <div id="guest-message" style="display: none; text-align: center; padding: 50px 0;">
+                <p style="font-size: 18px; color: #666;">로그인이 필요한 기능입니다.</p>
+                <button onclick="window.location.href='index.html'" class="start-button" style="margin-top: 20px; font-size: 14px; padding: 10px 20px;">로그인 하러 가기</button>
+            </div>
+            <div class="progress-container" id="progress-list"></div>
+        </div>
+    </main>
+    <script>
+        // body에 dark-mode 클래스 적용
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+
+        if (localStorage.getItem('isGuest')) {
+            document.getElementById('progress-list').style.display = 'none';
+            document.getElementById('guest-message').style.display = 'block';
+        } else {
+        // 카테고리별 작품 목록
+        const categories = {
+            "고전소설": ["춘향전", "심청전", "흥부전", "토끼전", "별주부전", "구운몽", "사씨남정기", "홍길동전", "전우치전", "운영전", "만복사저포기", "옥루몽", "김원전", "최고운전", "채봉감별곡", "배비장전", "박씨전", "숙향전", "조웅전", "적벽가", "유충렬전", "이생규장전", "창선감의록", "심생전", "장끼전", "서동지전", "숙영낭자전", "임경업전", "옹고집전", "금방울전", "정수정전", "상사동기", "이대봉전", "김진옥전", "이화전", "박태보전", "낙성비룡", "김현감호", "최척전", "임장군전"],
+            "고전시": ["관동별곡", "사미인곡", "속미인곡", "어부사시사", "성산별곡", "청산별곡", "규원가", "면앙정가", "상춘곡", "도산십이곡", "고산구곡가", "누항사", "탄궁가", "거산호", "관서별곡", "농가월령", "장한가", "오륜가", "차마설", "고풍의상", "결빙의 아버지", "일동장유가", "북방에서 정현웅에게", "샛별 지자 종다리 떴다", "시비에 개 짓거늘", "논밭 갈아 기음 매고", "독자왕유희유오영", "어우가", "농가", "월훈", "청산행", "가지가 담을 넘을 때"],
+            "현대소설": ["관촌수필", "천변풍경", "난장이가 쏘아올린 작은 공", "삼대", "날개", "학", "소나기", "삼포 가는 길", "오발탄", "광장", "김약국의 딸들", "독 짓는 늙은이", "무녀도", "너와 나만의 시간", "평지", "자전거 도둑", "아주 느린 시간", "명랑한 밤길", "도도한 생활", "소리의 빛", "허생전", "허생의 처", "매우 잘생긴 우산 하나", "역로", "바위", "김서방전", "어머니", "비 오는 날이면 가리봉동에 가야 한다", "철없는 사람들", "인간시장", "태백산맥 (일부)", "우리들의 일그러진 영웅", "봄·봄", "산촌여정", "황진이", "카메라와 워커", "빈집", "길", "그 많던 싱아는 누가 다 먹었을까"],
+            "현대시": ["폭포", "산", "서시", "생명의 서", "별헤는 밤", "님의 침묵", "진달래꽃", "자화상", "또 다른 고향", "추억에서", "파밭 가에서", "살아있는 것은 흔들리면서 - 순례11", "내 마음의 고향6 - 초설", "멸치", "샤갈의 마을에 내리는 눈", "출생기", "강우", "벽", "눈물", "황혼", "불사조", "역사", "나목", "전라도 가시내", "들국", "흙", "느티나무로부터", "오래된 잠버릇", "어둠도 자세히 보면 환하다", "맨발", "풀벌레들의 작은 귀를 생각함", "배를 매며", "결빙의 아버지", "병원", "꽃씨", "산상의 노래", "성에꽃", "희망의 거처", "지리산 뻐꾹새", "아침 시"]
+        };
+
+        const completedData = JSON.parse(localStorage.getItem('learning_completed')) || [];
+        const completedTitles = completedData.map(item => (typeof item === 'string' ? item : item.title));
+
+        const container = document.getElementById('progress-list');
+
+        for (const [category, items] of Object.entries(categories)) {
+            const total = items.length;
+            const completedCount = items.filter(title => completedTitles.includes(title)).length;
+            const percentage = total === 0 ? 0 : Math.round((completedCount / total) * 100);
+
+            const div = document.createElement('div');
+            div.className = 'progress-item';
+            div.innerHTML = `
+                <div class="progress-header">
+                    <span>${category}</span>
+                    <span class="progress-count">${completedCount} / ${total}</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" style="width: 0%" data-width="${percentage}%"></div>
+                </div>
+                <div class="progress-percent">${percentage}%</div>
+            `;
+            container.appendChild(div);
+        }
+
+        setTimeout(() => {
+            document.querySelectorAll('.progress-bar-fill').forEach(bar => {
+                bar.style.width = bar.getAttribute('data-width');
+            });
+        }, 100);
+        }
+    </script>
+</body>
+</html>

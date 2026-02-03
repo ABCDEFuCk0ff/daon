@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>퀴즈 결과</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body { padding-bottom: 20px; }
+        .result-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+        .score-card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .score-title { font-size: 18px; color: #666; margin-bottom: 10px; }
+        .score-value { font-size: 48px; font-weight: bold; color: #333; }
+        
+        .wrong-answer-card {
+            background-color: #fff;
+            border: 1px solid #ffcdd2;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        .question-text { font-weight: bold; font-size: 16px; margin-bottom: 10px; line-height: 1.4; }
+        .answer-row { margin-top: 5px; font-size: 14px; }
+        .user-choice { color: #c62828; }
+        .correct-choice { color: #2e7d32; font-weight: bold; }
+        .section-title { text-align: left; margin-bottom: 15px; font-size: 20px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        .star-rating-display {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            margin-top: 15px;
+        }
+        .star-icon {
+            width: 35px;
+            height: 35px;
+            fill: #e0e0e0;
+        }
+        .star-icon.active {
+            fill: #fdd835;
+        }
+        body.dark-mode .score-title {
+            color: #ccc;
+        }
+    </style>
+    <script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark-mode');
+        }
+    </script>
+</head>
+<body>
+    <main>
+        <div class="page-header">
+            <h1>퀴즈 결과</h1>
+        </div>
+        
+        <div class="result-container">
+            <div class="score-card">
+                <div class="score-title">나의 점수</div>
+                <div class="score-value" id="score-display">0 / 0</div>
+                <div id="star-rating" class="star-rating-display"></div>
+            </div>
+
+            <div id="wrong-answers-section" style="display: none;">
+                <h2 class="section-title">틀린 문제 확인</h2>
+                <div id="wrong-answers-list"></div>
+            </div>
+
+            <div style="margin-top: 30px;">
+                <button class="start-button" onclick="window.location.href='quiz.html'" style="width: 100%;">퀴즈 메인으로</button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // body에 dark-mode 클래스 적용
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+
+        const resultData = JSON.parse(localStorage.getItem('quizResults'));
+        
+        if (!resultData) {
+            alert('결과 데이터가 없습니다.');
+            window.location.href = 'quiz.html';
+        }
+
+        document.getElementById('score-display').textContent = `${resultData.score} / ${resultData.total}`;
+
+        const percentage = resultData.total > 0 ? (resultData.score / resultData.total) * 100 : 0;
+        const stars = Math.ceil(percentage / 20); // 20% 단위로 별점 부여 (0~5개)
+        const starContainer = document.getElementById('star-rating');
+        for(let i=1; i<=5; i++) {
+            const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            svg.setAttribute("viewBox", "0 0 24 24");
+            svg.setAttribute("class", `star-icon ${i <= stars ? 'active' : ''}`);
+            svg.innerHTML = '<path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>';
+            starContainer.appendChild(svg);
+        }
+
+        const wrongSection = document.getElementById('wrong-answers-section');
+        const wrongList = document.getElementById('wrong-answers-list');
+        const wrongAnswers = resultData.results.filter(r => !r.isCorrect);
+
+        if (wrongAnswers.length > 0) {
+            wrongSection.style.display = 'block';
+            wrongAnswers.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'wrong-answer-card';
+                
+                const userAnsText = item.selected === -1 ? '시간 초과' : item.options[item.selected];
+                const correctAnsText = item.options[item.correct];
+
+                div.innerHTML = `
+                    <div class="question-text">Q. ${item.question}</div>
+                    <div class="answer-row user-choice">나의 답: ${userAnsText}</div>
+                    <div class="answer-row correct-choice">정답: ${correctAnsText}</div>
+                `;
+                wrongList.appendChild(div);
+            });
+        }
+    </script>
+</body>
+</html>

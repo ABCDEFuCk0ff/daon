@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>현대시 상세</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Nanum Myeongjo', serif; }
+        #novel-title {
+            font-size: 34px;
+        }
+    </style>
+    <script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark-mode');
+        }
+    </script>
+</head>
+<body>
+    <a href="javascript:history.back()" class="back-button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    </a>
+    <a href="learning.html" class="home-button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+    </a>
+    <main>
+        <header class="page-header">
+            <h1 id="novel-title">작품 제목</h1>
+            <p id="poetry-genre" class="genre-tag" style="display: none;"></p>
+        </header>
+        <div class="detail-content">
+            <p>이곳에 작품의 상세 내용이 표시됩니다.</p>
+        </div>
+
+        <!-- 하단 액션 버튼 영역 -->
+        <div class="action-container">
+            <div class="status-row">
+                <button id="completed-btn" class="action-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    학습완료
+                </button>
+                <button id="favorite-btn" class="action-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                    즐겨찾기
+                </button>
+            </div>
+            <div class="difficulty-label">난이도</div>
+            <div class="star-rating">
+                <span class="rating-label">쉬움</span>
+                <svg class="star" data-value="1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                <svg class="star" data-value="2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                <svg class="star" data-value="3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                <svg class="star" data-value="4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                <svg class="star" data-value="5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                <span class="rating-label">어려움</span>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Floating Navigation Buttons -->
+    <button id="prev-btn" class="action-btn nav-btn floating-nav-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        <span class="btn-text">이전 작품</span>
+    </button>
+    <button id="next-btn" class="action-btn nav-btn floating-nav-btn">
+        <span class="btn-text">다음 작품</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+    </button>
+
+    <script>
+        // body에 dark-mode 클래스 적용
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+
+        // 현대시 상세 데이터 (추후 내용 추가 필요)
+        const modernPoetryData = {
+            "진달래꽃": {
+                genre: "현대시",
+                basicInfo: "1925년 시집 『진달래꽃』에 수록된 김소월의 대표작입니다. 한국 서정시의 전통을 계승한 작품입니다.",
+                poetIntro: "<strong>김소월(1902~1934):</strong> 민요적 율격과 전통적 정서(한)를 바탕으로 한국인의 보편적인 감정을 노래한 시인입니다.",
+                overallInterpretation: "이별의 슬픔을 참고 견디며 임을 축복하는 '애이불비(哀而不悲)'의 태도를 통해 이별의 정한(情恨)을 예술적으로 승화시켰습니다.",
+                keyPhraseAnalysis: [
+                    "<strong>나 보기가 역겨워 가실 때에는:</strong> 이별의 상황을 가정하여 시상을 전개합니다.",
+                    "<strong>말없이 고이 보내 드리우리다:</strong> 체념과 순종, 인고의 자세를 보여줍니다.",
+                    "<strong>죽어도 아니 눈물 흘리오리다:</strong> 반어법을 통해 슬픔을 극대화하고, 슬픔을 참겠다는 의지를 강조합니다."
+                ],
+                expressionFeatures: "3음보의 민요적 율격(7·5조)을 사용하여 리듬감을 형성했습니다. 반어법을 사용하여 화자의 애절한 마음을 강조했습니다. 수미상관(변형된) 구조로 안정감을 줍니다.",
+                historicalBackground: "1920년대 일제 강점기, 우리 민족의 전통적인 정서를 우리말로 아름답게 표현하여 민족 문학의 명맥을 이었습니다.",
+                examPoints: [
+                    "<strong>반어법:</strong> '죽어도 아니 눈물 흘리오리다'에 쓰인 표현법과 그 효과를 묻습니다.",
+                    "<strong>율격:</strong> 3음보의 민요적 율격을 파악해야 합니다.",
+                    "<strong>화자의 태도:</strong> 고려 가요 '가시리', 황진이의 시조 등과 비교하여 이별을 대하는 태도를 묻습니다."
+                ],
+                difficultPoints: [
+                    "<strong>애이불비(哀而不悲):</strong> 속으로는 슬프지만 겉으로는 슬픔을 나타내지 않는다는 뜻으로, 화자의 절제된 태도를 설명하는 핵심 용어입니다."
+                ],
+                confusingPoints: [
+                    "<strong>가시리와의 차이:</strong> '가시리'는 다시 돌아오기를 애원하지만, '진달래꽃'은 축복하며 보내주는 체념과 승화의 태도를 보입니다."
+                ]
+            },
+            "서시": {
+                genre: "현대시",
+                basicInfo: "윤동주의 유고 시집 『하늘과 바람과 별과 시』(1948)의 서문 격인 시입니다.",
+                poetIntro: "<strong>윤동주(1917~1945):</strong> 일제 강점기 지식인의 고뇌와 부끄러움을 서정적으로 노래한 저항 시인입니다.",
+                overallInterpretation: "죽는 날까지 하늘을 우러러 한 점 부끄럼 없기를 바라는 순수한 삶의 소망과 의지를 노래했습니다. 어두운 시대 현실(밤) 속에서도 별(이상, 희망)을 노래하며 양심을 지키고자 했습니다.",
+                keyPhraseAnalysis: [
+                    "<strong>잎새에 이는 바람에도 나는 괴로워했다:</strong> 아주 작은 잘못이나 시련에도 민감하게 반응하는 화자의 순결한 양심을 보여줍니다.",
+                    "<strong>별을 노래하는 마음으로 모든 죽어가는 것을 사랑해야지:</strong> 생명 존중 사상과 미래에 대한 희망을 다짐합니다.",
+                    "<strong>오늘 밤에도 별이 바람에 스치운다:</strong> 현재의 시련과 고난이 지속되고 있음을 보여줍니다."
+                ],
+                expressionFeatures: "과거-미래-현재의 시간적 흐름에 따라 시상이 전개됩니다. '별', '바람', '밤' 등 상징적 시어를 사용하여 주제를 형상화했습니다.",
+                historicalBackground: "일제 강점기 말, 우리말과 글을 쓰기조차 힘들었던 암흑기에 지식인으로서 겪어야 했던 내면적 고뇌가 담겨 있습니다.",
+                examPoints: [
+                    "<strong>시어의 상징성:</strong> 하늘(도덕적 기준), 바람(시련, 자아 성찰의 매개체), 별(희망, 이상), 밤(암울한 현실)의 의미를 묻습니다.",
+                    "<strong>화자의 태도:</strong> 부끄러움을 통한 자아 성찰과 미래 지향적인 의지를 파악해야 합니다."
+                ],
+                difficultPoints: [
+                    "<strong>관조적 어조:</strong> 자신의 내면을 차분하게 들여다보는 어조입니다."
+                ],
+                confusingPoints: [
+                    "<strong>저항시의 성격:</strong> 직접적인 투쟁보다는 내면의 성찰을 통해 일제에 저항한 소극적 저항시로 분류됩니다."
+                ]
+            },
+            "님의 침묵": {
+                genre: "현대시",
+                basicInfo: "1926년 시집 『님의 침묵』에 수록된 한용운의 대표작입니다. 불교적 사상을 바탕으로 조국 광복에 대한 염원을 노래했습니다.",
+                poetIntro: "<strong>한용운(1879~1944):</strong> 승려이자 독립운동가로, '님'을 통해 조국, 부처, 진리 등 절대적 존재를 형상화했습니다.",
+                overallInterpretation: "이별의 슬픔을 딛고 '님'과의 재회를 확신하는 의지적인 태도를 보여줍니다. 이별을 단순한 슬픔으로 끝내지 않고 새로운 만남의 희망으로 승화시켰습니다.",
+                keyPhraseAnalysis: [
+                    "<strong>아아, 님은 갔습니다:</strong> 영탄법을 통해 이별의 슬픔과 충격을 강조합니다.",
+                    "<strong>슬픔의 힘을 옮겨서 새 희망의 정수박이에 들어부었습니다:</strong> 슬픔을 희망으로 전환하는 극적인 반전이 일어나는 부분입니다.",
+                    "<strong>제 곡조를 못 이기는 사랑의 노래:</strong> 님을 향한 주체할 수 없는 사랑의 감정을 표현합니다."
+                ],
+                expressionFeatures: "여성적 어조(경어체)를 사용하여 간절함을 더했습니다. 역설법('님은 갔지만 나는 님을 보내지 아니하였습니다')을 통해 주제를 강조했습니다.",
+                historicalBackground: "일제 강점기, 나라를 잃은 슬픔을 '님의 부재'로 표현하고 광복에 대한 굳은 신념을 노래했습니다.",
+                examPoints: [
+                    "<strong>'님'의 상징적 의미:</strong> 조국, 민족, 부처, 진리, 연인 등 다양하게 해석될 수 있습니다.",
+                    "<strong>역설법:</strong> 이별했으나 심리적으로는 보내지 않았다는 역설적 표현의 의미를 파악해야 합니다."
+                ],
+                difficultPoints: [
+                    "<strong>불교적 세계관:</strong> 회자정리(만나면 헤어짐)와 거자필반(헤어지면 다시 만남)의 윤회 사상이 바탕에 깔려 있습니다."
+                ],
+                confusingPoints: [
+                    "<strong>여성적 어조:</strong> 저항 시인이지만 부드러운 말투를 사용하여 호소력을 높였습니다."
+                ]
+            },
+            "별헤는 밤": {
+                genre: "현대시",
+                basicInfo: "1941년에 쓰인 윤동주의 시로, 고향과 어머니에 대한 그리움, 그리고 자아 성찰을 담고 있습니다.",
+                poetIntro: "<strong>윤동주(1917~1945):</strong> 순수한 영혼으로 일제 강점기의 어두운 현실을 괴로워하며 끊임없이 자아를 성찰했습니다.",
+                overallInterpretation: "가을 밤하늘의 별을 보며 멀리 있는 고향과 사람들을 그리워하고, 자신의 부끄러운 현재 모습을 반성하며 미래의 희망(부활)을 꿈꿉니다.",
+                keyPhraseAnalysis: [
+                    "<strong>별 하나에 추억과 / 별 하나에 사랑과:</strong> 별을 매개로 그리운 대상들을 하나씩 떠올립니다.",
+                    "<strong>나는 무엇인지 그리워 / 이 많은 별빛이 내린 언덕 위에 / 내 이름자를 써 보고 흙으로 덮어 버리었습니다:</strong> 자신의 무기력한 모습에 대한 부끄러움을 표현합니다.",
+                    "<strong>자랑처럼 풀이 무성할 거외다:</strong> 조국 광복 후 자신의 희생이 헛되지 않을 것임을 확신하는 희망적 의지입니다."
+                ],
+                expressionFeatures: "산문적 리듬을 사용하여 호흡을 길게 가져갔습니다. 과거-현재-미래의 시간 흐름에 따라 시상이 전개됩니다.",
+                historicalBackground: "창씨개명을 강요받던 시기에 쓰여, 자신의 이름을 쓰는 행위조차 부끄러워했던 지식인의 고뇌가 담겨 있습니다.",
+                examPoints: [
+                    "<strong>시어의 상징성:</strong> 별(동경, 그리움), 이름(자아), 흙(부끄러움), 풀(부활, 희망)의 의미를 묻습니다.",
+                    "<strong>화자의 태도 변화:</strong> 그리움 -> 부끄러움 -> 희망으로 이어지는 정서의 흐름을 파악해야 합니다."
+                ],
+                difficultPoints: [
+                    "<strong>어머니의 의미:</strong> 단순한 혈육을 넘어 고향, 조국, 평화 등 안식처를 상징하는 청자입니다."
+                ],
+                confusingPoints: [
+                    "<strong>계절적 배경:</strong> 가을은 쓸쓸함과 사색의 계절로, 화자의 정서를 심화시키는 역할을 합니다."
+                ]
+            },
+            "광야": {
+                genre: "현대시",
+                basicInfo: "이육사의 유고 시집에 수록된 대표적인 저항시입니다. 웅장한 스케일로 조국 광복의 의지를 노래했습니다.",
+                poetIntro: "<strong>이육사(1904~1944):</strong> 남성적이고 강인한 어조로 일제에 대한 저항 의지를 노래한 시인입니다.",
+                overallInterpretation: "광활한 공간(광야)과 유구한 시간(태초~천고의 뒤)을 배경으로, 민족의 수난을 극복하고 조국 광복(백마 타고 오는 초인)을 맞이하겠다는 굳은 의지를 표현했습니다.",
+                keyPhraseAnalysis: [
+                    "<strong>까마득한 날에 / 하늘이 처음 열리고:</strong> 천지개벽의 웅장한 시작을 알립니다.",
+                    "<strong>지금 눈 나리고 / 매화 향기 홀로 아득하니:</strong> '눈'은 일제의 가혹한 탄압을, '매화 향기'는 고고한 저항 정신을 상징합니다.",
+                    "<strong>다시 천고의 뒤에 / 백마 타고 오는 초인:</strong> 먼 훗날 조국을 구원할 위대한 지도자나 광복의 그날을 의미합니다."
+                ],
+                expressionFeatures: "남성적이고 의지적인 어조를 사용했습니다. 과거-현재-미래의 시간적 구성을 취하고 있습니다. 선구자적 자세가 드러납니다.",
+                historicalBackground: "일제 강점기 말, 가장 혹독했던 시기에 민족의 해방을 예언하고 자신을 희생하겠다는 비장한 각오가 담겨 있습니다.",
+                examPoints: [
+                    "<strong>대조적 이미지:</strong> 눈(시련) vs 매화 향기(의지)의 대조를 통해 주제를 강조합니다.",
+                    "<strong>명령형 어미:</strong> '뿌려라', '부르게 하리라' 등 강한 의지를 드러내는 어미가 사용되었습니다."
+                ],
+                difficultPoints: [
+                    "<strong>초인의 의미:</strong> 구체적인 인물이라기보다는 민족의 이상을 실현해 줄 미래의 희망을 상징합니다."
+                ],
+                confusingPoints: [
+                    "<strong>노래의 씨앗:</strong> 미래의 결실(광복)을 위해 현재 자신이 뿌리는 희생과 헌신을 의미합니다."
+                ]
+            },
+            "유리창1": {
+                genre: "현대시",
+                basicInfo: "1930년 정지용이 자식을 잃은 슬픔을 노래한 시입니다. 감정을 절제하여 슬픔을 예술적으로 승화시켰습니다.",
+                poetIntro: "<strong>정지용(1902~1950):</strong> 감각적이고 세련된 이미지와 절제된 언어를 구사한 모더니즘 시인입니다.",
+                overallInterpretation: "유리창을 닦으며 죽은 아이의 영혼과 교감하려는 아버지의 안타까운 심정을 그렸습니다. 차가운 유리창은 이승과 저승을 가로막는 단절의 벽이자, 동시에 죽은 아이(영상)를 비춰주는 연결의 통로입니다.",
+                keyPhraseAnalysis: [
+                    "<strong>유리에 차고 슬픈 것이 어른거린다:</strong> '차고 슬픈 것'은 죽은 아이의 입김 자국을 의미하며, 감각적인 표현이 돋보입니다.",
+                    "<strong>지우고 보고 지우고 보아도:</strong> 아이를 보고 싶은 간절한 그리움과 안타까운 행동의 반복입니다.",
+                    "<strong>고운 폐혈관이 찢어진 채로 / 아아, 늬는 산새처럼 날아갔구나:</strong> 아이의 죽음 원인(폐병)과 허망한 이별을 시각적으로 형상화했습니다."
+                ],
+                expressionFeatures: "감정을 직접 노출하지 않고 '차고 슬픈 것', '물 먹은 별', '산새' 등의 감각적 이미지를 통해 절제된 슬픔을 표현했습니다. '외로운 황홀한 심사'라는 역설법이 핵심입니다.",
+                historicalBackground: "개인적인 비극(자식의 죽음)을 바탕으로 쓰였으나, 보편적인 인간의 슬픔으로 확장되었습니다.",
+                examPoints: [
+                    "<strong>유리창의 이중성:</strong> 단절(이승/저승)과 연결(만남)의 매개체라는 이중적 기능을 이해해야 합니다.",
+                    "<strong>감정의 절제:</strong> 슬픔을 직설적으로 토로하지 않고 객관적 상관물을 통해 간접적으로 드러냅니다."
+                ],
+                difficultPoints: [
+                    "<strong>외로운 황홀한 심사:</strong> 아이를 잃어 외롭지만, 유리창을 통해 아이의 영상을 볼 수 있어 황홀하다는 복합적인 심정을 표현한 역설법입니다."
+                ],
+                confusingPoints: [
+                    "<strong>산새:</strong> 죽은 아이를 비유한 말로, 연약하고 순수한 생명을 상징합니다."
+                ]
+            },
+            "승무": {
+                genre: "현대시",
+                basicInfo: "1939년 조지훈이 발표한 시로, 승무를 추는 여승의 모습을 통해 인간의 번뇌와 종교적 승화를 노래했습니다.",
+                poetIntro: "<strong>조지훈(1920~1968):</strong> 한국의 전통적인 미와 정서를 우아하고 고전적인 언어로 표현한 청록파 시인입니다.",
+                overallInterpretation: "춤을 추는 여승의 아름다운 동작 묘사를 통해 세속의 번뇌를 종교적으로 극복하려는 염원을 형상화했습니다. 정적이고 고요한 분위기 속에서 움직임의 미학을 보여줍니다.",
+                keyPhraseAnalysis: [
+                    "<strong>얇은 사 하이얀 고깔은 / 고이 접어서 나빌레라:</strong> 승무의 복장을 나비에 비유하여 시각적으로 묘사했습니다.",
+                    "<strong>세사에 시달려도 번뇌는 별빛이라:</strong> 세속의 고통(번뇌)을 밤하늘의 별처럼 아름답고 맑게 승화시켰음을 의미합니다.",
+                    "<strong>휘어져 감기우고 다시 접어 뻗는 손이:</strong> 춤동작의 유려한 곡선미를 역동적으로 표현했습니다."
+                ],
+                expressionFeatures: "예스러운 말투와 우아한 시어를 사용하여 고전적인 분위기를 자아냅니다. 시각적 이미지를 중심으로 춤의 동작을 섬세하게 묘사했습니다.",
+                historicalBackground: "일제 강점기 말, 사라져가는 우리 전통문화의 아름다움을 시로 형상화하여 민족의 얼을 지키려 했습니다.",
+                examPoints: [
+                    "<strong>역설적 표현:</strong> '번뇌는 별빛이라'는 고통의 종교적 승화를 나타내는 핵심 구절입니다.",
+                    "<strong>시상의 전개:</strong> 춤의 시작부터 끝까지 시간의 흐름과 동작의 변화에 따라 시상이 전개됩니다."
+                ],
+                difficultPoints: [
+                    "<strong>정중동(靜中動):</strong> 고요함 속에 움직임이 있고, 움직임 속에 고요함이 있다는 동양적인 미의식을 이해해야 합니다."
+                ],
+                confusingPoints: [
+                    "<strong>화자의 위치:</strong> 화자는 춤을 추는 당사자가 아니라, 춤을 관찰하는 관찰자입니다."
+                ]
+            },
+            "추천사": {
+                genre: "현대시",
+                basicInfo: "서정주의 초기 시로, '춘향의 말'이라는 부제가 붙어 있습니다. 그네를 타는 행위를 통해 현실 초월의 의지를 노래했습니다.",
+                poetIntro: "<strong>서정주(1915~2000):</strong> 인간의 원초적인 생명력과 전통적인 정서를 탁월한 언어 감각으로 노래한 시인입니다.",
+                overallInterpretation: "춘향이가 그네를 타며 향단이에게 말을 건네는 형식입니다. 그네를 타고 하늘로 솟구치는 행위는 괴로운 현실(지상)을 벗어나 이상 세계(하늘, 서(西)으로)로 가고 싶은 갈망을 나타냅니다. 하지만 그네는 결국 다시 땅으로 내려올 수밖에 없으므로, 인간의 운명적 한계를 인식하게 됩니다.",
+                keyPhraseAnalysis: [
+                    "<strong>향단아 그넷줄을 밀어라:</strong> 현실을 벗어나고 싶은 강한 의지를 명령형으로 표현했습니다.",
+                    "<strong>산호도 섬도 없는 저 하늘로:</strong> 아무런 장애물이 없는 순수한 이상 세계를 지향합니다.",
+                    "<strong>서(西)으로 가는 달같이:</strong> 서방정토(극락)를 향해 가는 달처럼 영원한 세계로 가고 싶은 소망을 비유했습니다."
+                ],
+                expressionFeatures: "고전 소설 '춘향전'의 인물을 차용하여 화자로 설정했습니다. 상승과 하강의 이미지를 통해 이상과 현실 사이의 갈등을 형상화했습니다.",
+                historicalBackground: "현실의 고통에서 벗어나 초월적인 세계를 꿈꾸는 인간의 보편적인 욕망을 전통적인 소재(그네)를 통해 표현했습니다.",
+                examPoints: [
+                    "<strong>상징적 의미:</strong> 그네(상승과 하강, 이상과 현실의 매개체), 바다/산호/섬(현실의 장애물, 구속), 하늘(이상향)의 의미를 대조해야 합니다.",
+                    "<strong>한계 인식:</strong> 그네의 속성상 완전히 떠날 수 없음을 깨닫는 과정이 중요합니다."
+                ],
+                difficultPoints: [
+                    "<strong>운명적 한계:</strong> 벗어나려 노력하지만 결국 돌아올 수밖에 없는 인간 존재의 숙명을 그네타기에 비유했습니다."
+                ],
+                confusingPoints: [
+                    "<strong>다시 향단아:</strong> 반복되는 호명은 좌절에도 불구하고 다시 이상을 추구하려는 끈질긴 의지를 보여줍니다."
+                ]
+            },
+            "껍데기는 가라": {
+                genre: "현대시",
+                basicInfo: "1967년 신동엽이 발표한 참여시입니다. 4.19 혁명의 정신을 계승하고 외세와 허위를 배격하며 민족의 순수한 통일을 염원합니다.",
+                poetIntro: "<strong>신동엽(1930~1969):</strong> 역사의식과 민족의식을 바탕으로 현실 참여적인 시를 쓴 시인입니다.",
+                overallInterpretation: "거짓과 위선, 외세(껍데기)는 사라지고, 순수한 민족정신과 알맹이(알맹이)만 남기를 바라는 강한 의지를 직설적으로 표현했습니다. 분단된 조국의 현실을 비판하고 자주적인 통일을 소망합니다.",
+                keyPhraseAnalysis: [
+                    "<strong>껍데기는 가라:</strong> 반복적인 명령형 문장을 통해 화자의 단호한 의지를 강조합니다.",
+                    "<strong>4월도 알맹이만 남고:</strong> 4.19 혁명의 순수한 민주화 열망을 의미합니다.",
+                    "<strong>동학년 곰나루의 그 아우성:</strong> 동학 농민 운동의 반외세, 반봉건 정신을 계승하고자 합니다.",
+                    "<strong>한라에서 백두까지:</strong> 국토 전체, 즉 통일된 조국을 상징합니다."
+                ],
+                expressionFeatures: "대조적인 시어(껍데기/쇠붙이 vs 알맹이/흙가슴)를 사용하여 주제를 선명하게 드러냅니다. 직설적이고 강렬한 어조가 특징입니다.",
+                historicalBackground: "4.19 혁명 이후 민주화가 좌절되고 외세의 영향력이 여전했던 1960년대의 현실을 비판하며 쓰였습니다.",
+                examPoints: [
+                    "<strong>시어의 대립 구조:</strong> 껍데기, 가식, 쇠붙이(부정적)와 알맹이, 아우성, 흙가슴(긍정적)을 구분해야 합니다.",
+                    "<strong>역사적 사건:</strong> 4.19 혁명과 동학 농민 운동을 연결하여 민족 정기의 회복을 주장합니다."
+                ],
+                difficultPoints: [
+                    "<strong>쇠붙이:</strong> 무력, 전쟁, 외세, 군사 독재 등 반평화적이고 반민족적인 모든 것을 상징합니다."
+                ],
+                confusingPoints: [
+                    "<strong>아사달과 아사녀:</strong> 우리 민족의 순수한 사랑과 평화를 상징하는 인물들입니다."
+                ]
+            },
+            "폭포": {
+                genre: "현대시",
+                basicInfo: "김수영의 대표적인 주지시로, 폭포의 역동적인 모습을 통해 양심과 자유를 지향하는 정신을 노래했습니다.",
+                poetIntro: "<strong>김수영(1921~1968):</strong> 4.19 혁명 이후 자유와 사랑, 현실 비판을 주제로 한 참여시를 주로 썼습니다.",
+                overallInterpretation: "멈추지 않고 떨어지는 폭포의 속성을 통해, 현실에 안주하지 않고 끊임없이 자유와 정의를 추구하는 '고매한 정신'을 형상화했습니다.",
+                keyPhraseAnalysis: [
+                    "<strong>고매한 정신처럼 쉴 사이 없이 떨어진다:</strong> 폭포의 낙하를 지조 있는 정신적 자세에 비유했습니다.",
+                    "<strong>금잔화도 인가도 보이지 않는 밤:</strong> 암울하고 부정적인 현실 상황을 의미합니다.",
+                    "<strong>곧은 소리는 소리이다:</strong> 타협하지 않는 정직한 양심의 소리를 나타냅니다."
+                ],
+                expressionFeatures: "청각적, 시각적 이미지를 활용하여 폭포의 역동성을 표현했습니다. '떨어진다'라는 시어의 반복을 통해 운율을 형성하고 주제를 강조합니다.",
+                historicalBackground: "독재 정권의 억압 속에서 자유와 정의가 위협받던 시기에, 지식인의 올바른 자세를 촉구했습니다.",
+                examPoints: [
+                    "<strong>'폭포'의 상징성:</strong> 현실에 타협하지 않는 저항 정신, 자유를 향한 의지, 양심을 상징합니다.",
+                    "<strong>부정적 시어:</strong> '밤', '안정' 등은 현실 안주와 억압을 의미합니다."
+                ],
+                difficultPoints: [
+                    "<strong>주지시:</strong> 감정보다는 지성이나 이성을 중시하는 시입니다."
+                ],
+                confusingPoints: [
+                    "<strong>'나타와 안정'을 뒤집어 놓은:</strong> 나태함과 현실 안주를 거부한다는 뜻입니다."
+                ]
+            },
+            "산": {
+                genre: "현대시",
+                basicInfo: "김광섭의 시로, 산의 포용력과 고독을 통해 인생의 깊은 의미를 성찰했습니다.",
+                poetIntro: "<strong>김광섭(1905~1977):</strong> 병마와 싸우며 생명에 대한 애착과 자연 친화적인 시를 썼습니다.",
+                overallInterpretation: "산은 온갖 생명체를 품어주는 자비로운 존재이자, 홀로 우뚝 서 있는 고독한 존재입니다. 화자는 산을 통해 삶의 관조와 평화를 배웁니다.",
+                keyPhraseAnalysis: [
+                    "<strong>산은 사람들과 친하고 싶어서 / 기슭을 끌고 마을에 들어오다가도:</strong> 산을 의인화하여 친근감을 표현했습니다.",
+                    "<strong>산은 고독하다:</strong> 산의 본질적인 속성이자, 인간 존재의 근원적 고독을 의미합니다.",
+                    "<strong>산이 된다:</strong> 자연과 하나가 되는 물아일체의 경지를 지향합니다."
+                ],
+                expressionFeatures: "의인법을 사용하여 산을 인격체처럼 묘사했습니다. 관조적이고 사색적인 어조가 특징입니다.",
+                historicalBackground: "문명 비판과 자연 회귀 사상이 담겨 있습니다.",
+                examPoints: [
+                    "<strong>산의 속성:</strong> 포용성, 고독, 초월성 등을 파악해야 합니다.",
+                    "<strong>화자의 태도:</strong> 산을 예찬하고 닮고자 하는 태도입니다."
+                ],
+                difficultPoints: [
+                    "<strong>관조:</strong> 대상을 차분한 마음으로 비추어 보는 것입니다."
+                ],
+                confusingPoints: [
+                    "<strong>김소월의 '산유화'와 구별:</strong> 제목이 같거나 소재가 비슷할 수 있으니 작가를 확인해야 합니다."
+                ]
+            },
+            "생명의 서": {
+                genre: "현대시",
+                basicInfo: "유치환의 시로, 극한의 공간(사막)에서 생명의 본질을 찾으려는 강인한 의지를 노래했습니다.",
+                poetIntro: "<strong>유치환(1908~1967):</strong> 남성적이고 의지적인 어조로 생명 탐구와 허무 극복을 노래한 '생명파' 시인입니다.",
+                overallInterpretation: "현실의 허무와 고뇌에서 벗어나기 위해 생명의 원천인 '아라비아의 사막'으로 떠납니다. 그곳에서 고독과 시련을 견디며 진정한 자아(원시적 본연의 자태)를 찾고자 하는 비장한 각오를 보여줍니다.",
+                keyPhraseAnalysis: [
+                    "<strong>나의 지식이 독한 회의를 구하지 못하고:</strong> 지식인으로서의 고뇌와 한계를 느낍니다.",
+                    "<strong>병든 나무처럼 생명이 부대낄 때:</strong> 삶의 허무와 절망감을 비유했습니다.",
+                    "<strong>열렬한 고독:</strong> 역설법으로, 자아를 찾기 위한 치열한 단독자로서의 고독을 의미합니다."
+                ],
+                expressionFeatures: "강렬하고 직설적인 남성적 어조를 사용했습니다. '사막'이라는 상징적 공간을 설정하여 주제를 부각했습니다.",
+                historicalBackground: "일제 강점기 말, 암울한 현실 속에서 나약해진 자신을 채찍질하고 생명력을 회복하려는 의지가 담겨 있습니다.",
+                examPoints: [
+                    "<strong>사막의 의미:</strong> 죽음과 시련의 공간이자, 역설적으로 생명을 찾을 수 있는 극한의 공간입니다.",
+                    "<strong>수미상관 아님:</strong> 1연과 마지막 연이 비슷하지 않습니다. (구성상의 특징 주의)"
+                ],
+                difficultPoints: [
+                    "<strong>원시의 본연한 자태:</strong> 가식이나 허위가 없는 순수한 생명 그 자체를 의미합니다."
+                ],
+                confusingPoints: [
+                    "<strong>화자의 태도:</strong> 현실 도피가 아니라, 현실 극복을 위한 대결 의지입니다."
+                ]
+            },
+            "자화상": {
+                genre: "현대시",
+                basicInfo: "윤동주의 시로, 우물 속에 비친 자신의 모습을 보며 애증(사랑과 미움)을 느끼고 자아 성찰을 하는 내용입니다.",
+                poetIntro: "<strong>윤동주(1917~1945):</strong> 부끄러움의 미학을 통해 식민지 지식인의 고뇌를 노래했습니다.",
+                overallInterpretation: "우물을 들여다보며 초라한 자신의 모습에 미움, 가엾음, 그리움 등 복합적인 감정을 느낍니다. 결국 자연(추억) 속의 순수한 자아와 화해하며 성숙해가는 과정을 그립니다.",
+                keyPhraseAnalysis: [
+                    "<strong>우물 속에는 달이 밝고...:</strong> 평화롭고 아름다운 자연의 모습으로, 초라한 화자와 대조됩니다.",
+                    "<strong>미워져서 돌아갑니다 / 가엾어집니다 / 그리워집니다:</strong> 자아에 대한 감정이 애증으로 교차하며 변화합니다.",
+                    "<strong>추억처럼 사나이가 있습니다:</strong> 내적 갈등을 해소하고 화해한 이상적인 자아의 모습입니다."
+                ],
+                expressionFeatures: "구어체와 산문적 율격을 사용하여 고백적인 분위기를 형성합니다. 행동의 반복(가다-돌아오다)을 통해 심리 변화를 보여줍니다.",
+                historicalBackground: "식민지 현실에서 무기력하게 살아가는 자신에 대한 부끄러움과 자아 분열을 극복하려는 의지가 반영되었습니다.",
+                examPoints: [
+                    "<strong>우물의 기능:</strong> 자아 성찰의 매개체입니다. (거울과 유사)",
+                    "<strong>두 자아의 대립과 화해:</strong> 현실적 자아(초라함) vs 이상적 자아(순수함)의 갈등과 화해 과정을 묻습니다."
+                ],
+                difficultPoints: [
+                    "<strong>사나이:</strong> 화자 자신을 객관화하여 지칭한 말입니다."
+                ],
+                confusingPoints: [
+                    "<strong>이상의 '거울'과 비교:</strong> 둘 다 자아 성찰을 다루지만, 윤동주는 화해를 이루고 이상은 분열된 상태로 남습니다."
+                ]
+            },
+            "또 다른 고향": {
+                genre: "현대시",
+                basicInfo: "윤동주의 시로, 현실의 고향에 안주하지 않고 이상적인 세계(또 다른 고향)를 추구하는 정신적 방황과 의지를 다룹니다.",
+                poetIntro: "<strong>윤동주:</strong> 끊임없는 자아 성찰과 이상 세계에 대한 동경을 노래했습니다.",
+                overallInterpretation: "고향에 돌아왔으나 안식을 얻지 못하고, 현실적 자아(백골)와 이상적 자아(아름다운 혼) 사이에서 갈등합니다. 결국 불안한 현실을 떠나 새로운 이상향을 찾아 떠나겠다는 의지를 보여줍니다.",
+                keyPhraseAnalysis: [
+                    "<strong>고향에 돌아온 날 밤에 / 내 백골이 따라와 한방에 누웠다:</strong> 고향에서도 죽음과 같은 절망감(백골)을 느낍니다.",
+                    "<strong>어둠을 짖는 개:</strong> 암울한 현실에 대한 저항 의식을 깨우는 존재입니다.",
+                    "<strong>아름다운 혼:</strong> 현실에 타협하지 않는 순수한 자아입니다."
+                ],
+                expressionFeatures: "백골(현실적 자아)과 아름다운 혼(이상적 자아)의 대립 구조가 선명합니다. 상징적인 시어를 통해 주제를 형상화했습니다.",
+                historicalBackground: "일제 강점기, 고향마저도 안식처가 되지 못하는 상실감과 이를 극복하려는 지식인의 고뇌가 담겨 있습니다.",
+                examPoints: [
+                    "<strong>백골의 의미:</strong> 억압된 현실 속에서 무기력한 자아, 죽음의 이미지를 상징합니다.",
+                    "<strong>지조 높은 개:</strong> 화자의 잠든 영혼을 일깨우는 존재입니다."
+                ],
+                difficultPoints: [
+                    "<strong>또 다른 고향:</strong> 물리적인 장소가 아니라, 이상을 실현할 수 있는 정신적인 안식처를 의미합니다."
+                ],
+                confusingPoints: [
+                    "<strong>쫓기우는 사람:</strong> 불안한 내면 심리를 표현한 것으로, 역사적 상황과 연결하여 해석할 수 있습니다."
+                ]
+            },
+            "추억에서": {
+                genre: "현대시",
+                basicInfo: "박재삼의 시로, 가난했던 어린 시절 어머니의 고생과 한(恨)을 회상하며 그리움을 노래했습니다.",
+                poetIntro: "<strong>박재삼(1933~1997):</strong> 전통적인 정서인 한과 슬픔을 아름다운 우리말로 표현한 서정 시인입니다.",
+                overallInterpretation: "진주 장터에서 생선을 팔던 어머니의 고달픈 삶과, 오지 않는 어머니를 기다리던 어린 시절의 추억을 애상적으로 그렸습니다. 어머니의 한이 '은전'이나 '눈물' 같은 이미지로 형상화됩니다.",
+                keyPhraseAnalysis: [
+                    "<strong>진주 장터 생어물전:</strong> 어머니의 삶의 현장이자 가난의 공간입니다.",
+                    "<strong>별밭은 또 그리 멀리:</strong> 어머니가 계신 곳(장터)과의 거리감이이자 심리적 거리감입니다.",
+                    "<strong>달빛 받은 옹기전의 옹기들같이 / 말없이 글썽이고 반짝이던 것인가:</strong> 어머니의 눈물을 아름답고 슬프게 비유했습니다."
+                ],
+                expressionFeatures: "토속적인 시어와 구어체를 사용하여 향토적인 분위기를 자아냅니다. 시각적 이미지(빛)를 통해 슬픔을 정화하고 아름답게 표현했습니다.",
+                historicalBackground: "가난했던 시절의 보편적인 정서를 다루어 많은 공감을 얻습니다.",
+                examPoints: [
+                    "<strong>감각적 이미지:</strong> '신새벽', '울엄매의 장사 끝', '별밭', '달빛' 등 시각적 이미지가 두드러집니다.",
+                    "<strong>어머니의 한:</strong> 가난 때문에 자식들을 제대로 돌보지 못한 어머니의 슬픔이 중심 정서입니다."
+                ],
+                difficultPoints: [
+                    "<strong>골방이래야 24시간 문이 닫힌:</strong> 가난하고 폐쇄적인 어린 시절의 상황을 강조합니다."
+                ],
+                confusingPoints: [
+                    "<strong>화자의 정서:</strong> 단순한 슬픔이 아니라, 어머니에 대한 그리움과 연민이 복합적으로 나타납니다."
+                ]
+            },
+            "파밭 가에서": {
+                genre: "현대시",
+                basicInfo: "김수영의 시로, 파밭에서 붉은 파 뿌리를 보며 생명력과 사랑의 의미를 재발견하는 내용입니다.",
+                poetIntro: "<strong>김수영:</strong> 일상적인 소재에서 깊은 철학적 의미를 이끌어내는 데 탁월했습니다.",
+                overallInterpretation: "삶에 지쳐 있던 화자가 파밭에서 싱싱한 파들을 보며 생명력을 느낍니다. 낡은 수수께끼(삶의 고뇌)를 던져버리고, 사랑과 생명을 긍정하는 태도로 변화합니다.",
+                keyPhraseAnalysis: [
+                    "<strong>삶은 계란의 껍질이 벗겨지듯:</strong> 묵은 관념이나 허위의식이 벗겨지는 것을 비유했습니다.",
+                    "<strong>붉은 파밭의 푸른 새싹을 보아라:</strong> 강인한 생명력과 희망을 상징합니다.",
+                    "<strong>얻는다는 것은 곧 잃는 것이다:</strong> 집착을 버려야 진정한 가치를 얻을 수 있다는 역설적 깨달음입니다."
+                ],
+                expressionFeatures: "산문적인 리듬 속에 철학적인 사색을 담았습니다. 색채 대비(붉은색 vs 푸른색)를 통해 생명력을 강조했습니다.",
+                historicalBackground: "4.19 혁명 이후의 혼란과 좌절 속에서도 생명에 대한 희망을 잃지 않으려는 태도가 엿보입니다.",
+                examPoints: [
+                    "<strong>역설적 인식:</strong> '얻는 것은 잃는 것'이라는 구절의 의미를 파악해야 합니다.",
+                    "<strong>시상의 전환:</strong> 우울하고 무기력한 상태에서 생명력을 발견하고 긍정적인 태도로 바뀝니다."
+                ],
+                difficultPoints: [
+                    "<strong>낡은 수수께끼:</strong> 해결되지 않는 삶의 고통이나 낡은 관념을 의미합니다."
+                ],
+                confusingPoints: [
+                    "<strong>김수영의 다른 시와 비교:</strong> '폭포'나 '풀'처럼 강한 저항 의식보다는 내면의 성찰과 생명 긍정이 주를 이룹니다."
+                ]
+            },
+            "살아있는 것은 흔들리면서": {
+                genre: "현대시",
+                basicInfo: "오규원의 시로, 흔들림(고뇌, 시련)이 살아있는 존재의 본질임을 노래했습니다.",
+                poetIntro: "<strong>오규원(1941~2007):</strong> 언어의 기교와 이미지를 중시하며, 존재의 본질을 탐구한 시인입니다.",
+                overallInterpretation: "바람에 흔들리는 억새를 보며, 흔들리는 것은 약함이 아니라 생명력의 증거임을 깨닫습니다. 고통과 시련을 삶의 자연스러운 과정으로 수용하는 긍정적인 태도를 보여줍니다.",
+                keyPhraseAnalysis: [
+                    "<strong>살아 있는 것은 흔들리면서 / 튼튼한 줄기를 얻고:</strong> 시련을 통해 성숙해짐을 의미합니다.",
+                    "<strong>잎은 흔들려서 스스로 / 깊은 잎을 얻는다:</strong> 고뇌를 통해 내면의 깊이를 더해감을 뜻합니다.",
+                    "<strong>바람도 억새의 뿌리를 / 흔들지는 못한다:</strong> 시련이 닥쳐도 생명의 근원(뿌리)은 파괴할 수 없음을 강조합니다."
+                ],
+                expressionFeatures: "자연물(억새, 바람)을 통해 인간의 삶을 유추했습니다. 평이한 시어를 사용하여 깊은 철학적 주제를 전달합니다.",
+                historicalBackground: "현대인의 불안한 삶에 위로와 긍정의 메시지를 줍니다.",
+                examPoints: [
+                    "<strong>역설적 인식:</strong> 흔들림(시련)이 오히려 강함(생명력)을 만든다는 인식이 중요합니다.",
+                    "<strong>제목의 의미:</strong> '순례' 연작시 중 하나로, 삶을 여행(순례)으로 보는 관점이 담겨 있습니다."
+                ],
+                difficultPoints: [
+                    "<strong>눈:</strong> 순수함이나 진실을 볼 수 있는 통찰력을 상징합니다."
+                ],
+                confusingPoints: [
+                    "<strong>흔들림의 의미:</strong> 부정적인 시련이 아니라, 성장을 위한 필수적인 과정으로 긍정됩니다."
+                ]
+            },
+            "멸치": {
+                genre: "현대시",
+                basicInfo: "김기택의 시로, 말라비틀어진 멸치를 통해 생명력의 회복을 노래했습니다.",
+                poetIntro: "<strong>김기택(1957~):</strong> 일상적인 사물을 정밀하게 관찰하여 그 안에 숨겨진 생명력이나 폭력성을 포착하는 시인입니다.",
+                overallInterpretation: "식탁 위의 마른 멸치를 보며, 그것이 한때 바다를 헤엄치던 생명체였음을 환기합니다. 딱딱하게 굳은 멸치의 몸에서 바다의 물결과 생명력을 읽어내며, 죽음 속에서도 사라지지 않는 생명의 힘을 발견합니다.",
+                keyPhraseAnalysis: [
+                    "<strong>굳어지기 전까지 저 딱딱한 것들은 물결이었다:</strong> 멸치의 몸에 새겨진 바다의 흔적(물결)을 발견합니다.",
+                    "<strong>파도와 해일이 쉬고 있는 바닷속 지느러미:</strong> 멸치의 지느러미에 잠재된 역동적인 에너지를 표현했습니다.",
+                    "<strong>바다를 삼킨 채 그대로 딱딱하게 굳어버린 것:</strong> 멸치가 죽어서도 바다(생명력)를 품고 있음을 강조합니다."
+                ],
+                expressionFeatures: "정밀한 묘사와 감각적인 이미지를 통해 대상을 새롭게 해석했습니다. 죽은 사물(멸치)에서 생명(바다)을 유추하는 역동적인 상상력이 돋보입니다.",
+                historicalBackground: "현대 문명 속에서 박제된 생명성을 회복하고자 하는 생태학적 상상력을 보여줍니다.",
+                examPoints: [
+                    "<strong>관찰과 상상:</strong> 마른 멸치를 관찰하여 바다의 이미지를 상상해내는 과정을 묻습니다.",
+                    "<strong>시어의 대조:</strong> 딱딱한 것(죽음) vs 물결(생명)의 대조를 통해 주제를 부각합니다."
+                ],
+                difficultPoints: [
+                    "<strong>생명력의 회복:</strong> 멸치를 끓는 물에 넣었을 때 다시 부드러워지는 것을 생명력의 회복으로 해석하기도 합니다."
+                ],
+                confusingPoints: [
+                    "<strong>주제:</strong> 단순한 음식 재료 묘사가 아니라, 생명의 본질과 근원에 대한 탐구입니다."
+                ]
+            },
+            "샤갈의 마을에 내리는 눈": {
+                genre: "현대시",
+                basicInfo: "김춘수의 시로, 샤갈의 그림에서 영감을 받아 쓴 작품입니다. 봄눈이 내리는 마을의 풍경을 환상적으로 묘사했습니다.",
+                poetIntro: "<strong>김춘수(1922~2004):</strong> 의미보다는 이미지와 리듬을 중시하는 '무의미 시'를 추구했습니다.",
+                overallInterpretation: "샤갈의 그림 '나와 마을'의 이미지를 차용하여, 3월에 내리는 눈 속에서 느껴지는 맑고 순수한 생명감을 감각적으로 표현했습니다. 현실적인 의미보다는 색채와 이미지의 조화를 통해 환상적인 분위기를 연출합니다.",
+                keyPhraseAnalysis: [
+                    "<strong>샤갈의 마을에는 3월에 눈이 온다:</strong> 계절적 배경(봄)과 환상적인 공간(샤갈의 마을)을 제시합니다.",
+                    "<strong>봄을 바라고 섰는 사나이의 관자놀이에 / 새로 돋은 정맥이 바르르 떤다:</strong> 봄의 생명력과 설렘을 감각적으로 묘사했습니다.",
+                    "<strong>아낙들은... 아름다운 불을 지핀다:</strong> 맑고 순수한 생명력을 시각적으로 표현했습니다."
+                ],
+                expressionFeatures: "다양한 감각적 이미지(시각, 촉각)와 색채 대비를 사용했습니다. 현재형 시제를 사용하여 생동감을 주었습니다.",
+                historicalBackground: "1960년대, 순수 시 운동의 일환으로 언어의 조형미를 추구했습니다.",
+                examPoints: [
+                    "<strong>이미지의 연결:</strong> 시어들이 논리적 인과관계보다는 감각적 연상에 의해 연결되어 있음을 이해해야 합니다.",
+                    "<strong>생명감의 형상화:</strong> '정맥', '올리브빛', '불' 등의 시어가 생명력을 상징합니다."
+                ],
+                difficultPoints: [
+                    "<strong>무의미 시:</strong> 주제나 교훈을 찾기보다는 이미지 자체를 감상하는 것이 중요합니다."
+                ],
+                confusingPoints: [
+                    "<strong>샤갈의 그림:</strong> 실제 그림을 묘사한 것이 아니라, 그림에서 받은 인상을 시적으로 재구성한 것입니다."
+                ]
+            },
+            "눈물": {
+                genre: "현대시",
+                basicInfo: "김현승의 시로, 아들을 잃은 슬픔을 기독교적 신앙으로 승화시킨 작품입니다.",
+                poetIntro: "<strong>김현승(1913~1975):</strong> 기독교적 세계관을 바탕으로 고독과 신앙을 노래한 시인입니다.",
+                overallInterpretation: "자식을 잃은 극한의 슬픔(눈물)을 신에게 바치는 가장 순수하고 진실한 가치로 인식합니다. 웃음이 일시적인 것이라면 눈물은 영원하고 본질적인 것이라는 깨달음을 통해 슬픔을 종교적으로 극복합니다.",
+                keyPhraseAnalysis: [
+                    "<strong>더러는 옥토에 떨어지는 작은 생명이고저:</strong> 눈물을 생명을 잉태하는 씨앗에 비유하여 가치를 부여합니다.",
+                    "<strong>나의 가장 나종 지닌 것도 오직 이뿐:</strong> 눈물이 자신의 가장 진실한 모습임을 고백합니다.",
+                    "<strong>아름다운 나무의 꽃이 시듦을 보시고 / 열매를 맺게 하신 당신:</strong> 꽃(웃음, 일시적)과 열매(눈물, 영원함)를 대조하여 신의 섭리를 수용합니다."
+                ],
+                expressionFeatures: "경어체(기도조)를 사용하여 경건한 분위기를 형성했습니다. '꽃'과 '열매'의 대조적 이미지를 통해 주제를 형상화했습니다.",
+                historicalBackground: "개인적인 비극을 신앙심으로 극복하려는 인간의 숭고한 정신세계를 보여줍니다.",
+                examPoints: [
+                    "<strong>대조적 시어:</strong> 웃음/꽃(가변적, 현상적) vs 눈물/열매(영원적, 본질적)의 의미를 구별해야 합니다.",
+                    "<strong>절대자에 대한 태도:</strong> 원망이 아니라 절대적인 귀의와 감사를 표합니다."
+                ],
+                difficultPoints: [
+                    "<strong>눈물의 의미:</strong> 단순한 슬픔의 표출이 아니라, 영혼의 정화와 성숙을 가져오는 매개체입니다."
+                ],
+                confusingPoints: [
+                    "<strong>유리창1과의 비교:</strong> 둘 다 자식을 잃은 슬픔을 다루지만, 정지용은 감각적 절제를, 김현승은 종교적 승화를 보여줍니다."
+                ]
+            },
+            "황혼": {
+                genre: "현대시",
+                basicInfo: "이육사의 초기 시로, 황혼 무렵의 소외된 존재들에 대한 애정과 포용을 노래했습니다.",
+                poetIntro: "<strong>이육사(1904~1944):</strong> 저항 시인이지만 초기에는 섬세한 감수성으로 소외된 이웃을 노래하기도 했습니다.",
+                overallInterpretation: "황혼이 지는 순간, 세상의 모든 소외되고 외로운 존재들(수녀, 수인, 병자 등)에게 따뜻한 위로와 사랑을 전하고 싶어 합니다. 자신 또한 내일의 희망을 위해 기꺼이 희생하겠다는 의지를 보여줍니다.",
+                keyPhraseAnalysis: [
+                    "<strong>내 골방의 커튼을 걷고 / 정성된 마음으로 황혼을 맞아들이노니:</strong> 세상과 소통하려는 열린 마음을 보여줍니다.",
+                    "<strong>지구의 반쪽만을 나의 타는 입술에 맡겨다오:</strong> 소외된 곳에 사랑을 전하겠다는 열정적인 의지입니다.",
+                    "<strong>내일도 또 푸른 커튼을 걷게 하겠지:</strong> 미래에 대한 희망과 실천 의지를 다짐합니다."
+                ],
+                expressionFeatures: "여성적이고 부드러운 어조를 사용했습니다. '골방'에서 '지구'로 시선이 확장되며 포용의 범위를 넓혀갑니다.",
+                historicalBackground: "일제 강점기의 암울한 현실 속에서도 인간에 대한 사랑과 희망을 잃지 않으려는 휴머니즘이 돋보입니다.",
+                examPoints: [
+                    "<strong>황혼의 의미:</strong> 소외된 존재들을 감싸 안는 따뜻한 시간적 배경입니다.",
+                    "<strong>열거법:</strong> 사랑을 전하고 싶은 대상들을 열거하여 주제를 구체화했습니다."
+                ],
+                difficultPoints: [
+                    "<strong>골방:</strong> 단절된 공간이 아니라, 세상을 향해 열려 있는 자아 성찰의 공간입니다."
+                ],
+                confusingPoints: [
+                    "<strong>이육사의 다른 시와 비교:</strong> '광야'나 '절정'의 강인한 남성적 어조와 달리 부드럽고 낭만적인 분위기입니다."
+                ]
+            },
+            "전라도 가시내": {
+                genre: "현대시",
+                basicInfo: "이용악의 시로, 일제 강점기 유랑민들의 비참한 삶과 연대감을 그렸습니다.",
+                poetIntro: "<strong>이용악(1914~1971):</strong> 북방의 정서와 유랑민의 애환을 사실적으로 노래한 시인입니다.",
+                overallInterpretation: "함경도 사내(화자)와 전라도 가시내(여인)가 낯선 타향 술집에서 만나 서로의 처지를 위로합니다. 고향을 떠나 떠돌 수밖에 없는 우리 민족의 비극적인 현실을 구체적인 지명과 사투리를 통해 형상화했습니다.",
+                keyPhraseAnalysis: [
+                    "<strong>알룩조개다 키우는 고만 딴 섬에다 / 가시내야 너는 시집을 가거라:</strong> 고달픈 현실을 벗어나 평화로운 곳에서 살기를 바라는 마음입니다.",
+                    "<strong>그리운 지사면도 옥구면도 가볼 수 없는:</strong> 고향을 상실한 유랑민의 처지를 보여줍니다.",
+                    "<strong>두만강을 건너 강을 건너:</strong> 화자가 겪어온 고난의 여정을 암시합니다."
+                ],
+                expressionFeatures: "토속적인 사투리와 구체적인 지명을 사용하여 사실감을 높였습니다. 대화체 형식을 빌려 인물 간의 정서적 교감을 표현했습니다.",
+                historicalBackground: "일제의 수탈로 인해 고향을 등지고 만주 등지로 떠돌아야 했던 민중들의 아픈 역사를 반영합니다.",
+                examPoints: [
+                    "<strong>만남의 의미:</strong> 동병상련의 처지인 두 유랑민의 만남을 통해 민족적 연대감을 확인합니다.",
+                    "<strong>향토적 시어:</strong> '가시내', '술막' 등 토속적인 어휘의 효과를 묻습니다."
+                ],
+                difficultPoints: [
+                    "<strong>공간적 배경:</strong> 추운 북쪽 지방의 술집으로, 쓸쓸하고 애상적인 분위기를 조성합니다."
+                ],
+                confusingPoints: [
+                    "<strong>화자와 청자:</strong> 화자는 함경도 사내이고, 청자는 전라도 여자입니다."
+                ]
+            },
+            "배를 매며": {
+                genre: "현대시",
+                basicInfo: "장석남의 시로, 배를 매는 행위를 통해 사랑이 시작되는 과정을 비유적으로 표현했습니다.",
+                poetIntro: "<strong>장석남(1965~):</strong> 섬세한 감수성과 서정적인 언어로 사랑과 존재의 의미를 탐구하는 시인입니다.",
+                overallInterpretation: "부두에 배가 들어와 밧줄을 매는 것처럼, 사랑도 예고 없이 찾아와 운명적으로 맺어지는 것임을 노래합니다. 사랑의 기쁨과 경이로움, 그리고 그 운명적인 힘을 잔잔하게 그려냅니다.",
+                keyPhraseAnalysis: [
+                    "<strong>아무 소리도 없이 말도 없이:</strong> 사랑이 예고 없이 불현듯 찾아옴을 의미합니다.",
+                    "<strong>배를 매는 일:</strong> 사랑을 받아들이고 인연을 맺는 행위를 비유했습니다.",
+                    "<strong>빛깔과 냄새가 / 손을 꼬옥 잡는 것과 같이:</strong> 사랑의 감각적인 느낌과 일체감을 표현했습니다."
+                ],
+                expressionFeatures: "유추의 방식(배를 매는 일 = 사랑을 맺는 일)을 사용하여 추상적인 관념(사랑)을 구체화했습니다. 경어체를 사용하여 차분하고 고백적인 어조를 띱니다.",
+                historicalBackground: "보편적인 인간의 감정인 사랑을 현대적인 감각으로 재해석했습니다.",
+                examPoints: [
+                    "<strong>유추의 기법:</strong> 구체적인 경험에서 일반적인 진리를 이끌어내는 방식을 이해해야 합니다.",
+                    "<strong>사랑의 속성:</strong> 불가항력적이고 운명적인 사랑의 힘을 강조합니다."
+                ],
+                difficultPoints: [
+                    "<strong>구름과 빛살:</strong> 사랑이 가져다주는 설렘과 환희, 그리고 주변 세계의 변화를 의미합니다."
+                ],
+                confusingPoints: [
+                    "<strong>밧줄:</strong> 구속이 아니라, 인연을 맺어주는 연결 고리입니다."
+                ]
+            },
+            "내 마음의 고향6 - 초설": {
+                genre: "현대시",
+                basicInfo: "이시영의 시로, 첫눈(초설)이 내리는 풍경을 통해 고향에 대한 그리움과 유년의 추억을 노래했습니다.",
+                poetIntro: "<strong>이시영(1949~):</strong> 민중의 삶과 역사의식을 서정적인 언어로 표현한 시인입니다.",
+                overallInterpretation: "첫눈이 내리는 날, 고향의 정겨운 풍경과 가족들의 모습을 회상하며 따뜻한 그리움에 잠깁니다. 가난했지만 평화롭고 순수했던 시절을 감각적으로 그려냅니다.",
+                keyPhraseAnalysis: [
+                    "<strong>싸락눈이 오면:</strong> 회상의 매개체이자 고향의 분위기를 환기하는 소재입니다.",
+                    "<strong>토방 댓돌 위에 널린 신발들:</strong> 가족들의 단란함과 소박한 삶을 보여줍니다.",
+                    "<strong>아랫목에 묻어둔 밥그릇:</strong> 가족을 기다리는 어머니의 따뜻한 사랑을 상징합니다."
+                ],
+                expressionFeatures: "시각적, 청각적 이미지를 활용하여 고향의 풍경을 생생하게 묘사했습니다. 현재형 시제를 사용하여 추억을 현재처럼 생동감 있게 표현했습니다.",
+                historicalBackground: "산업화로 인해 잃어버린 고향의 원형과 공동체적 삶을 복원하고자 하는 소망이 담겨 있습니다.",
+                examPoints: [
+                    "<strong>회상의 매개체:</strong> '눈'이 과거의 추억을 불러일으키는 역할을 합니다.",
+                    "<strong>향토적 정서:</strong> 토속적인 시어와 소재를 통해 한국적인 정서를 드러냅니다."
+                ],
+                difficultPoints: [
+                    "<strong>초설(初雪):</strong> 그해 겨울에 처음 내리는 눈입니다."
+                ],
+                confusingPoints: [
+                    "<strong>연작시:</strong> '내 마음의 고향'이라는 제목으로 여러 편의 시가 있습니다."
+                ]
+            },
+            "출생기": {
+                genre: "현대시",
+                basicInfo: "유치환의 시로, 자신의 출생과 성장 과정을 통해 강인한 생명 의지를 노래했습니다.",
+                poetIntro: "<strong>유치환(1908~1967):</strong> 남성적이고 의지적인 어조로 생명의 본질을 탐구했습니다.",
+                overallInterpretation: "자신이 태어난 날의 상황과 성장 과정을 회상하며, 시련과 고난 속에서도 굴하지 않고 치열하게 살아갈 것임을 다짐합니다. 죽음과 허무를 극복하려는 생명파 시인의 면모가 잘 드러납니다.",
+                keyPhraseAnalysis: [
+                    "<strong>검정 포대기 같은 까마귀 우는 소리:</strong> 불길하고 암울한 시대 상황(일제 강점기)을 암시합니다.",
+                    "<strong>나는 이마에 하얀 뼛가루를 받으며:</strong> 죽음의 이미지를 통해 삶의 비극성을 보여줍니다.",
+                    "<strong>스스로 사막을 달리는 타조마냥:</strong> 고독하고 강인하게 삶을 개척해 나가겠다는 의지입니다."
+                ],
+                expressionFeatures: "직설적이고 강렬한 남성적 어조를 사용했습니다. 죽음과 생명의 이미지를 대비시켜 주제를 강조했습니다.",
+                historicalBackground: "일제 강점기에 태어나 혼란스러운 시대를 살아가야 했던 시인의 운명적 자각이 담겨 있습니다.",
+                examPoints: [
+                    "<strong>비극적 탄생:</strong> 축복받지 못한 탄생을 통해 삶의 고난을 예고합니다.",
+                    "<strong>의지적 태도:</strong> 운명에 굴복하지 않고 맞서 싸우려는 태도가 중요합니다."
+                ],
+                difficultPoints: [
+                    "<strong>허무 의식:</strong> 삶의 바탕에 깔린 허무함을 인식하고 이를 극복하려 합니다."
+                ],
+                confusingPoints: [
+                    "<strong>자전적 요소:</strong> 시인의 실제 삶과 가치관이 투영된 작품입니다."
+                ]
+            },
+            "강우": {
+                genre: "현대시",
+                basicInfo: "김춘수의 시로, 아내의 죽음으로 인한 상실감과 그리움을 비(강우)에 빗대어 표현했습니다.",
+                poetIntro: "<strong>김춘수(1922~2004):</strong> 존재의 본질을 탐구하는 시를 썼으며, 후기에는 무의미 시를 추구했습니다.",
+                overallInterpretation: "비가 내리는 날, 죽은 아내를 떠올리며 깊은 슬픔에 잠깁니다. 비는 화자의 눈물이자 아내와의 단절을 확인시켜 주는 매개체입니다. 아내의 부재를 절감하며 느끼는 허무함이 잘 나타나 있습니다.",
+                keyPhraseAnalysis: [
+                    "<strong>조금 전까지 거기 있었는데 / 어디로 갔나:</strong> 아내의 갑작스러운 부재에 대한 당혹감과 상실감입니다.",
+                    "<strong>밥상은 차려놓고 어디로 갔나:</strong> 일상적인 소재를 통해 부재의 현실감을 높입니다.",
+                    "<strong>나는 풀이 죽는다:</strong> 아내를 잃은 슬픔과 무기력함을 표현했습니다."
+                ],
+                expressionFeatures: "담담한 어조로 슬픔을 절제하여 표현했습니다. 일상적인 시어를 사용하여 공감을 불러일으킵니다.",
+                historicalBackground: "노년에 아내를 잃은 시인의 개인적인 체험이 바탕이 되었습니다.",
+                examPoints: [
+                    "<strong>비의 기능:</strong> 화자의 슬픔을 심화시키고, 아내의 부재를 환기합니다.",
+                    "<strong>정서의 절제:</strong> 감정을 직접적으로 토로하기보다 상황 묘사를 통해 간접적으로 드러냅니다."
+                ],
+                difficultPoints: [
+                    "<strong>존재론적 탐구:</strong> 죽음이라는 현상을 통해 존재의 의미를 묻습니다."
+                ],
+                confusingPoints: [
+                    "<strong>김춘수의 시 세계:</strong> 초기 '꽃'과 같은 관념적인 시와 달리, 이 시는 구체적인 생활 감정을 다룹니다."
+                ]
+            },
+            "벽": {
+                genre: "현대시",
+                basicInfo: "김광규의 시로, 벽이라는 소재를 통해 단절된 인간관계와 소통의 부재를 비판했습니다.",
+                poetIntro: "<strong>김광규(1941~):</strong> 평이한 언어로 일상 속의 모순과 소시민의 삶을 비판적으로 풍자한 시인입니다.",
+                overallInterpretation: "현대인들은 보이지 않는 벽에 갇혀 서로 소통하지 못하고 고립되어 살아갑니다. 벽은 물리적인 장벽뿐만 아니라 마음의 벽, 편견, 이기심 등을 상징합니다. 이러한 단절을 극복하고 진정한 소통을 이루어야 함을 역설합니다.",
+                keyPhraseAnalysis: [
+                    "<strong>내 것과 네 것이 / 벽을 사이에 두고 갈라진다:</strong> 소유욕과 이기심으로 인한 단절을 보여줍니다.",
+                    "<strong>무엇이 가로막고 있는가:</strong> 보이지 않는 벽(심리적 거리감)에 대한 질문입니다.",
+                    "<strong>벽을 문이라고 지르고 나가야 한다:</strong> 단절을 극복하고 소통하려는 적극적인 의지입니다."
+                ],
+                expressionFeatures: "일상적인 소재(벽)에서 사회적 의미를 이끌어냈습니다. 풍자적이고 비판적인 어조가 특징입니다.",
+                historicalBackground: "도시화와 개인주의가 심화되면서 인간 소외 현상이 두드러진 현대 사회를 배경으로 합니다.",
+                examPoints: [
+                    "<strong>벽의 상징성:</strong> 단절, 폐쇄성, 이기심, 불통 등을 의미합니다.",
+                    "<strong>문:</strong> 소통, 개방, 화해를 상징하며 벽과 대조됩니다."
+                ],
+                difficultPoints: [
+                    "<strong>알레고리:</strong> 벽이라는 구체적 사물을 통해 추상적인 인간관계를 이야기합니다."
+                ],
+                confusingPoints: [
+                    "<strong>해결 방안:</strong> 벽을 없애는 것이 아니라, 벽을 문으로 만들어 소통해야 한다는 인식이 중요합니다."
+                ]
+            },
+            "불사조": {
+                genre: "현대시",
+                basicInfo: "유치환의 시로, 죽음을 초월한 영원한 사랑과 의지를 불사조에 빗대어 노래했습니다.",
+                poetIntro: "<strong>유치환:</strong> 생명파 시인으로, 강인한 의지와 남성적 어조가 특징입니다.",
+                overallInterpretation: "죽어서라도 사랑하는 조국(또는 임)을 위해 헌신하겠다는 비장한 각오를 담고 있습니다. 육체는 소멸하더라도 정신은 영원히 남아 대상을 지키겠다는 숭고한 희생정신을 보여줍니다.",
+                keyPhraseAnalysis: [
+                    "<strong>그대 위하여 옷깃을 여미고 죽으리라:</strong> 경건한 자세로 죽음을 맞이하겠다는 의지입니다.",
+                    "<strong>죽어서도 죽지 않는 것이 있어:</strong> 육체적 죽음을 넘어서는 영원한 정신(사랑)입니다.",
+                    "<strong>해골은 희게 꽃피어:</strong> 죽음조차 아름다운 희생으로 승화됨을 의미합니다."
+                ],
+                expressionFeatures: "비장하고 결연한 어조를 사용했습니다. 역설적 표현(죽어서도 죽지 않는)을 통해 주제를 강조했습니다.",
+                historicalBackground: "조국 광복을 위한 독립운동가의 결의나, 절대적인 사랑에 대한 맹세로 해석될 수 있습니다.",
+                examPoints: [
+                    "<strong>불사조의 의미:</strong> 죽지 않고 부활하는 새처럼, 영원히 변치 않는 사랑과 정신을 상징합니다.",
+                    "<strong>화자의 태도:</strong> 죽음을 두려워하지 않는 희생적이고 의지적인 태도입니다."
+                ],
+                difficultPoints: [
+                    "<strong>관념적 시어:</strong> '영원', '허무' 등 추상적인 개념을 다룹니다."
+                ],
+                confusingPoints: [
+                    "<strong>대상:</strong> '그대'는 연인일 수도 있고, 조국이나 민족일 수도 있습니다."
+                ]
+            },
+            "역사": {
+                genre: "현대시",
+                basicInfo: "김남조의 시로, 인간의 삶과 역사의 흐름 속에 깃든 고뇌와 사랑을 종교적으로 성찰했습니다.",
+                poetIntro: "<strong>김남조(1927~2023):</strong> 기독교적 사랑과 휴머니즘을 바탕으로 생명의 존엄성을 노래한 시인입니다.",
+                overallInterpretation: "역사는 수많은 사람들의 고통과 눈물로 이루어져 있지만, 그 속에는 신의 섭리와 사랑이 깃들어 있음을 깨닫습니다. 긍정적이고 포용적인 자세로 삶과 역사를 바라봅니다.",
+                keyPhraseAnalysis: [
+                    "<strong>어둠은 빛을 이겨 본 적이 없다:</strong> 진리와 정의가 결국 승리한다는 믿음입니다.",
+                    "<strong>역사는 흐른다:</strong> 끊임없이 이어지는 시간의 영속성을 의미합니다.",
+                    "<strong>사랑은 가고 과거는 남는 것:</strong> 인간의 유한함과 역사의 무한함을 대조합니다."
+                ],
+                expressionFeatures: "기도조의 경건한 어조를 사용했습니다. 추상적인 관념(역사, 사랑)을 감각적인 이미지로 형상화했습니다.",
+                historicalBackground: "전쟁과 분단의 아픔을 겪은 후, 사랑과 화해를 통해 상처를 치유하고자 하는 소망이 담겨 있습니다.",
+                examPoints: [
+                    "<strong>긍정적 세계관:</strong> 고통스러운 역사 속에서도 희망과 사랑을 발견하려는 태도입니다.",
+                    "<strong>종교적 색채:</strong> 기독교적 신앙을 바탕으로 구원과 안식을 노래합니다."
+                ],
+                difficultPoints: [
+                    "<strong>역사의 의미:</strong> 단순한 과거의 기록이 아니라, 현재와 미래로 이어지는 생명의 흐름입니다."
+                ],
+                confusingPoints: [
+                    "<strong>신동엽의 '껍데기는 가라'와 비교:</strong> 신동엽은 현실 참여적이고 비판적인 역사 인식을 보여주는 반면, 김남조는 포용적이고 종교적인 역사 인식을 보여줍니다."
+                ]
+            },
+            "나목": {
+                genre: "현대시",
+                basicInfo: "김광규의 시로, 잎을 떨군 겨울 나무(나목)를 통해 진실한 삶의 자세를 노래했습니다.",
+                poetIntro: "<strong>김광규:</strong> 평범한 일상어와 쉬운 문체로 깊이 있는 성찰을 보여주는 시인입니다.",
+                overallInterpretation: "화려한 잎과 꽃(허식, 가식)을 모두 버리고 벌거벗은 채 겨울을 견디는 나목의 모습에서, 허위를 벗어던지고 진실하게 살아가는 삶의 아름다움을 발견합니다.",
+                keyPhraseAnalysis: [
+                    "<strong>잎들을 모두 떨っ구어 버리고:</strong> 가식과 허영을 버린 상태입니다.",
+                    "<strong>알몸으로 서 있는 나무:</strong> 꾸밈없는 본연의 모습, 진실한 자아를 상징합니다.",
+                    "<strong>가장 아름다운 춤을 춘다:</strong> 시련을 견디는 나목의 생명력을 예찬합니다."
+                ],
+                expressionFeatures: "의인법을 사용하여 나무의 모습을 인간의 삶에 비유했습니다. 담담하고 차분한 어조로 교훈을 전달합니다.",
+                historicalBackground: "물질적 풍요와 겉치레를 중시하는 현대 사회에 대한 비판적 성찰을 담고 있습니다.",
+                examPoints: [
+                    "<strong>나목의 상징성:</strong> 허식을 버린 진실한 존재, 시련을 견디는 강인한 생명력입니다.",
+                    "<strong>계절의 의미:</strong> 겨울은 시련의 계절이자, 본질을 드러내게 하는 진실의 시간입니다."
+                ],
+                difficultPoints: [
+                    "<strong>소유와 무소유:</strong> 잎을 가지는 것(소유)보다 버리는 것(무소유)의 가치를 강조합니다."
+                ],
+                confusingPoints: [
+                    "<strong>박완서의 소설 '나목'과 구별:</strong> 제목은 같지만 장르와 내용이 다릅니다."
+                ]
+            },
+            "살아있는 것은 흔들리면서 - 순례11": {
+                genre: "현대시",
+                basicInfo: "오규원의 시로, 흔들림(고뇌, 시련)이 살아있는 존재의 본질임을 노래했습니다.",
+                poetIntro: "<strong>오규원(1941~2007):</strong> 언어의 기교와 이미지를 중시하며, 존재의 본질을 탐구한 시인입니다.",
+                overallInterpretation: "바람에 흔들리는 억새를 보며, 흔들리는 것은 약함이 아니라 생명력의 증거임을 깨닫습니다. 고통과 시련을 삶의 자연스러운 과정으로 수용하는 긍정적인 태도를 보여줍니다.",
+                keyPhraseAnalysis: [
+                    "<strong>살아 있는 것은 흔들리면서 / 튼튼한 줄기를 얻고:</strong> 시련을 통해 성숙해짐을 의미합니다.",
+                    "<strong>잎은 흔들려서 스스로 / 깊은 잎을 얻는다:</strong> 고뇌를 통해 내면의 깊이를 더해감을 뜻합니다.",
+                    "<strong>바람도 억새의 뿌리를 / 흔들지는 못한다:</strong> 시련이 닥쳐도 생명의 근원(뿌리)은 파괴할 수 없음을 강조합니다."
+                ],
+                expressionFeatures: "자연물(억새, 바람)을 통해 인간의 삶을 유추했습니다. 평이한 시어를 사용하여 깊은 철학적 주제를 전달합니다.",
+                historicalBackground: "현대인의 불안한 삶에 위로와 긍정의 메시지를 줍니다.",
+                examPoints: [
+                    "<strong>역설적 인식:</strong> 흔들림(시련)이 오히려 강함(생명력)을 만든다는 인식이 중요합니다.",
+                    "<strong>제목의 의미:</strong> '순례' 연작시 중 하나로, 삶을 여행(순례)으로 보는 관점이 담겨 있습니다."
+                ],
+                difficultPoints: [
+                    "<strong>눈:</strong> 순수함이나 진실을 볼 수 있는 통찰력을 상징합니다."
+                ],
+                confusingPoints: [
+                    "<strong>흔들림의 의미:</strong> 부정적인 시련이 아니라, 성장을 위한 필수적인 과정으로 긍정됩니다."
+                ]
+            },
+            "꽃씨": {
+                genre: "현대시",
+                basicInfo: "문병란의 시로, 꽃씨 속에 담긴 생명력과 희망을 노래했습니다.",
+                poetIntro: "<strong>문병란(1935~2015):</strong> 민족의 현실과 통일 염원을 서정적으로 노래한 시인입니다.",
+                overallInterpretation: "작은 꽃씨 안에 거대한 생명과 아름다운 미래가 잠재되어 있음을 발견합니다. 겨울의 시련을 견디고 봄에 꽃을 피우는 꽃씨처럼, 우리 민족도 분단의 아픔을 딛고 통일의 꽃을 피울 것이라는 희망을 담고 있습니다.",
+                keyPhraseAnalysis: [
+                    "<strong>이 작은 씨앗 속에 / 우주가 들어 있다:</strong> 생명의 신비와 잠재력을 예찬합니다.",
+                    "<strong>겨울을 이기고 / 봄을 기다리는 마음:</strong> 시련을 극복하고 희망을 잃지 않는 인내심입니다.",
+                    "<strong>꽃은 저절로 피지 않는다:</strong> 생명은 고통과 인내의 결과물임을 강조합니다."
+                ],
+                expressionFeatures: "대조적 이미지(겨울 vs 봄, 작음 vs 큼)를 사용하여 주제를 부각했습니다. 평이한 시어로 깊은 울림을 줍니다.",
+                historicalBackground: "암울한 시대 현실 속에서도 미래에 대한 낙관적인 믿음을 잃지 않으려는 의지가 반영되었습니다.",
+                examPoints: [
+                    "<strong>꽃씨의 상징성:</strong> 생명력, 희망, 미래, 통일의 가능성 등을 상징합니다.",
+                    "<strong>생명 사상:</strong> 모든 생명은 소중하며, 시련을 통해 완성된다는 인식이 깔려 있습니다."
+                ],
+                difficultPoints: [
+                    "<strong>우주:</strong> 꽃씨 안에 담긴 무한한 가능성과 생명의 원리를 의미합니다."
+                ],
+                confusingPoints: [
+                    "<strong>박두진의 '꽃'과 비교:</strong> 박두진은 꽃이 피는 과정을 통해 부활과 평화를 노래했습니다."
+                ]
+            },
+            "산상의 노래": {
+                genre: "현대시",
+                basicInfo: "조지훈의 시로, 높은 산 위에서 느끼는 고고한 정신과 자연과의 합일을 노래했습니다.",
+                poetIntro: "<strong>조지훈:</strong> 청록파 시인으로, 고전적인 미와 자연 친화적인 시 세계를 보여줍니다.",
+                overallInterpretation: "속세를 떠나 높은 산에 올라 자연의 웅장함과 신비를 체험합니다. 낡은 나무와 바위, 구름 등을 보며 세속의 욕망을 잊고 자연과 하나 되는 물아일체의 경지를 지향합니다.",
+                keyPhraseAnalysis: [
+                    "<strong>높은 산 마루에 / 낡은 고목에 못 박힌 듯 기대어:</strong> 고독하고 고고한 화자의 모습을 보여줍니다.",
+                    "<strong>구름은 / 산머리에 걸려 있고:</strong> 정적이고 평화로운 자연의 풍경입니다.",
+                    "<strong>나의 넋은 / 하늘을 달린다:</strong> 육체는 땅에 있지만 정신은 자유롭게 비상함을 의미합니다."
+                ],
+                expressionFeatures: "예스러운 시어와 영탄적 어조를 사용하여 고풍스럽고 신비로운 분위기를 자아냅니다. 시각적 이미지가 주를 이룹니다.",
+                historicalBackground: "혼란스러운 현실을 떠나 자연 속에서 정신적 안식을 찾으려는 선비 정신이 반영되어 있습니다.",
+                examPoints: [
+                    "<strong>화자의 태도:</strong> 자연을 예찬하고 탈속적인 경지를 추구합니다.",
+                    "<strong>시선의 이동:</strong> 땅에서 하늘로, 근경에서 원경으로 시선이 이동합니다."
+                ],
+                difficultPoints: [
+                    "<strong><span class=\"tooltip\" data-tooltip=\"속세를 벗어남\">탈속</span>:</strong> 세속의 명예나 이익에 연연하지 않는 태도입니다."
+                ],
+                confusingPoints: [
+                    "<strong>이육사의 '광야'와 비교:</strong> 둘 다 높은 곳에서 노래하지만, 이육사는 의지적이고 조지훈은 관조적입니다."
+                ]
+            },
+            "들국": {
+                genre: "현대시",
+                basicInfo: "김용택의 시로, 들국화를 통해 민중의 강인한 생명력을 노래했습니다.",
+                poetIntro: "<strong>김용택(1948~):</strong> '섬진강 시인'으로 불리며, 농촌의 자연과 사람들의 삶을 소박하고 진솔하게 노래했습니다.",
+                overallInterpretation: "추운 가을 들판에 피어난 들국화를 보며, 시련 속에서도 굴하지 않고 살아가는 민중들의 건강한 생명력을 발견합니다. 소박하지만 강인한 아름다움을 예찬합니다.",
+                keyPhraseAnalysis: [
+                    "<strong>산마다 단풍만 저리 고우면 뭐헌다요:</strong> 화려한 겉모습(단풍)보다는 내실(들국화)이 중요함을 강조합니다.",
+                    "<strong>들국화 저리 하얗게 피어 있구만:</strong> 시련을 이겨내고 피어난 순수한 생명력을 상징합니다.",
+                    "<strong>그대 지친 다리 쉬어 가라고:</strong> 타인에게 위로와 안식을 주는 존재입니다."
+                ],
+                expressionFeatures: "구어체와 사투리를 사용하여 친근하고 향토적인 분위기를 형성합니다. 대조적 이미지(단풍 vs 들국화)를 활용했습니다.",
+                historicalBackground: "산업화 과정에서 소외된 농촌과 민중들의 삶에 대한 애정이 담겨 있습니다.",
+                examPoints: [
+                    "<strong>들국화의 상징성:</strong> 시련을 견디는 민중, 소박한 아름다움, 생명력 등을 상징합니다.",
+                    "<strong>어조:</strong> 말을 건네는 듯한 다정하고 소박한 어조입니다."
+                ],
+                difficultPoints: [
+                    "<strong>사투리:</strong> 전라도 방언이 사용되어 정감을 더합니다."
+                ],
+                confusingPoints: [
+                    "<strong>단풍의 의미:</strong> 부정적인 대상이라기보다는 들국화의 소박함과 대조되는 화려함을 의미합니다."
+                ]
+            },
+            "흙": {
+                genre: "현대시",
+                basicInfo: "박목월의 시로, 흙의 생명력과 모성적 포용력을 노래했습니다.",
+                poetIntro: "<strong>박목월(1916~1978):</strong> 청록파 시인으로, 자연 친화적이고 향토적인 서정시를 주로 썼습니다.",
+                overallInterpretation: "모든 생명을 낳고 기르며 결국에는 다시 품어주는 흙의 덕성을 예찬합니다. 흙을 어머니와 같은 존재로 인식하며 자연의 섭리에 순응하는 태도를 보여줍니다.",
+                keyPhraseAnalysis: [
+                    "<strong>흙이 풀린다:</strong> 봄이 되어 생명력이 소생함을 의미합니다.",
+                    "<strong>어머니같이 다사로운 흙:</strong> 흙의 포용력과 사랑을 어머니에 비유했습니다.",
+                    "<strong>흙으로 돌아간다:</strong> 죽음은 자연으로의 회귀라는 인식을 보여줍니다."
+                ],
+                expressionFeatures: "부드럽고 여성적인 어조를 사용했습니다. 촉각적 이미지를 통해 흙의 따뜻함을 표현했습니다.",
+                historicalBackground: "자연을 정복의 대상이 아닌 공존과 회귀의 대상으로 보는 동양적 자연관이 반영되어 있습니다.",
+                examPoints: [
+                    "<strong>흙의 이미지:</strong> 생명의 근원, 모성, 안식처 등을 상징합니다.",
+                    "<strong>순환적 세계관:</strong> 생명은 흙에서 와서 흙으로 돌아간다는 인식을 파악해야 합니다."
+                ],
+                difficultPoints: [
+                    "<strong>향토적 정서:</strong> 우리 민족 고유의 흙에 대한 정서를 이해해야 합니다."
+                ],
+                confusingPoints: [
+                    "<strong>이광수의 소설 '흙'과 구별:</strong> 제목이 같으므로 장르를 확인해야 합니다."
+                ]
+            },
+            "느티나무로부터": {
+                genre: "현대시",
+                basicInfo: "복효근의 시로, 느티나무의 생태를 통해 나눔과 희생의 가치를 노래했습니다.",
+                poetIntro: "<strong>복효근(1962~):</strong> 자연물에서 삶의 교훈을 얻는 서정적인 시를 많이 썼습니다.",
+                overallInterpretation: "자신의 잎을 떨구어 뿌리를 덮어주는 느티나무의 모습에서, 자기를 희생하여 생명을 이어가는 사랑과 나눔의 정신을 배웁니다. 자연의 순환 원리를 통해 인간 삶을 성찰합니다.",
+                keyPhraseAnalysis: [
+                    "<strong>제 잎을 떨っ구어 제 뿌리를 덮는다:</strong> 자기 희생과 환원을 통한 생명 유지를 의미합니다.",
+                    "<strong>가장 따뜻한 덮개가 된다:</strong> 떨어진 잎(죽음)이 새로운 생명을 위한 거름(사랑)이 됨을 보여줍니다.",
+                    "<strong>부처가 된다:</strong> 희생과 자비의 정신을 종교적으로 승화시켰습니다."
+                ],
+                expressionFeatures: "의인법을 사용하여 느티나무를 인격체로 대우했습니다. 차분하고 교훈적인 어조가 특징입니다.",
+                historicalBackground: "이기주의가 만연한 현대 사회에 나눔과 공존의 가치를 일깨워 줍니다.",
+                examPoints: [
+                    "<strong>낙엽의 의미:</strong> 소멸이 아니라 새로운 생명을 위한 희생이자 사랑입니다.",
+                    "<strong>자연의 섭리:</strong> 순환과 공존의 원리를 파악해야 합니다."
+                ],
+                difficultPoints: [
+                    "<strong>불교적 비유:</strong> 느티나무의 행위를 부처의 자비행에 비유했습니다."
+                ],
+                confusingPoints: [
+                    "<strong>화자의 깨달음:</strong> 단순히 나무를 관찰하는 것이 아니라 그 속에서 삶의 지혜를 얻습니다."
+                ]
+            },
+            "오래된 잠버릇": {
+                genre: "현대시",
+                basicInfo: "김기택의 시로, 아버지의 고단한 삶과 죽음을 잠버릇에 비유하여 표현했습니다.",
+                poetIntro: "<strong>김기택(1957~):</strong> 일상적인 소재를 정밀하게 관찰하여 삶의 비애와 몸의 언어를 포착하는 시인입니다.",
+                overallInterpretation: "평생을 고단하게 일하다 돌아가신 아버지의 모습을 '오래된 잠버릇'으로 형상화했습니다. 웅크리고 자던 아버지의 모습에서 삶의 무게와 비애를 읽어냅니다.",
+                keyPhraseAnalysis: [
+                    "<strong>아버지는 평생을 웅크리고 주무셨다:</strong> 삶의 무게에 짓눌린 아버지의 고단한 삶을 시각화했습니다.",
+                    "<strong>새우잠:</strong> 편안하지 못한 잠, 즉 힘겨운 삶을 상징합니다.",
+                    "<strong>관 속에서도 웅크리고 계실 것 같다:</strong> 죽어서도 풀리지 않는 삶의 고통과 한을 강조합니다."
+                ],
+                expressionFeatures: "구체적인 묘사를 통해 대상을 감각적으로 표현했습니다. 담담한 어조 속에 아버지에 대한 연민을 담았습니다.",
+                historicalBackground: "산업화 시대를 힘겹게 살아낸 우리 시대 아버지들의 자화상입니다.",
+                examPoints: [
+                    "<strong>잠버릇의 의미:</strong> 단순한 습관이 아니라 치열했던 삶의 흔적입니다.",
+                    "<strong>아버지에 대한 정서:</strong> 연민, 안쓰러움, 그리움 등이 복합적으로 나타납니다."
+                ],
+                difficultPoints: [
+                    "<strong>몸의 기억:</strong> 삶의 고통이 몸에 각인되어 죽어서도 남는다는 인식을 보여줍니다."
+                ],
+                confusingPoints: [
+                    "<strong>비판적 시각 아님:</strong> 아버지를 비판하는 것이 아니라, 시대적 상황 속에서 희생한 아버지를 위로하는 시입니다."
+                ]
+            },
+            "어둠도 자세히 보면 환하다": {
+                genre: "현대시",
+                basicInfo: "나태주의 시로, 절망(어둠) 속에서도 희망(환함)을 발견할 수 있다는 긍정적인 메시지를 담고 있습니다.",
+                poetIntro: "<strong>나태주(1945~):</strong> '풀꽃' 시인으로 유명하며, 작고 소박한 것들에 대한 사랑을 노래합니다.",
+                overallInterpretation: "어둠을 피하거나 두려워하지 않고 자세히 들여다보면 그 속에 빛이 있음을 깨닫습니다. 시련과 고통 속에서도 긍정적인 마음을 가지면 희망을 찾을 수 있다는 위로를 건넵니다.",
+                keyPhraseAnalysis: [
+                    "<strong>어둠도 자세히 보면 환하다:</strong> 역설적 표현으로, 절망 속에도 희망이 존재함을 의미합니다.",
+                    "<strong>오래 보고 있으면 보석이다:</strong> 관심을 가지고 들여다보면 가치를 발견할 수 있습니다.",
+                    "<strong>너도 그렇다:</strong> 시상을 독자(너)에게로 확장하여 위로와 격려를 전합니다."
+                ],
+                expressionFeatures: "간결하고 쉬운 언어로 깊은 울림을 줍니다. 역설법을 사용하여 주제를 강조했습니다.",
+                historicalBackground: "힘든 시기를 겪는 사람들에게 따뜻한 위로를 주는 힐링 시입니다.",
+                examPoints: [
+                    "<strong>역설적 인식:</strong> 어둠과 환함의 공존을 이해해야 합니다.",
+                    "<strong>자세히 보아야 예쁘다:</strong> 나태주의 대표작 '풀꽃'과 주제 의식이 상통합니다."
+                ],
+                difficultPoints: [
+                    "<strong>관점의 전환:</strong> 대상을 바라보는 태도를 바꾸면 세상이 달라 보인다는 교훈을 줍니다."
+                ],
+                confusingPoints: [
+                    "<strong>어둠의 의미:</strong> 부정적인 대상이 아니라, 빛을 품고 있는 잠재적인 공간입니다."
+                ]
+            },
+            "맨발": {
+                genre: "현대시",
+                basicInfo: "문태준의 시로, 개조개(전복)의 맨발을 보며 생명의 고단함과 연민을 노래했습니다.",
+                poetIntro: "<strong>문태준(1970~):</strong> 불교적 사유와 서정적인 언어로 생명에 대한 연민을 노래하는 시인입니다.",
+                overallInterpretation: "시장에서 산 개조개가 껍질 밖으로 속살(맨발)을 내밀고 있는 것을 보며, 가족을 부양하기 위해 헌신하는 가장의 고단한 삶을 연상합니다. 생명에 대한 깊은 관찰과 연민이 돋보입니다.",
+                keyPhraseAnalysis: [
+                    "<strong>어물전 개조개 한 마리가 움막 같은 몸 바깥으로 맨발을 내밀어 보이고 있다:</strong> 개조개의 속살을 '맨발'로 비유하여 고단함을 부각합니다.",
+                    "<strong>부르튼 맨발:</strong> 삶의 고통과 시련을 상징합니다.",
+                    "<strong>사랑을 잃고서는 퍼렇게 몸이 멍들어 있는 것 같다:</strong> 개조개의 상태를 인간의 감정에 이입하여 표현했습니다."
+                ],
+                expressionFeatures: "사물(개조개)을 인간(가장)에 비유하여 주제를 확장했습니다. 감각적인 묘사와 연민의 어조가 특징입니다.",
+                historicalBackground: "IMF 이후 경제적으로 어려워진 가장들의 삶을 위로하는 의미도 담겨 있습니다.",
+                examPoints: [
+                    "<strong>유추와 연상:</strong> 개조개 -> 맨발 -> 아버지(가장)로 이어지는 연상 과정을 파악해야 합니다.",
+                    "<strong>맨발의 상징성:</strong> 무방비 상태의 연약함, 생계를 위한 고단한 노동 등을 의미합니다."
+                ],
+                difficultPoints: [
+                    "<strong>불교적 상상력:</strong> 미물에게서 부처의 고행을 읽어내는 시선이 담겨 있습니다."
+                ],
+                confusingPoints: [
+                    "<strong>화자의 정서:</strong> 단순한 관찰이 아니라 대상과 자신을 동일시하며 느끼는 연민과 슬픔입니다."
+                ]
+            },
+            "풀벌레들의 작은 귀를 생각함": {
+                genre: "현대시",
+                basicInfo: "김기택의 시로, 문명의 소음에 가려진 작고 여린 생명들의 소리에 귀 기울여야 함을 노래했습니다.",
+                poetIntro: "<strong>김기택(1957~):</strong> 현대 문명 비판과 생태학적 상상력을 보여주는 시인입니다.",
+                overallInterpretation: "텔레비전 소리 등 인공적인 소음에 묻혀 들리지 않던 풀벌레 소리가, 밤이 되어 조용해지자 비로소 들려옵니다. 문명의 폭력성을 반성하고 자연과 생명에 대한 감수성을 회복할 것을 촉구합니다.",
+                keyPhraseAnalysis: [
+                    "<strong>텔레비전을 끄자 / 풀벌레 소리:</strong> 문명의 소음이 사라진 후 자연의 소리가 들림을 대조적으로 보여줍니다.",
+                    "<strong>어둠보다 더 캄캄한 것은 / 내 눈이었구나:</strong> 생명의 소리를 듣지 못했던 자신의 무관심을 반성합니다.",
+                    "<strong>풀벌레들의 작은 귀:</strong> 작고 여린 생명체와의 소통 통로를 상징합니다."
+                ],
+                expressionFeatures: "청각적 이미지를 중심으로 시상을 전개합니다. 문명(빛, 소음)과 자연(어둠, 소리)의 대조가 선명합니다.",
+                historicalBackground: "환경 파괴와 생명 경시 풍조가 만연한 현대 사회에 대한 비판적 성찰을 담고 있습니다.",
+                examPoints: [
+                    "<strong>대조적 시어:</strong> 텔레비전/형광등(문명, 차단) vs 어둠/풀벌레 소리(자연, 소통)의 의미를 구별해야 합니다.",
+                    "<strong>성찰적 태도:</strong> 자신의 무지를 깨닫고 부끄러워하는 태도가 드러납니다."
+                ],
+                difficultPoints: [
+                    "<strong>어둠의 긍정성:</strong> 어둠은 시각을 차단하지만 청각을 열어주어 생명과 교감하게 하는 긍정적인 공간입니다."
+                ],
+                confusingPoints: [
+                    "<strong>귀를 생각함:</strong> 풀벌레의 소리를 듣는 것을 넘어, 그들의 입장에서 생각해보는 공감의 태도입니다."
+                ]
+            },
+            "병원": {
+                genre: "현대시",
+                basicInfo: "윤동주의 시로, 병원이라는 공간에서 느끼는 고통과 연민, 그리고 치유에 대한 소망을 담았습니다.",
+                poetIntro: "<strong>윤동주(1917~1945):</strong> 식민지 지식인의 고뇌와 인간에 대한 사랑을 노래했습니다.",
+                overallInterpretation: "병원은 고통받는 사람들이 모인 곳입니다. 화자는 병원에 입원한 젊은 여자를 보며 연민을 느끼고, 자신 또한 시대의 아픔을 앓고 있는 환자임을 자각합니다. 서로의 고통을 위로하며 치유되기를 바라는 마음을 표현했습니다.",
+                keyPhraseAnalysis: [
+                    "<strong>나도 모를 아픔을 오래 참다 처음으로 이곳에 찾아왔다:</strong> 화자 역시 내면의 고통(시대적 고뇌)을 겪고 있음을 보여줍니다.",
+                    "<strong>여자는 늙은 나를 쳐다보며... 나는 늙은 여자의 건강을...:</strong> 동병상련의 마음으로 서로를 위로합니다.",
+                    "<strong>금잔화:</strong> 고통 속에서도 피어나는 생명과 희망을 상징합니다."
+                ],
+                expressionFeatures: "산문적인 호흡으로 관찰과 사색을 서술했습니다. 병원이라는 구체적 공간을 통해 시대적 상황을 암시했습니다.",
+                historicalBackground: "일제 강점기, 병든 사회와 그 속에서 신음하는 지식인의 내면 풍경을 보여줍니다.",
+                examPoints: [
+                    "<strong>병원의 상징성:</strong> 고통의 공간이자 치유를 기다리는 공간, 식민지 현실의 축소판입니다.",
+                    "<strong>화자의 태도:</strong> 타인의 고통에 공감하고 연대하려는 휴머니즘적 태도입니다."
+                ],
+                difficultPoints: [
+                    "<strong>늙은 의사:</strong> 권위적이고 기계적인 처방만 내리는 존재로, 진정한 치유를 주지 못하는 현실을 비판합니다."
+                ],
+                confusingPoints: [
+                    "<strong>여자:</strong> 구체적인 인물이기도 하지만, 고통받는 우리 민족 전체를 상징하기도 합니다."
+                ]
+            },
+            "성에꽃": {
+                genre: "현대시",
+                basicInfo: "최두석의 시로, 버스 창가에 핀 성에꽃을 통해 서민들의 고단한 삶과 아름다움을 노래했습니다.",
+                poetIntro: "<strong>최두석(1955~):</strong> 민중의 삶과 현실을 따뜻한 시선으로 그려낸 시인입니다.",
+                overallInterpretation: "추운 겨울 새벽, 시내버스 창문에 핀 성에꽃을 보며 서민들의 입김과 숨결을 느낍니다. 고단한 삶을 살아가는 이들의 숨결이 만들어낸 성에꽃을 아름답다고 예찬하며, 그들에 대한 애정과 연대감을 표현합니다.",
+                keyPhraseAnalysis: [
+                    "<strong>엄동 혹한일수록 / 선연히 피는 성에꽃:</strong> 시련이 클수록 더욱 아름답게 피어나는 민중의 생명력입니다.",
+                    "<strong>숨결이 간밤에 은밀히 만나 피워낸:</strong> 서민들의 고단한 삶과 애환이 집약된 결정체입니다.",
+                    "<strong>정열의 숨결:</strong> 치열하게 살아가는 서민들의 삶에 대한 긍정적 인식입니다."
+                ],
+                expressionFeatures: "감각적 이미지(시각, 촉각)를 통해 대상을 형상화했습니다. 차가운 이미지(성에, 얼음)와 뜨거운 이미지(숨결, 정열)의 결합이 돋보입니다.",
+                historicalBackground: "1980년대, 도시 서민들의 힘겨운 삶을 위로하고 그들의 가치를 재발견하고자 했습니다.",
+                examPoints: [
+                    "<strong>성에꽃의 의미:</strong> 서민들의 삶의 애환과 생명력이 응축된 아름다운 존재입니다.",
+                    "<strong>화자의 행위:</strong> 성에꽃을 이마에 대거나 지우는 행위는 서민들과의 교감과 연민을 표현합니다."
+                ],
+                difficultPoints: [
+                    "<strong>친구:</strong> 화자가 그리워하는 대상으로, 민주화 운동 등으로 고통받는 동시대인을 암시합니다."
+                ],
+                confusingPoints: [
+                    "<strong>꽃:</strong> 실제 꽃이 아니라 성에를 비유적으로 이르는 말입니다."
+                ]
+            },
+            "희망의 거처": {
+                genre: "현대시",
+                basicInfo: "황동규의 시로, 절망적인 상황 속에서도 희망을 잃지 않으려는 의지를 노래했습니다.",
+                poetIntro: "<strong>황동규(1938~):</strong> 지적이고 서정적인 시 세계를 구축한 시인입니다.",
+                overallInterpretation: "안개 자욱한 강가(절망적 현실)에서도 희망을 찾으려 노력합니다. 희망은 멀리 있는 것이 아니라 우리 삶의 터전(거처) 속에 있음을 역설합니다.",
+                keyPhraseAnalysis: [
+                    "<strong>안개:</strong> 앞이 보이지 않는 암울한 현실이나 시련을 상징합니다.",
+                    "<strong>희망은 / 우리가 닻을 내리고 있는 이곳에:</strong> 희망은 현실 도피가 아니라 현실 속에서 찾아야 함을 의미합니다."
+                ],
+                expressionFeatures: "상징적인 시어를 통해 주제를 형상화했습니다.",
+                historicalBackground: "암울한 시대 상황 속에서 지식인의 고뇌와 희망 찾기를 보여줍니다.",
+                examPoints: [
+                    "<strong>희망의 위치:</strong> 희망은 먼 곳이 아닌 바로 '이곳'에 있다는 인식이 중요합니다."
+                ],
+                difficultPoints: [
+                    "<strong>역설적 상황:</strong> 절망적인 상황일수록 희망의 가치가 더욱 빛남을 보여줍니다."
+                ],
+                confusingPoints: [
+                    "<strong>기형도의 '안개'와 비교:</strong> 기형도의 안개는 철저한 단절과 고립을 의미하지만, 황동규의 안개는 극복해야 할 시련입니다."
+                ]
+            },
+            "지리산 뻐꾹새": {
+                genre: "현대시",
+                basicInfo: "송수권의 시로, 뻐꾹새 소리를 통해 민족의 한(恨)과 비극적인 역사를 노래했습니다.",
+                poetIntro: "<strong>송수권(1940~2016):</strong> 남도의 정서와 한을 토속적인 언어로 노래한 시인입니다.",
+                overallInterpretation: "지리산에서 우는 뻐꾹새 소리를 들으며, 그 소리가 단순한 새소리가 아니라 우리 민족이 겪은 배고픔과 슬픔, 역사의 상처가 응어리진 소리임을 깨닫습니다. 뻐꾹새 소리를 통해 개인적 정서를 민족적 정서로 확장시킵니다.",
+                keyPhraseAnalysis: [
+                    "<strong>울어 예는 저 뻐꾹새:</strong> 한을 토해내는 존재이자 감정이입의 대상입니다.",
+                    "<strong>피를 토해내는:</strong> 한의 깊이와 고통의 처절함을 시각적으로 표현했습니다.",
+                    "<strong>보릿고개:</strong> 민족의 가난과 배고픔을 상징하는 시어입니다."
+                ],
+                expressionFeatures: "청각적 이미지를 시각화(공감각)하여 한의 정서를 효과적으로 전달합니다. 사투리와 토속적인 시어를 사용하여 향토성을 높였습니다.",
+                historicalBackground: "지리산은 한국 현대사의 비극(빨치산 등)을 품고 있는 공간으로, 그곳의 뻐꾹새 소리는 민족의 아픔을 환기합니다.",
+                examPoints: [
+                    "<strong>한의 형상화:</strong> 뻐꾹새 소리를 통해 한을 구체적이고 감각적으로 표현했습니다.",
+                    "<strong>지리산의 의미:</strong> 민족의 비극과 한이 서린 역사적 공간입니다."
+                ],
+                difficultPoints: [
+                    "<strong>전통적 정서:</strong> '한'이라는 한국 특유의 정서를 이해해야 깊이 있는 감상이 가능합니다."
+                ],
+                confusingPoints: [
+                    "<strong>서정주 '귀촉도'와 비교:</strong> 둘 다 새소리를 통해 한을 노래하지만, 송수권은 좀 더 남성적이고 굵은 톤으로 민족의 한을 다룹니다."
+                ]
+            },
+            "아침 시": {
+                genre: "현대시",
+                basicInfo: "최승호의 시로, 도시 문명 속에서 잃어버린 순수와 생명력을 비판적으로 성찰했습니다.",
+                poetIntro: "<strong>최승호(1954~):</strong> 도시 문명의 병폐와 인간의 욕망을 날카롭게 비판하는 시인입니다.",
+                overallInterpretation: "아침이 밝았지만 도시는 여전히 매연과 소음으로 가득 차 있고, 사람들은 기계적으로 살아갑니다. 이러한 삭막한 도시 풍경을 묘사하며, 생명력을 잃어가는 현대 문명을 비판하고 진정한 아침(생명, 순수)의 회복을 소망합니다.",
+                keyPhraseAnalysis: [
+                    "<strong>아침이 왔으나 아침이 아니다:</strong> 물리적인 시간은 아침이지만, 생명력이 느껴지지 않는 죽은 아침임을 의미합니다.",
+                    "<strong>시멘트 숲:</strong> 생명력이 없는 삭막한 도시 환경을 비유했습니다.",
+                    "<strong>새들은 날아갔다:</strong> 순수한 생명과 자연이 떠나버린 현실을 보여줍니다."
+                ],
+                expressionFeatures: "감각적이고 비판적인 이미지를 사용하여 도시의 황폐함을 부각했습니다. '아침'의 의미를 전복시켜 주제를 강조했습니다.",
+                historicalBackground: "급격한 산업화와 도시화로 인해 환경이 파괴되고 인간성이 상실된 현대 사회의 문제를 다룹니다.",
+                examPoints: [
+                    "<strong>반어적 인식:</strong> 제목은 '아침 시'이지만 내용은 아침답지 않은 암울한 현실을 노래합니다.",
+                    "<strong>문명 비판:</strong> 도시 문명의 비생명성과 폭력성을 고발합니다."
+                ],
+                difficultPoints: [
+                    "<strong>생태주의적 관점:</strong> 인간 중심의 문명이 자연을 어떻게 파괴했는지 성찰하게 합니다."
+                ],
+                confusingPoints: [
+                    "<strong>희망의 부재:</strong> 섣불리 희망을 노래하기보다 절망적인 현실을 직시하는 데 초점을 맞춥니다."
+                ]
+            },
+            "결빙의 아버지": {
+                genre: "현대시",
+                basicInfo: "이수익의 시로, 꽁꽁 얼어붙은 한강을 보며 엄격했던 아버지의 사랑을 깨닫는 내용을 담고 있습니다.",
+                poetIntro: "<strong>이수익(1942~):</strong> 일상적인 소재에서 가족애와 삶의 의미를 발견하는 따뜻한 시를 썼습니다.",
+                overallInterpretation: "차가운 얼음(결빙)을 통해 아버지의 엄격함과 그 이면에 숨겨진 따뜻한 사랑을 형상화했습니다. 어린 시절에는 몰랐던 아버지의 희생과 고뇌를 어른이 되어 이해하게 되는 과정을 그립니다.",
+                keyPhraseAnalysis: [
+                    "<strong>어머니, 제 예전의 살얼음판 같았던 만남과:</strong> 아버지와의 서먹하고 불편했던 관계를 표현했습니다.",
+                    "<strong>아버지는 가장 추운 밤을 골라 꽝꽝 얼어붙으셨다:</strong> 가족을 지키기 위해 강해져야만 했던 아버지의 단단한 사랑을 의미합니다."
+                ],
+                expressionFeatures: "산문적인 호흡의 자유시입니다. 담담한 고백적 어조가 특징입니다.",
+                historicalBackground: "가부장적인 아버지 세대의 사랑법과 그에 대한 자식 세대의 이해를 다룹니다.",
+                examPoints: [
+                    "<strong>비유적 의미:</strong> '얼음'은 아버지의 차가운 겉모습이자 가족을 지키기 위한 단단한 사랑을 상징합니다.",
+                    "<strong>고백적 어조:</strong> 어머니에게 말을 건네는 형식을 통해 화자의 내면을 진솔하게 고백합니다."
+                ],
+                difficultPoints: [
+                    "<strong><span class=\"tooltip\" data-tooltip=\"물이 어는 것\">결빙</span>:</strong> 아버지가 얼음처럼 단단하고 차가워진 상태를 의미합니다."
+                ],
+                confusingPoints: [
+                    "<strong>주제:</strong> 아버지에 대한 원망이 아니라, 뒤늦게 깨달은 아버지의 사랑과 그리움입니다."
+                ]
+            }
+        };
+        // 작품별 테마 색상 (분위기에 맞춰 설정 - 추후 설정 필요)
+        const themeColors = {};
+
+        // URL에서 title 파라미터 값을 가져와서 제목으로 설정
+        const urlParams = new URLSearchParams(window.location.search);
+        const title = urlParams.get('title');
+        const contentDiv = document.querySelector('.detail-content');
+
+        // 작품 목록 (네비게이션용)
+        const workList = [
+            "폭포", "산", "서시", "생명의 서", "별헤는 밤", "님의 침묵", "진달래꽃", "자화상", "또 다른 고향", "추억에서", 
+            "파밭 가에서", "살아있는 것은 흔들리면서 - 순례11", "내 마음의 고향6 - 초설", "멸치", "샤갈의 마을에 내리는 눈", 
+            "출생기", "강우", "벽", "눈물", "황혼", "불사조", "역사", "나목", "전라도 가시내", "들국", "흙", "느티나무로부터", 
+            "오래된 잠버릇", "어둠도 자세히 보면 환하다", "맨발", "풀벌레들의 작은 귀를 생각함", "배를 매며", "결빙의 아버지", 
+            "병원", "꽃씨", "산상의 노래", "성에꽃", "희망의 거처", "지리산 뻐꾹새", "아침 시"
+        ];
+
+        if (title) {
+            document.getElementById('novel-title').textContent = title;
+            document.title = title + " - 상세 정보";
+
+            // 테마 색상 적용
+            if (themeColors[title]) {
+                document.body.style.backgroundColor = themeColors[title];
+            }
+
+            // 데이터가 있는 경우 내용을 생성하여 표시
+            if (modernPoetryData[title]) {
+                const data = modernPoetryData[title];
+                let html = '';
+                
+                // 1. 작품 기본 정보 + 시인 특징
+                html += `<h3>작품 기본 정보 + 시인 특징</h3>`;
+                if (data.basicInfo) html += `<p>${data.basicInfo}</p>`;
+                if (data.poetIntro) html += `<p>${data.poetIntro}</p>`;
+                if (data.historicalBackground) html += `<p><strong>시대적 배경:</strong> ${data.historicalBackground}</p>`;
+
+                // 갈래 표시 로직 추가
+                const genreEl = document.getElementById('poetry-genre');
+                if (data.genre) {
+                    genreEl.textContent = data.genre;
+                    genreEl.style.display = 'inline-block';
+                }
+
+                // 2. 전체 주제·화자 정서
+                if (data.overallInterpretation) html += `<h3>전체 주제·화자 정서</h3><p>${data.overallInterpretation}</p>`;
+
+                // 3. 주요 구절 분석
+                if (data.keyPhraseAnalysis && data.keyPhraseAnalysis.length > 0) {
+                    html += `<h3>주요 구절 분석</h3><ul>`;
+                    data.keyPhraseAnalysis.forEach(point => html += `<li style="margin-bottom: 8px;">${point}</li>`);
+                    html += `</ul>`;
+                }
+
+                // 4. 표현 기법·시적 효과
+                if (data.expressionFeatures) html += `<h3>표현 기법·시적 효과</h3><p>${data.expressionFeatures}</p>`;
+                
+                // 5. 시험 출제 포인트 + 어려운/헷갈리는 부분
+                html += `<h3>시험 출제 포인트 + 어려운/헷갈리는 부분</h3>`;
+                if (data.examPoints && data.examPoints.length > 0) {
+                    html += `<h4>시험 출제 포인트</h4><ul>`;
+                    data.examPoints.forEach(point => html += `<li style="margin-bottom: 8px;">${point}</li>`);
+                    html += `</ul>`;
+                }
+                if (data.difficultPoints && data.difficultPoints.length > 0) {
+                    html += `<h4>어려운 부분 & 해석 팁</h4><ul>`;
+                    data.difficultPoints.forEach(point => html += `<li style="margin-bottom: 8px;">${point}</li>`);
+                    html += `</ul>`;
+                }
+                if (data.confusingPoints && data.confusingPoints.length > 0) {
+                    html += `<h4>헷갈릴 수 있는 부분</h4><ul>`;
+                    data.confusingPoints.forEach(point => html += `<li style="margin-bottom: 8px;">${point}</li>`);
+                    html += `</ul>`;
+                }
+
+                contentDiv.innerHTML = html;
+
+                // 툴팁 터치 이벤트 처리 (모바일 대응)
+                const tooltips = document.querySelectorAll('.tooltip');
+                tooltips.forEach(tooltip => {
+                    tooltip.addEventListener('click', function(e) {
+                        e.stopPropagation(); // 이벤트 버블링 방지
+                        // 다른 열린 툴팁 닫기
+                        tooltips.forEach(t => {
+                            if (t !== tooltip) t.classList.remove('active');
+                        });
+                        // 현재 툴팁 토글
+                        this.classList.toggle('active');
+                    });
+                });
+
+                // 화면의 다른 곳을 클릭하면 툴팁 닫기
+                document.addEventListener('click', function() {
+                    tooltips.forEach(t => t.classList.remove('active'));
+                });
+            } else {
+                contentDiv.innerHTML = "<p>해당 작품에 대한 상세 정보가 아직 등록되지 않았습니다.</p>";
+            }
+
+            // 이전/다음 작품 버튼 로직
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const currentIndex = workList.indexOf(title);
+
+            if (currentIndex !== -1) {
+                // 이전 작품이 있는 경우
+                if (currentIndex > 0) {
+                    const prevTitle = workList[currentIndex - 1];
+                    prevBtn.onclick = () => location.replace(`modern_poetry_detail.html?title=${prevTitle}`);
+                    prevBtn.setAttribute('data-tooltip', prevTitle);
+                } else {
+                    prevBtn.classList.add('disabled');
+                }
+
+                // 다음 작품이 있는 경우
+                if (currentIndex < workList.length - 1) {
+                    const nextTitle = workList[currentIndex + 1];
+                    nextBtn.onclick = () => location.replace(`modern_poetry_detail.html?title=${nextTitle}`);
+                    nextBtn.setAttribute('data-tooltip', nextTitle);
+                } else {
+                    nextBtn.classList.add('disabled');
+                }
+            } else {
+                // 목록에 없는 작품인 경우 둘 다 비활성화
+                prevBtn.classList.add('disabled');
+                nextBtn.classList.add('disabled');
+            }
+
+            // 게스트 모드 확인
+            const isGuest = localStorage.getItem('isGuest');
+
+            // 즐겨찾기 버튼 로직
+            const favoriteBtn = document.getElementById('favorite-btn');
+            const favKey = 'learning_favorites'; // 로컬 스토리지 키
+            let favorites = JSON.parse(localStorage.getItem(favKey)) || [];
+
+            // 초기 상태 설정 (이미 즐겨찾기 되어있으면 활성화)
+            if (favorites.includes(title)) {
+                favoriteBtn.classList.add('favorite');
+            }
+
+            if (isGuest) {
+                favoriteBtn.classList.add('disabled');
+                favoriteBtn.onclick = () => alert('로그인이 필요한 기능입니다.');
+            } else {
+            favoriteBtn.addEventListener('click', function() {
+                if (favorites.includes(title)) {
+                    // 이미 즐겨찾기 된 경우 -> 해제
+                    favorites = favorites.filter(item => item !== title);
+                    favoriteBtn.classList.remove('favorite');
+                } else {
+                    // 즐겨찾기 안 된 경우 -> 추가
+                    favorites.push(title);
+                    favoriteBtn.classList.add('favorite');
+                }
+                localStorage.setItem(favKey, JSON.stringify(favorites));
+            });
+            }
+
+            // 학습완료/미완료 버튼 로직
+            const completedBtn = document.getElementById('completed-btn');
+            const completedKey = 'learning_completed'; // 로컬 스토리지 키
+            let completedList = JSON.parse(localStorage.getItem(completedKey)) || [];
+
+            // 목록에 해당 작품이 있는지 확인하는 헬퍼 함수 (문자열/객체 호환)
+            const isCompleted = (list, title) => list.some(item => (typeof item === 'string' ? item : item.title) === title);
+
+            // 초기 상태 설정 (이미 완료된 경우 활성화)
+            if (isCompleted(completedList, title)) {
+                completedBtn.classList.add('completed');
+            }
+
+            if (isGuest) {
+                completedBtn.classList.add('disabled');
+                completedBtn.onclick = () => alert('로그인이 필요한 기능입니다.');
+            } else {
+            completedBtn.addEventListener('click', function() {
+                completedList = JSON.parse(localStorage.getItem(completedKey)) || []; // 최신 상태 불러오기
+                
+                if (!isCompleted(completedList, title)) {
+                    const date = new Date().toLocaleDateString(); // 현재 날짜 (예: 2024. 1. 1.)
+                    completedList.push({ title: title, date: date });
+                    localStorage.setItem(completedKey, JSON.stringify(completedList));
+                    completedBtn.classList.add('completed');
+                } else {
+                    completedList = completedList.filter(item => (typeof item === 'string' ? item : item.title) !== title);
+                    localStorage.setItem(completedKey, JSON.stringify(completedList));
+                    completedBtn.classList.remove('completed');
+                }
+            });
+            }
+
+            // 별점(난이도) 기능 로직
+            const stars = document.querySelectorAll('.star');
+            const starContainer = document.querySelector('.star-rating');
+            const ratingKey = 'learning_ratings';
+            let ratings = JSON.parse(localStorage.getItem(ratingKey)) || {};
+
+            function updateStars(rating) {
+                stars.forEach(star => {
+                    if (parseInt(star.dataset.value) <= rating) {
+                        star.classList.add('active');
+                    } else {
+                        star.classList.remove('active');
+                    }
+                });
+            }
+
+            if (ratings[title]) {
+                updateStars(ratings[title]);
+            }
+
+            if (isGuest) {
+                starContainer.style.opacity = '0.5';
+                starContainer.onclick = () => alert('로그인이 필요한 기능입니다.');
+            } else {
+            stars.forEach(star => {
+                star.addEventListener('mouseover', function() {
+                    const value = parseInt(this.dataset.value);
+                    updateStars(value);
+                });
+
+                star.addEventListener('click', function() {
+                    const value = parseInt(this.dataset.value);
+                    ratings = JSON.parse(localStorage.getItem(ratingKey)) || {};
+                    
+                    // 이미 선택된 별점을 다시 누르면 취소 (0점)
+                    const newRating = (ratings[title] === value) ? 0 : value;
+                    ratings[title] = newRating;
+                    updateStars(newRating);
+                    localStorage.setItem(ratingKey, JSON.stringify(ratings));
+                });
+            });
+
+            starContainer.addEventListener('mouseleave', function() {
+                const currentRating = ratings[title] || 0;
+                updateStars(currentRating);
+            });
+            }
+
+            // 스와이프 기능 (좌우 이동)
+            let touchStartX = 0;
+            let touchEndX = 0;
+
+            document.addEventListener('touchstart', e => {
+                touchStartX = e.changedTouches[0].screenX;
+            });
+
+            document.addEventListener('touchend', e => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            });
+
+            function handleSwipe() {
+                const threshold = 50; // 최소 스와이프 거리
+                if (touchStartX - touchEndX > threshold) {
+                    // 왼쪽으로 스와이프 -> 다음 작품
+                    if (!document.getElementById('next-btn').classList.contains('disabled')) document.getElementById('next-btn').click();
+                }
+                if (touchEndX - touchStartX > threshold) {
+                    // 오른쪽으로 스와이프 -> 이전 작품
+                    if (!document.getElementById('prev-btn').classList.contains('disabled')) document.getElementById('prev-btn').click();
+                }
+            }
+
+            // 키보드 방향키 이벤트 (컴퓨터 테스트용)
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft') {
+                    if (!prevBtn.classList.contains('disabled')) prevBtn.click();
+                } else if (e.key === 'ArrowRight') {
+                    if (!nextBtn.classList.contains('disabled')) nextBtn.click();
+                }
+            });
+        }
+    </script>
+</body>
+</html>

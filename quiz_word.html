@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>단어 퀴즈</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="word_data.js"></script>
+    <style>
+        /* 퀴즈 페이지 전용 스타일 */
+        body { padding-bottom: 20px; }
+        .quiz-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px 0;
+            text-align: center;
+        }
+        
+        .quiz-progress {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 20px;
+            text-align: right;
+            padding-right: 10px;
+        }
+
+        .quiz-card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 15px;
+            padding: 30px 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+
+        .quiz-question {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            color: #333;
+            line-height: 1.4;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .quiz-option-btn {
+            padding: 15px;
+            font-size: 16px;
+            background-color: #fff;
+            border: 2px solid #eee;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #555;
+            text-align: left;
+            width: 100%;
+        }
+
+        .quiz-option-btn:hover {
+            background-color: #f9f9f9;
+            border-color: #ccc;
+        }
+
+        /* 정답/오답 스타일 (자바스크립트로 클래스 추가 시 적용) */
+        .quiz-option-btn.correct {
+            background-color: #e8f5e9;
+            border-color: #4caf50;
+            color: #2e7d32;
+            font-weight: bold;
+        }
+
+        .quiz-option-btn.wrong {
+            background-color: #ffebee;
+            border-color: #ef5350;
+            color: #c62828;
+        }
+
+        .quiz-feedback {
+            min-height: 24px;
+            margin-top: 10px;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .quiz-timer-container {
+            width: 100%;
+            height: 10px;
+            background-color: #eee;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .quiz-timer-bar {
+            height: 100%;
+            width: 100%;
+            background-color: #007bff;
+            transition: width 0.1s linear;
+        }
+
+        @media (max-width: 768px) {
+            .quiz-option-btn {
+                padding: 12px;
+                font-size: 14px;
+            }
+            .quiz-question {
+                font-size: 18px;
+                margin-bottom: 20px;
+            }
+        }
+        body.dark-mode .quiz-progress {
+            color: #ccc;
+        }
+        body.dark-mode .quiz-timer-bar {
+            background-color: #4caf50;
+        }
+    </style>
+    <script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark-mode');
+        }
+    </script>
+</head>
+<body>
+    <!-- 뒤로 가기 버튼 (퀴즈 메인으로 이동) -->
+    <a href="quiz.html" class="back-button">←</a>
+
+    <main>
+        <div class="page-header">
+            <h1>단어 퀴즈</h1>
+        </div>
+
+        <div class="quiz-container">
+            <!-- 진행 상황 -->
+            <div class="quiz-progress">
+                문제 <span id="current-index">1</span> / <span id="total-count">10</span>
+            </div>
+            <div class="quiz-timer-container">
+                <div id="timer-bar" class="quiz-timer-bar"></div>
+            </div>
+
+            <!-- 문제 카드 -->
+            <div class="quiz-card">
+                <div class="quiz-question" id="question-text">
+                </div>
+                <div class="quiz-options" id="options-container"></div>
+            </div>
+
+            <!-- 피드백 메시지 -->
+            <div class="quiz-feedback" id="feedback-msg"></div>
+
+        </div>
+    </main>
+
+    <script>
+        // body에 dark-mode 클래스 적용
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+
+        // 선택된 주제 가져오기
+        const selectedTopics = JSON.parse(localStorage.getItem('quizSelectedTopics')) || [];
+        const currentLang = localStorage.getItem('selectedLanguage') || '한국어';
+
+        if (selectedTopics.length === 0) {
+            alert('선택된 단어 범위가 없습니다.');
+            window.location.href = 'quiz.html';
+        }
+
+        // 퀴즈 데이터 생성
+        const quizData = [];
+        const targetQuestionCount = parseInt(localStorage.getItem('quizQuestionCount')) || (selectedTopics.length * 10);
+
+        // 선택된 주제의 단어들 수집
+        let availableWords = [];
+        selectedTopics.forEach(topic => {
+            if (wordDatabase[topic]) {
+                availableWords = availableWords.concat(wordDatabase[topic]);
+            }
+        });
+
+        // 전체 단어 목록 (오답 보기 생성용)
+        const allWords = Object.keys(wordDefinitions);
+
+        // 문제 생성 로직
+        if (availableWords.length > 0) {
+            for (let i = 0; i < targetQuestionCount; i++) {
+                // 정답 단어 랜덤 선택
+                const targetWord = availableWords[Math.floor(Math.random() * availableWords.length)];
+                const correctDef = getDefinition(targetWord, currentLang);
+
+                // 보기 생성 (정답 1개 + 오답 4개)
+                const options = [{ text: correctDef, isCorrect: true }];
+                
+                while (options.length < 5) {
+                    const randomWord = allWords[Math.floor(Math.random() * allWords.length)];
+                    if (randomWord !== targetWord) {
+                        const wrongDef = getDefinition(randomWord, currentLang);
+                        // 중복된 보기가 없도록 확인
+                        if (!options.some(o => o.text === wrongDef)) {
+                            options.push({ text: wrongDef, isCorrect: false });
+                        }
+                    }
+                }
+
+                // 보기 섞기
+                options.sort(() => Math.random() - 0.5);
+
+                quizData.push({
+                    question: `'${targetWord}'의 뜻으로 알맞은 것은?`,
+                    options: options
+                });
+            }
+        } else {
+            alert('학습할 단어가 없습니다.');
+            window.location.href = 'quiz.html';
+        }
+
+        let currentQuestionIndex = 0;
+        let isAnswered = false;
+        let score = 0;
+        let timerInterval;
+        let quizResults = [];
+
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const feedbackMsg = document.getElementById('feedback-msg');
+        const currentIndexSpan = document.getElementById('current-index');
+        const totalCountSpan = document.getElementById('total-count');
+
+        function loadQuestion() {
+            clearInterval(timerInterval);
+            isAnswered = false;
+            feedbackMsg.textContent = '';
+            startTimer();
+
+            const currentQuiz = quizData[currentQuestionIndex];
+            currentIndexSpan.textContent = currentQuestionIndex + 1;
+            totalCountSpan.textContent = quizData.length;
+
+            questionText.textContent = currentQuiz.question;
+            optionsContainer.innerHTML = '';
+
+            currentQuiz.options.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'quiz-option-btn';
+                btn.textContent = `${index + 1}. ${option.text}`;
+                
+                btn.onclick = () => {
+                    if (isAnswered) return;
+                    isAnswered = true;
+                    clearInterval(timerInterval);
+
+                    quizResults.push({
+                        question: currentQuiz.question,
+                        options: currentQuiz.options.map(o => o.text),
+                        selected: index,
+                        correct: currentQuiz.options.findIndex(o => o.isCorrect),
+                        isCorrect: option.isCorrect
+                    });
+
+                    if (option.isCorrect) {
+                        btn.classList.add('correct');
+                        feedbackMsg.textContent = '정답입니다! 👏';
+                        feedbackMsg.style.color = '#2e7d32';
+                        score++;
+                    } else {
+                        btn.classList.add('wrong');
+                        feedbackMsg.textContent = '오답입니다.';
+                        feedbackMsg.style.color = '#c62828';
+                        
+                        // 정답 표시
+                        const correctBtnIndex = currentQuiz.options.findIndex(o => o.isCorrect);
+                        if (correctBtnIndex !== -1) {
+                            optionsContainer.children[correctBtnIndex].classList.add('correct');
+                        }
+                    }
+                    
+                    // 0.3초 후 다음 문제로 자동 이동
+                    setTimeout(() => {
+                        currentQuestionIndex++;
+                        if (currentQuestionIndex < quizData.length) {
+                            loadQuestion();
+                        } else {
+                            localStorage.setItem('quizResults', JSON.stringify({
+                                score: score,
+                                total: quizData.length,
+                                results: quizResults
+                            }));
+                            window.location.href = 'quiz_result.html';
+                        }
+                    }, 300);
+                };
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function startTimer() {
+            let totalTime = 10;
+            let timeLeft = totalTime;
+            const timerBar = document.getElementById('timer-bar');
+            timerBar.style.width = '100%';
+
+            timerInterval = setInterval(() => {
+                timeLeft -= 0.05;
+                const percentage = (timeLeft / totalTime) * 100;
+                timerBar.style.width = `${percentage}%`;
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    handleTimeout();
+                }
+            }, 50);
+        }
+
+        function handleTimeout() {
+            if (isAnswered) return;
+            isAnswered = true;
+            feedbackMsg.textContent = '시간 초과!';
+            feedbackMsg.style.color = '#c62828';
+
+            const currentQuiz = quizData[currentQuestionIndex];
+            quizResults.push({
+                question: currentQuiz.question,
+                options: currentQuiz.options.map(o => o.text),
+                selected: -1,
+                correct: currentQuiz.options.findIndex(o => o.isCorrect),
+                isCorrect: false
+            });
+            
+            // 정답 표시
+            const correctBtnIndex = currentQuiz.options.findIndex(o => o.isCorrect);
+            if (correctBtnIndex !== -1) {
+                optionsContainer.children[correctBtnIndex].classList.add('correct');
+            }
+
+            // 시간 초과 시에는 정답을 확인할 수 있도록 1초 대기
+            setTimeout(() => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < quizData.length) {
+                    loadQuestion();
+                } else {
+                    localStorage.setItem('quizResults', JSON.stringify({
+                        score: score,
+                        total: quizData.length,
+                        results: quizResults
+                    }));
+                    window.location.href = 'quiz_result.html';
+                }
+            }, 1000);
+        }
+
+        // 첫 문제 로드
+        loadQuestion();
+    </script>
+</body>
+</html>

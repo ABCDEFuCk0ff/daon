@@ -1,0 +1,1257 @@
+body {
+    background-color: white; /* 배경을 흰색으로 고정 */
+    margin: 0; /* 기본 여백 제거 */
+    /* 하단 메뉴에 내용이 가려지지 않도록 여백 추가 */
+    padding-bottom: 80px; 
+    font-family: sans-serif;
+}
+
+/* 하단 메뉴 바 스타일 */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch; /* 높이를 꽉 채우도록 설정 */
+    border-top: 1px solid #ccc;
+}
+
+.bottom-nav a {
+    flex: 1; /* 5등분으로 균등 분할 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    color: #333; /* 어두운 글자색 */
+    border-radius: 0;
+    text-decoration: none; /* 링크 밑줄 제거 */
+    text-align: center;
+    cursor: pointer;
+    font-size: 10px;
+    gap: 4px;
+    transition: all 0.2s ease-in-out;
+    box-sizing: border-box;
+    margin: 0;
+    border-right: 1px solid #ccc;
+}
+
+.bottom-nav a:last-child {
+    border-right: none;
+}
+
+.bottom-nav a:hover {
+    background-color: #e0e0e0;
+}
+
+.bottom-nav a.active {
+    background-color: #444; /* 선택된 버튼은 짙은 회색 */
+    color: white; /* 선택된 버튼의 글자색은 흰색 */
+}
+
+.bottom-nav a svg {
+    width: 24px;
+    height: 24px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+main {
+    max-width: 960px; /* 콘텐츠 최대 너비를 제한 */
+    margin: 0 auto; /* 좌우 여백을 자동으로 설정해 중앙 정렬 */
+    padding: 40px;
+    text-align: center;
+}
+
+.learning-section {
+    margin-top: 20px;
+    padding: 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    text-align: left;
+}
+
+.learning-section h2 {
+    margin-top: 0;
+}
+
+.button-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-top: 16px;
+}
+
+.grid-button {
+    padding: 20px;
+    background-color: #f0f0f0;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    text-align: center;
+    text-decoration: none;
+    color: #333;
+    font-size: 16px;
+    transition: all 0.2s ease-in-out;
+    box-sizing: border-box;
+}
+
+.grid-button:hover {
+    background-color: #f0f0f0;
+    border-color: black;
+}
+
+.page-header {
+    position: relative;
+    text-align: center;
+    padding: 10px 0;
+    margin-bottom: 20px;
+}
+
+.page-header h1 {
+    margin: 0;
+    display: inline-block;
+}
+
+.back-button, .home-button {
+    position: fixed;
+    top: 20px;
+    z-index: 100;
+    text-decoration: none;
+    color: #333;
+    font-size: 24px;
+    border: none;
+    padding: 10px;
+    background-color: transparent;
+    transition: all 0.2s ease-in-out;
+}
+
+.back-button { left: 20px; }
+.home-button { right: 20px; }
+
+.back-button:hover, .home-button:hover {
+    transform: scale(1.1);
+}
+
+.novel-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 가로 5개 배치 */
+    gap: 5px; /* 버튼 사이 간격 */
+    margin-top: 20px;
+}
+
+.novel-button {
+    padding: 10px 2px;
+    background-color: #f0f0f0;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+    color: #333;
+    font-size: 14px; /* 글자 크기 키움 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px; /* 버튼 높이 통일 */
+    transition: all 0.2s ease-in-out;
+    box-sizing: border-box;
+}
+
+.novel-button:hover {
+    background-color: #f0f0f0;
+    border-color: black;
+}
+
+.novel-button.highlight {
+    background-color: #444;
+    color: white;
+}
+
+.novel-button.completed {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border-color: #4caf50;
+}
+
+.novel-button.history-item {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border-color: #4caf50;
+    justify-content: space-between;
+    padding: 0 15px;
+}
+
+.search-input {
+    width: 90%;
+    max-width: 400px;
+    padding: 10px 15px;
+    margin: 0 auto 20px;
+    display: block;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.no-results-message {
+    display: none; /* 기본적으로 숨김 */
+    text-align: center;
+    margin-top: 20px;
+}
+
+.detail-content {
+    text-align: left;
+    padding: 20px;
+    line-height: 1.8;
+}
+
+.detail-content h3 {
+    color: #0056b3; /* 라이트 모드: 파란색 */
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+    margin-top: 30px;
+}
+
+body.dark-mode .detail-content h3 {
+    color: #4caf50; /* 다크 모드: 초록색 */
+    border-bottom-color: #333;
+}
+
+.home-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* 화면 전체 높이 */
+    padding: 40px;
+    box-sizing: border-box;
+}
+
+.start-button {
+    margin-top: 20px;
+    padding: 15px 30px;
+    font-size: 18px;
+    background-color: #444;
+    border: 2px solid transparent;
+    color: white;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: all 0.2s ease-in-out; /* 부드러운 전환 효과 추가 */
+    box-sizing: border-box;
+}
+
+.start-button:hover {
+    background-color: #f0f0f0;
+    border-color: black;
+    color: black;
+}
+
+.word-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* 칸 사이의 간격 */
+    margin-top: 20px;
+    align-items: center;
+}
+
+.word-list-item {
+    width: 50%;
+    padding: 20px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    text-align: left;
+    color: #333;
+    font-size: 16px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.word-text {
+    flex: 1;
+}
+
+.word-definition {
+    font-size: 0.9em;
+    color: #666;
+}
+
+/* Analysis Page Styles */
+.chat-page {
+    overflow: hidden;
+}
+
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    /* 화면 높이에서 헤더, 네비게이션 등 다른 요소의 높이를 뺀 값으로 조정하세요. */
+    height: calc(100vh - 260px); 
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 20px;
+    background-color: #fff;
+}
+
+.chat-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.chat-box {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+@keyframes message-fade-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.chat-message {
+    max-width: 80%;
+    padding: 10px 15px;
+    border-radius: 20px;
+    line-height: 1.5;
+    word-wrap: break-word;
+    text-align: left;
+    animation: message-fade-in 0.3s ease-out;
+}
+
+.chat-message.user {
+    background-color: #007bff;
+    color: white;
+    align-self: flex-end;
+    border-bottom-right-radius: 5px;
+    white-space: pre-wrap;
+}
+
+.chat-message.ai {
+    background-color: #e9e9eb;
+    color: black;
+    align-self: flex-start;
+    border-bottom-left-radius: 5px;
+}
+
+.chat-message.ai p { margin: 0 0 5px 0; }
+.chat-message.ai p:last-child { margin-bottom: 0; }
+.chat-message.ai ul, .chat-message.ai ol { margin: 5px 0; padding-left: 20px; }
+.chat-message.ai strong { font-weight: bold; }
+.chat-message.ai code { background-color: #f0f0f0; padding: 2px 4px; border-radius: 4px; font-family: monospace; }
+.chat-message.ai pre { background-color: #f0f0f0; padding: 10px; border-radius: 8px; overflow-x: auto; }
+
+.chat-message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    align-self: flex-start;
+    border-bottom-left-radius: 5px;
+}
+
+.chat-input-container {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+    background-color: #fff;
+}
+
+#user-input {
+    flex-grow: 1;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    padding: 10px 15px;
+    font-size: 16px;
+    margin-right: 10px;
+    outline: none;
+}
+
+#user-input:focus {
+    border-color: #007bff;
+}
+
+#send-button {
+    border: none;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s;
+}
+
+#send-button:hover {
+    background-color: #0056b3;
+}
+
+#send-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.suggestion-container {
+    padding: 10px 20px;
+    border-top: 1px solid #ddd;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.suggestion-button {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    padding: 8px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.suggestion-button:hover {
+    background-color: #f0f0f0;
+}
+
+.typing-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 24px;
+    padding: 5px 0;
+}
+
+.typing-indicator span {
+    display: block;
+    width: 6px;
+    height: 6px;
+    background-color: #888;
+    border-radius: 50%;
+    margin: 0 3px;
+    animation: typing 1.4s infinite ease-in-out both;
+}
+
+.typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+.typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes typing {
+    0%, 80%, 100% { transform: scale(0); }
+    40% { transform: scale(1); }
+}
+
+/* My Page Styles */
+.my-menu-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.my-menu-button {
+    width: 100%;
+    padding: 15px 20px;
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    text-align: left;
+    cursor: pointer;
+    color: #333;
+}
+
+.my-menu-button:hover {
+    background-color: #e0e0e0;
+}
+
+.my-menu-button.active {
+    background-color: #444;
+    color: white;
+}
+
+/* Responsive Content Width */
+.learning-section,
+.chat-container,
+.my-menu-list,
+.quiz-menu-grid,
+.quiz-select-grid,
+.suggestion-section {
+    width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media (max-width: 768px) {
+    .learning-section,
+    .chat-container,
+    .my-menu-list,
+    .quiz-menu-grid,
+    .quiz-select-grid,
+    .suggestion-section {
+        width: 90%;
+    }
+
+    /* Mobile Button Sizing */
+    .grid-button {
+        padding: 15px;
+        font-size: 14px;
+    }
+
+    .novel-button {
+        height: 40px;
+        font-size: 12px;
+    }
+
+    .quiz-select-button {
+        height: 60px;
+        font-size: 13px;
+        padding: 5px;
+    }
+
+    .my-menu-button {
+        padding: 12px 15px;
+        font-size: 14px;
+    }
+
+    .start-button {
+        padding: 12px 20px;
+        font-size: 16px;
+    }
+
+    .action-btn {
+        padding: 6px 12px;
+        font-size: 13px;
+    }
+
+    /* Mobile Text & Layout Adjustments */
+    body {
+        font-size: 14px;
+        padding-bottom: 70px;
+    }
+
+    .page-header h1 {
+        font-size: 22px;
+    }
+
+    h2 { font-size: 18px; }
+    h3 { font-size: 16px; }
+    
+    .word-group h3 {
+        font-size: 16px;
+    }
+
+    .bottom-nav {
+        height: 50px;
+    }
+    .bottom-nav a {
+        font-size: 0; /* 모바일에서 텍스트 숨기기 */
+        gap: 0; /* 아이콘과 텍스트 사이 간격 제거 */
+    }
+    .bottom-nav a svg {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+.login-input {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    width: 250px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+/* Toast Popup Styles */
+.toast {
+    visibility: hidden;
+    min-width: 250px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 8px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1000;
+    left: 50%;
+    bottom: 30px;
+    transform: translateX(-50%);
+    font-size: 16px;
+    opacity: 0;
+    transition: opacity 0.3s, bottom 0.3s;
+}
+
+.toast.show {
+    visibility: visible;
+    opacity: 1;
+    bottom: 50px;
+}
+
+.toast.success {
+    background-color: #28a745; /* 초록색 */
+}
+
+.toast.error {
+    background-color: #dc3545; /* 빨간색 */
+}
+
+.toast.top {
+    bottom: auto;
+    top: 30px;
+    transition: opacity 0.3s, top 0.3s;
+}
+
+.toast.top.show {
+    top: 50px;
+}
+
+.toast.white {
+    background-color: #ffffff;
+    color: #333333;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* Tooltip Styles for Difficult Words */
+.tooltip {
+    border-bottom: 1px solid #0056b3; /* 실선 밑줄 */
+    cursor: help;
+    position: relative;
+    color: #0056b3; /* 파란색으로 강조 */
+    font-weight: 500;
+}
+
+.tooltip:hover::after,
+.tooltip.active::after {
+    content: attr(data-tooltip); /* data-tooltip 속성 값을 내용으로 표시 */
+    position: absolute;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    width: max-content;
+    max-width: 350px; /* 가로 폭을 더 넓게 수정 */
+    white-space: normal; /* 텍스트가 길면 줄바꿈 허용 */
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    text-align: center;
+    line-height: 1.4;
+    pointer-events: none;
+}
+
+.tooltip:hover::before,
+.tooltip.active::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent; /* 말풍선 화살표 */
+    z-index: 1000;
+}
+
+/* Action Bar Styles in Detail Page */
+.action-container {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+}
+
+.status-row {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.action-btn {
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: 1px solid #ddd;
+    background-color: white;
+    cursor: pointer;
+    font-size: 14px;
+    color: #555;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.action-btn:hover {
+    background-color: #f5f5f5;
+    border-color: #bbb;
+}
+
+.nav-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.nav-btn {
+    font-weight: bold;
+    color: #333;
+}
+
+.action-btn.disabled {
+    background-color: #f9f9f9;
+    color: #ccc;
+    border-color: #eee;
+    cursor: not-allowed;
+    pointer-events: none; /* 클릭 방지 */
+}
+
+/* Favorite Button Active Style */
+.action-btn.favorite {
+    background-color: #fffde7; /* 연한 노란색 배경 */
+    color: #f9a825; /* 진한 노란색 텍스트 */
+    border-color: #fdd835;
+}
+
+.action-btn.favorite svg {
+    fill: #fdd835; /* 아이콘 채우기 */
+    stroke: #f9a825;
+}
+
+/* Completed Button Active Style */
+.action-btn.completed {
+    background-color: #e8f5e9; /* 연한 초록색 배경 */
+    color: #2e7d32; /* 진한 초록색 텍스트 */
+    border-color: #4caf50;
+}
+
+/* Star Rating Styles */
+.star-rating {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+
+.star {
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    stroke: #ccc;
+    fill: transparent;
+    transition: all 0.2s;
+}
+
+.star.active {
+    stroke: #f9a825;
+    fill: #fdd835;
+}
+
+.star:hover {
+    transform: scale(1.1);
+}
+
+.rating-label {
+    font-size: 12px;
+    color: #888;
+    width: 50px; /* 라벨 너비를 고정하여 별점이 정중앙에 오도록 함 */
+    text-align: center;
+}
+
+.difficulty-label {
+    text-align: center;
+    font-size: 12px;
+    color: #888;
+    margin: 20px 0 -10px;
+}
+
+/* Floating Navigation Buttons */
+.floating-nav-btn {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 100;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    background-color: white;
+    border-radius: 30px;
+    min-width: 50px;
+    justify-content: center;
+}
+
+#prev-btn.floating-nav-btn {
+    left: 20px;
+}
+
+#next-btn.floating-nav-btn {
+    right: 20px;
+}
+
+/* 화면이 넓을 때 여백의 중앙에 배치 */
+@media (min-width: 1200px) {
+    #prev-btn.floating-nav-btn {
+        left: calc((100vw - 960px) / 4);
+        transform: translate(-50%, -50%);
+    }
+    #next-btn.floating-nav-btn {
+        right: calc((100vw - 960px) / 4);
+        transform: translate(50%, -50%);
+    }
+}
+
+/* 모바일에서는 텍스트 숨기고 아이콘만 표시 */
+@media (max-width: 768px) {
+    .floating-nav-btn .btn-text {
+        display: none;
+    }
+    .floating-nav-btn {
+        width: 40px;
+        height: 40px;
+        padding: 0;
+        border-radius: 50%;
+    }
+}
+
+/* Wordbook Page Scroll Styles */
+.wordbook-page {
+    overflow: hidden;
+}
+
+.wordbook-content {
+    height: calc(100vh - 220px); /* 헤더와 하단 바 공간을 제외한 높이 */
+    overflow-y: auto;
+    padding: 0 40px 20px; /* 상단 0, 좌우 40px, 하단 20px */
+    margin: 0 -40px; /* 스크롤바를 양쪽 끝으로 확장하여 main 패딩 상쇄 */
+}
+
+/* Custom Scrollbar Design */
+.wordbook-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.wordbook-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.wordbook-content::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+.wordbook-content::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+/* Tooltip for Floating Navigation Buttons */
+.floating-nav-btn[data-tooltip]:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 1000;
+    pointer-events: none;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.floating-nav-btn[data-tooltip]:hover::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+/* Page Transition Animations */
+@keyframes slide-out-left {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(-50px); opacity: 0; }
+}
+
+@keyframes slide-out-right {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(50px); opacity: 0; }
+}
+
+.page-slide-left {
+    animation: slide-out-left 0.3s ease-out forwards;
+}
+
+.page-slide-right {
+    animation: slide-out-right 0.3s ease-out forwards;
+}
+
+/* Incoming Page Animations */
+@keyframes slide-in-from-right {
+    from { transform: translateX(50px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slide-in-from-left {
+    from { transform: translateX(-50px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.page-slide-in-right {
+    animation: slide-in-from-right 0.3s ease-out forwards;
+}
+
+.page-slide-in-left {
+    animation: slide-in-from-left 0.3s ease-out forwards;
+}
+
+.page-fade-in {
+    animation: fade-in 0.5s ease-out forwards;
+}
+
+/* Old Hangul Support */
+.old-hangul {
+    font-family: 'UnBatang', 'Batang', 'Malgun Gothic', 'Apple SD Gothic Neo', 'Dotum', sans-serif;
+}
+
+/* 상세 설명이 없는 작품 버튼 스타일 (강조) */
+.novel-button.no-detail {
+    border: 2px solid #d9534f; /* 빨간색 테두리 */
+    font-weight: bold;
+}
+
+/* 상세 설명이 있는 작품 버튼 스타일 (강조) */
+.novel-button.has-detail {
+    border: 2px solid #0056b3; /* 파란색 테두리 */
+    font-weight: bold;
+}
+
+/* 작품 갈래 태그 스타일 */
+.genre-tag {
+    display: inline-block;
+    background-color: #e9ecef;
+    color: #495057;
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 13px;
+    margin-top: 8px;
+    font-family: sans-serif;
+    font-weight: 500;
+}
+
+/* Favorites & History Section Styles */
+.favorites-section {
+    margin-bottom: 30px;
+}
+.favorites-section h2 {
+    font-size: 18px;
+    border-bottom: 2px solid #333;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+.no-data {
+    color: #888;
+    text-align: center;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+}
+
+.language-display {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 100;
+    font-size: 14px;
+    color: #555;
+    font-weight: bold;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 5px 10px;
+    border-radius: 15px;
+    border: 1px solid #ddd;
+}
+
+/* Quiz Selection Page Styles */
+.quiz-select-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3열 배치 */
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.quiz-select-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    background-color: #f5f5f5; /* 기본 상태: 비활성화 느낌 */
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    text-decoration: none;
+    color: #aaa; /* 글자색 흐리게 */
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    height: 80px; /* 버튼 높이 고정 */
+    box-shadow: none;
+    transition: all 0.2s;
+    word-break: keep-all; /* 단어 중간 끊김 방지 */
+    cursor: pointer;
+}
+
+.quiz-select-button:hover {
+    background-color: #eee;
+    color: #888;
+}
+
+.quiz-select-button.selected {
+    background-color: #fff; /* 선택 상태: 활성화 느낌 (기본 버튼처럼) */
+    color: #333;
+    border: 2px solid #333;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
+}
+
+.quiz-select-button.disabled {
+    background-color: #e0e0e0; /* 회색 배경 */
+    color: #999; /* 흐린 글자색 */
+    border-color: #d0d0d0;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* All Word List Page Styles */
+.all-word-list {
+    text-align: left;
+    padding: 10px;
+}
+
+.word-group {
+    margin-bottom: 25px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+}
+
+.word-group:last-child {
+    border-bottom: none;
+}
+
+.word-group h3 {
+    margin: 0 0 10px 0;
+    color: #333;
+    font-size: 18px;
+    border-left: 4px solid #444;
+    padding-left: 10px;
+}
+
+.word-group p {
+    margin: 0;
+    line-height: 1.8;
+    color: #555;
+    word-break: keep-all;
+    font-size: 15px;
+}
+
+/* Dark Mode Styles */
+body.dark-mode {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+body.dark-mode .login-card,
+body.dark-mode .quiz-card,
+body.dark-mode .progress-item,
+body.dark-mode .score-card,
+body.dark-mode .wrong-answer-card,
+body.dark-mode .chat-container,
+body.dark-mode .chat-input-container,
+body.dark-mode .suggestion-container,
+body.dark-mode .learning-section,
+body.dark-mode .word-list-item {
+    background-color: #1e1e1e;
+    border-color: #333;
+    color: #e0e0e0;
+}
+
+body.dark-mode .bottom-nav {
+    background-color: #1e1e1e;
+    border-top-color: #333;
+}
+
+body.dark-mode .bottom-nav a {
+    color: #b0b0b0;
+    border-right-color: #333;
+}
+
+body.dark-mode .bottom-nav a.active {
+    background-color: #333;
+    color: #fff;
+}
+
+body.dark-mode .my-menu-button,
+body.dark-mode .grid-button,
+body.dark-mode .novel-button,
+body.dark-mode .quiz-select-button,
+body.dark-mode .suggestion-button,
+body.dark-mode .action-btn {
+    background-color: #2c2c2c;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .my-menu-button:hover,
+body.dark-mode .grid-button:hover,
+body.dark-mode .novel-button:hover,
+body.dark-mode .quiz-select-button:hover,
+body.dark-mode .suggestion-button:hover,
+body.dark-mode .action-btn:hover {
+    background-color: #3a3a3a;
+}
+
+body.dark-mode .page-header h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode .word-group h3 {
+    color: #e0e0e0;
+}
+
+body.dark-mode .word-group {
+    border-bottom-color: #333;
+}
+
+body.dark-mode .info-input,
+body.dark-mode .login-input,
+body.dark-mode .search-input,
+body.dark-mode #user-input {
+    background-color: #2c2c2c;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .back-button,
+body.dark-mode .home-button {
+    color: #e0e0e0;
+}
+
+body.dark-mode .chat-box {
+    background-color: #121212;
+}
+
+body.dark-mode .chat-message.ai {
+    background-color: #2c2c2c;
+    color: #e0e0e0;
+}
+
+body.dark-mode .chat-message.ai code,
+body.dark-mode .chat-message.ai pre {
+    background-color: #121212;
+}
+
+body.dark-mode .no-data {
+    background-color: #1e1e1e;
+    color: #ccc;
+}
+
+body.dark-mode .progress-bar-bg {
+    background-color: #333;
+}
+
+body.dark-mode .quiz-option-btn {
+    background-color: #2c2c2c;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode .quiz-option-btn:hover {
+    background-color: #3a3a3a;
+}
+
+body.dark-mode .quiz-question {
+    color: #e0e0e0;
+}
+
+body.dark-mode .word-group p {
+    color: #bbb;
+}
+
+body.dark-mode .novel-button.completed {
+    background-color: #2e7d32; /* 기존 유지 */
+    color: #fff; /* 더 밝은 색으로 변경 */
+    border-color: #1b5e20; /* 기존 유지 */
+}
+
+body.dark-mode .action-btn.favorite {
+    background-color: #3e2723;
+    color: #ffd54f;
+    border-color: #fbc02d;
+}
+
+body.dark-mode .action-btn.completed {
+    background-color: #2e7d32; /* 더 밝은 초록색 배경 */
+    color: #fff; /* 흰색 텍스트 */
+    border-color: #1b5e20;
+}
+
+body.dark-mode .quiz-select-button {
+    color: #888; /* 선택 안 된 버튼 글자색 어둡게 */
+}
+
+body.dark-mode .quiz-select-button.selected {
+    background-color: #666; /* 선택된 버튼 배경 밝은 회색 */
+    color: #fff; /* 선택된 버튼 글자 흰색 */
+    border-color: #fff; /* 테두리 흰색으로 강조 */
+    box-shadow: 0 2px 6px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .rating-label,
+body.dark-mode .difficulty-label,
+body.dark-mode .word-definition {
+    color: #ccc;
+}
+
+body.dark-mode .tooltip {
+    color: #ffd54f;
+    border-bottom-color: #ffd54f;
+}
+
+/* Mobile Only Utility */
+.mobile-only {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .mobile-only {
+        display: block;
+    }
+}

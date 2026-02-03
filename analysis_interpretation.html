@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>분석과 해석 방법 - 단어장</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        if (!localStorage.getItem('isLoggedIn')) {
+            window.location.href = 'index.html';
+        }
+    </script>
+    <script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark-mode');
+        }
+    </script>
+</head>
+<body>
+    <a href="wordbook.html" class="back-button">←</a>
+    <main>
+        <div class="page-header">
+            <h1>분석과 해석 방법</h1>
+        </div>
+        <div class="word-list-container" id="word-list">
+            <!-- 자바스크립트로 단어 목록이 생성됩니다 -->
+        </div>
+    </main>
+
+    <script>
+        // body에 dark-mode 클래스 적용
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+
+        // 현재 선택된 언어 가져오기 (기본값: 한국어)
+        const currentLang = localStorage.getItem('selectedLanguage') || '한국어';
+
+        // 페이지 제목 다국어 지원
+        const pageTitles = {
+            "한국어": "분석과 해석 방법",
+            "영어": "Analysis and Interpretation Methods",
+            "중국어": "分析与解释方法",
+            "일본어": "分析と解釈の方法",
+            "베트남어": "Phương pháp phân tích và giải thích",
+            "태국어": "วิธีการวิเคราะห์และการตีความ",
+            "러시아어": "Методы анализа и интерпретации",
+            "필리핀어": "Mga Paraan ng Pagsusuri at Interpretasyon",
+            "캄보디아어": "វិធីសាស្រ្តវិភាគ និងបកស្រាយ"
+        };
+        document.querySelector('.page-header h1').textContent = pageTitles[currentLang] || pageTitles['한국어'];
+        document.title = (pageTitles[currentLang] || pageTitles['한국어']) + " - 단어장";
+
+        // 단어 데이터
+        const words = [
+            { term: "분석", definitions: { "한국어": "얽혀 있거나 복잡한 것을 풀어서 개별적인 요소나 성질로 나눔.", "영어": "Analysis: Detailed examination of the elements or structure of something.", "중국어": "分析：将复杂的事物分解为简单的要素。", "일본어": "分析：複雑な事柄を一つ一つの要素や成分に分けること。", "베트남어": "Phân tích: Chia nhỏ sự vật để tìm hiểu.", "태국어": "การวิเคราะห์: การแยกแยะองค์ประกอบ", "러시아어": "Анализ: Разбор целого на составные части.", "필리핀어": "Pagsusuri: Detalyadong eksaminasyon.", "캄보디아어": "ការវិភាគ: ការពិនិត្យលម្អិត" } },
+            { term: "해석", definitions: { "한국어": "문장이나 사물 따위의 뜻을 풀이함.", "영어": "Interpretation: The action of explaining the meaning of something.", "중국어": "解释：说明含义。", "일본어": "解釈：言葉や文章の意味を説き明かすこと。", "베트남어": "Giải thích: Làm rõ nghĩa.", "태국어": "การตีความ: การอธิบายความหมาย", "러시아어": "Интерпретация: Истолкование смысла.", "필리핀어": "Interpretasyon: Pagpapaliwanag ng kahulugan.", "캄보디아어": "ការបកស្រាយ: ការពន្យល់អត្ថន័យ" } },
+            { term: "관점", definitions: { "한국어": "사물이나 현상을 관찰할 때, 그 사람이 보고 생각하는 태도나 방향.", "영어": "Perspective: A particular attitude toward or way of regarding something.", "중국어": "观点：观察事物时所处的立场或出发点。", "일본어": "観点：物事を見たり考えたりする立場。", "베트남어": "Quan điểm: Cách nhìn nhận vấn đề.", "태국어": "มุมมอง: ทัศนคติในการมองสิ่งต่างๆ", "러시아어": "Точка зрения: Позиция, с которой рассматривается что-либо.", "필리핀어": "Pananaw: Paraan ng pagtingin sa mga bagay.", "캄보디아어": "ទស្សនៈ: របៀបនៃការមើលឃើញ" } },
+            { term: "비평", definitions: { "한국어": "사물의 옳고 그름, 아름다움과 추함 따위를 분석하여 가치를 논함.", "영어": "Criticism: The analysis and judgment of the merits and faults of a literary or artistic work.", "중국어": "批评：评论好坏。", "일본어": "批評：物事の善悪・美醜などを評価し論じること。", "베트남어": "Phê bình: Đánh giá ưu khuyết điểm.", "태국어": "การวิจารณ์: การตัดสินคุณค่า", "러시아어": "Критика: Разбор и оценка.", "필리핀어": "Kritisismo: Pagsusuri at paghatol.", "캄보디아어": "ការរិះគន់: ការវាយតម្លៃលើគុណសម្បត្តិនិងគុណវិបត្តិ" } },
+            { term: "통찰", definitions: { "한국어": "예리한 관찰력으로 사물을 꿰뚫어 봄.", "영어": "Insight: The capacity to gain an accurate and deep intuitive understanding.", "중국어": "洞察：敏锐地观察。", "일본어": "洞察：物事の本質を見抜くこと。", "베트남어": "Sự thấu hiểu: Nhìn thấu bản chất.", "태국어": "ความเข้าใจลึกซึ้ง: การมองเห็นทะลุปรุโปร่ง", "러시아어": "Проницательность: Способность глубоко понимать суть.", "필리핀어": "Kaalaman: Malalim na pag-unawa.", "캄보디아어": "ការយល់ដឹងស៊ីជម្រៅ: ការមើលឃើញច្បាស់" } }
+        ];
+
+        const listContainer = document.getElementById('word-list');
+        
+        function renderList() {
+            // 로컬 스토리지에서 저장된 상태 불러오기
+            listContainer.innerHTML = '';
+            words.forEach(word => {
+                const item = document.createElement('div');
+                item.className = 'word-list-item';
+                
+                // 선택된 언어에 맞는 뜻 가져오기 (없으면 한국어 기본값)
+                const definition = word.definitions[currentLang] || word.definitions['한국어'];
+
+                item.innerHTML = `
+                    <div class="word-text">
+                        <strong>${word.term}</strong><br>
+                        <span style="font-size: 0.9em; color: #666;">${definition}</span>
+                    </div>
+                `;
+                listContainer.appendChild(item);
+            });
+        }
+
+        renderList();
+    </script>
+</body>
+</html>

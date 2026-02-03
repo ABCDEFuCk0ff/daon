@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>탐구·논술·보고서 핵심 - 단어장</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        if (!localStorage.getItem('isLoggedIn')) {
+            window.location.href = 'index.html';
+        }
+    </script>
+    <script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark-mode');
+        }
+    </script>
+</head>
+<body>
+    <a href="wordbook.html" class="back-button">←</a>
+    <main>
+        <div class="page-header">
+            <h1>탐구·논술·보고서 핵심</h1>
+        </div>
+        <div class="word-list-container" id="word-list">
+            <!-- 자바스크립트로 단어 목록이 생성됩니다 -->
+        </div>
+    </main>
+    <script src="word_data.js"></script>
+    <script>
+        // body에 dark-mode 클래스 적용
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+        renderWordPage("탐구·논술·보고서 핵심");
+    </script>
+</body>
+</html>

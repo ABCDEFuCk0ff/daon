@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>퀴즈</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        if (!localStorage.getItem('isLoggedIn') && !localStorage.getItem('isGuest')) {
+            window.location.href = 'index.html';
+        }
+    </script>
+    <script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark-mode');
+        }
+    </script>
+    <style>
+        .range-select-label {
+            margin-top: 10px;
+            color: #666;
+            font-size: 16px;
+        }
+        body.dark-mode .range-select-label {
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div id="toast" class="toast top"></div>
+    <main>
+        <header class="page-header">
+            <h1>퀴즈 페이지</h1>
+            <p class="range-select-label">범위 선택</p>
+        </header>
+        <div class="quiz-select-grid">
+            <!-- 국어·논술 -->
+            <button class="quiz-select-button">논리적 사고와 분석</button>
+            <button class="quiz-select-button">논증과 비판적 사고</button>
+            <button class="quiz-select-button">탐구·논술·보고서 핵심</button>
+            
+            <!-- 사회·윤리 -->
+            <button class="quiz-select-button">사회·정치 체계</button>
+            <button class="quiz-select-button">사회적 상호작용과 창의</button>
+            <button class="quiz-select-button">현대 사회 문제</button>
+            
+            <!-- 수학·과학 -->
+            <button class="quiz-select-button">지구·물리 기본 개념</button>
+            <button class="quiz-select-button">기초 수학 개념</button>
+            <button class="quiz-select-button">수학 개념</button>
+            
+            <!-- 학교생활 -->
+            <button class="quiz-select-button">한국 교육 제도·입시 용어</button>
+        </div>
+
+        <div id="slider-container" style="display: none; margin-top: 40px; width: 90%; max-width: 400px; margin-left: auto; margin-right: auto; text-align: center;">
+            <label for="question-range" style="font-weight: bold; display: block; margin-bottom: 15px; font-size: 16px;">
+                문제 수: <span id="question-count-val" style="color: #007bff;">10</span>개
+            </label>
+            <input type="range" id="question-range" min="10" max="10" step="10" value="10" style="width: 100%; cursor: pointer;">
+        </div>
+
+        <div style="margin-top: 30px; text-align: center;">
+            <button id="start-quiz-btn" class="start-button" style="width: 100%; max-width: 300px;">퀴즈 풀기</button>
+        </div>
+    </main>
+    <nav class="bottom-nav">
+        <a href="learning.html">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+            학습
+        </a>
+        <a href="analysis.html">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
+            분석
+        </a>
+        <a href="wordbook.html">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+            단어장
+        </a>
+        <a href="quiz.html" class="active">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+            퀴즈
+        </a>
+        <a href="my-page.html">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            MY
+        </a>
+    </nav>
+
+    <script>
+        const toast = document.getElementById('toast');
+
+        // body에 dark-mode 클래스 적용
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+
+        function showToast(message, type = 'success') {
+            toast.textContent = message;
+            toast.className = 'toast top'; 
+            toast.classList.add(type);
+            toast.classList.add("show");
+
+            setTimeout(() => { toast.classList.remove("show"); }, 1000);
+        }
+
+        document.addEventListener('keydown', function(event) {
+            switch(event.key) {
+                case '1': window.location.href = 'learning.html'; break;
+                case '2': window.location.href = 'analysis.html'; break;
+                case '3': window.location.href = 'wordbook.html'; break;
+                case '4': window.location.href = 'quiz.html'; break;
+                case '5': window.location.href = 'my-page.html'; break;
+            }
+        });
+
+        // 버튼 선택 효과 및 퀴즈 시작 로직
+        const buttons = document.querySelectorAll('.quiz-select-button');
+        const sliderContainer = document.getElementById('slider-container');
+        const rangeInput = document.getElementById('question-range');
+        const rangeVal = document.getElementById('question-count-val');
+
+        function updateSlider() {
+            const selectedCount = document.querySelectorAll('.quiz-select-button.selected').length;
+            if (selectedCount === 0) {
+                sliderContainer.style.display = 'none';
+            } else {
+                sliderContainer.style.display = 'block';
+                const maxQuestions = selectedCount * 10;
+                rangeInput.max = maxQuestions;
+                if (parseInt(rangeInput.value) > maxQuestions) rangeInput.value = maxQuestions;
+                rangeVal.textContent = rangeInput.value;
+            }
+        }
+
+        buttons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                btn.classList.toggle('selected');
+                updateSlider();
+            });
+        });
+
+        rangeInput.addEventListener('input', function() {
+            rangeVal.textContent = this.value;
+        });
+
+        document.getElementById('start-quiz-btn').addEventListener('click', () => {
+            const selected = document.querySelectorAll('.quiz-select-button.selected');
+            if (selected.length === 0) {
+                alert('최소 하나의 범위를 선택해주세요.');
+                return;
+            }
+            
+            // 선택된 주제들을 저장 (추후 퀴즈 페이지에서 활용 가능)
+            const selectedTopics = Array.from(selected).map(btn => btn.textContent.trim());
+            localStorage.setItem('quizSelectedTopics', JSON.stringify(selectedTopics));
+            localStorage.setItem('quizQuestionCount', rangeInput.value);
+            
+            window.location.href = 'quiz_word.html';
+        });
+    </script>
+</body>
+</html>

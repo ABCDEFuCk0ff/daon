@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body { background-color: #f9f9f9; }
+        .login-card {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+            max-width: 320px;
+            align-items: center;
+        }
+        .login-input { width: 100%; }
+        .start-button { width: 100%; margin-top: 10px; }
+        .login-status-text {
+            margin-bottom: 10px; font-size: 14px; color: #666; text-align: center;
+        }
+        .user-info-text {
+            margin-top: 10px; font-size: 14px; color: #333; text-align: center;
+        }
+        body.dark-mode .login-status-text,
+        body.dark-mode .user-info-text {
+            color: #ccc;
+        }
+    </style>
+    <script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark-mode');
+        }
+    </script>
+</head>
+<body>
+    <div class="home-container">
+        <h1>로그인</h1>
+        <div class="login-card">
+            <div id="login-status" class="login-status-text">로그인 상태 확인 중...</div>
+            <button id="google-login-btn" class="start-button" style="background-color: #4285F4; color: white; border: none; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><path fill="#fff" d="M17.64 9.2c0-.637-.057-1.252-.164-1.841H9v3.481h4.844a4.14 4.14 0 0 1-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/><path fill="#fff" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.715H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#fff" d="M3.964 10.706a5.41 5.41 0 0 1-.282-1.706c0-.593.102-1.17.282-1.706V4.962H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.038l3.007-2.332z"/><path fill="#fff" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.962l3.007 2.332C4.672 5.163 6.656 3.58 9 3.58z"/></svg>
+                Google 계정으로 로그인
+            </button>
+            <button id="mobile-start-btn" class="start-button mobile-only" style="background-color: #4caf50; border: none; color: white;">시작하기</button>
+            <button id="guest-btn" style="width: 100%; padding: 12px; background-color: #fff; border: 1px solid #ddd; border-radius: 8px; cursor: pointer; font-size: 14px; margin-top: 10px; color: #666;">로그인 없이 시작하기</button>
+            <div id="user-info" class="user-info-text"></div>
+        </div>
+        <div id="toast" class="toast top"></div>
+    </div>
+    <script>
+        const toast = document.getElementById('toast');
+
+        // 토스트 메시지 표시 함수
+        function showToast(message, type = 'success') {
+            toast.textContent = message;
+            toast.className = 'toast top'; // top 클래스 추가
+            toast.classList.add(type); // success 또는 error 클래스 추가
+            toast.classList.add("show");
+            setTimeout(() => { toast.classList.remove("show"); }, 3000); // 메시지를 볼 시간을 3초로 늘림
+        }
+
+        // 이미 로그인되어 있다면 학습 페이지로 이동
+        if (localStorage.getItem('isLoggedIn') || localStorage.getItem('isGuest')) {
+            const loginBtn = document.getElementById('google-login-btn');
+            if (loginBtn) {
+                loginBtn.innerHTML = '로딩 중...';
+            }
+            setTimeout(() => {
+                window.location.href = 'my-page.html';
+            }, 1000);
+        }
+
+        // body에 dark-mode 클래스 적용 (css 호환성 위해)
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+
+        // 게스트 로그인 버튼 이벤트
+        document.getElementById('guest-btn').addEventListener('click', () => {
+            localStorage.setItem('isGuest', 'true');
+            const guestBtn = document.getElementById('guest-btn');
+            if (guestBtn) guestBtn.textContent = '로딩 중...';
+            setTimeout(() => {
+                window.location.href = 'my-page.html';
+            }, 1000);
+        });
+
+        // 모바일 시작하기 버튼 이벤트
+        const mobileStartBtn = document.getElementById('mobile-start-btn');
+        if (mobileStartBtn) {
+            // 로그인 상태가 아니면 버튼 비활성화
+            if (!localStorage.getItem('isLoggedIn') && !localStorage.getItem('isGuest')) {
+                mobileStartBtn.disabled = true;
+                mobileStartBtn.style.opacity = '0.5';
+                mobileStartBtn.style.cursor = 'not-allowed';
+            }
+
+            mobileStartBtn.addEventListener('click', () => {
+                if (localStorage.getItem('isLoggedIn') || localStorage.getItem('isGuest')) {
+                    window.location.href = 'my-page.html';
+                }
+            });
+        }
+
+    </script>
+    <script type="module">
+        import { auth, db, googleProvider } from './firebase.js';
+        import { signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { doc, getDoc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        document.getElementById('google-login-btn').addEventListener('click', () => {
+            signInWithPopup(auth, googleProvider)
+                .then((result) => {
+                    // 로그인 성공 시 onAuthStateChanged에서 처리
+                    // 보안 팁: 실제 서비스에서는 result.user.getIdToken()을 통해 ID 토큰을 얻어 서버로 전송하고 검증해야 합니다.
+                }).catch((error) => {
+                    console.error(error);
+                    showToast("로그인 실패: " + error.message, 'error');
+                });
+        });
+
+        onAuthStateChanged(auth, async (user) => {
+            const statusDiv = document.getElementById('login-status');
+            if (user) {
+                if (statusDiv) statusDiv.textContent = "로그인 됨 (" + user.email + ")";
+
+                // 사용자 정보 콘솔 출력
+                console.log("User Info:", user.displayName, user.email, user.photoURL);
+
+                // 로컬 스토리지 호환성 유지
+                const userInfo = {
+                    name: user.displayName,
+                    email: user.email,
+                    picture: user.photoURL
+                };
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('username', user.email);
+                localStorage.setItem('myInfo', JSON.stringify(userInfo));
+
+                const userRef = doc(db, "users", user.uid);
+                
+                // 신규 사용자 확인 (creationTime과 lastSignInTime이 거의 같으면 신규로 간주)
+                const isNewUser = user.metadata.creationTime === user.metadata.lastSignInTime;
+
+                try {
+                    if (isNewUser) {
+                        // 신규 사용자 DB 저장
+                        await setDoc(userRef, {
+                            email: user.email,
+                            name: user.displayName,
+                            picture: user.photoURL,
+                            createdAt: serverTimestamp(),
+                            progress: { level: 1, score: 0 }
+                        });
+                        showToast("가입을 환영합니다! [내 정보]에서 정보를 수정해주세요.", 'success');
+                    } else {
+                        // 기존 사용자 진도 불러오기
+                        const docSnap = await getDoc(userRef);
+                        if (docSnap.exists()) {
+                            const data = docSnap.data();
+                            const level = data.progress ? data.progress.level : 1;
+                            showToast(`${user.displayName}님 환영합니다! (레벨: ${level})`, 'success');
+                        } else {
+                            showToast(`${user.displayName}님 환영합니다!`, 'success');
+                        }
+                    }
+                } catch (error) {
+                    console.error("Firestore Error:", error);
+                    // DB 오류가 나더라도 로그인은 성공한 것으로 처리
+                    showToast(`${user.displayName}님 환영합니다!`, 'success');
+                }
+
+                // 로그인 성공 시 로딩 표시 및 리다이렉트
+                const loginBtn = document.getElementById('google-login-btn');
+                if (loginBtn) {
+                    loginBtn.innerHTML = '로딩 중...';
+                    loginBtn.style.cursor = 'wait';
+                }
+
+                setTimeout(() => {
+                    window.location.href = 'my-page.html';
+                }, 1000);
+            } else {
+                if (statusDiv) statusDiv.textContent = "로그인 안됨";
+            }
+        });
+
+    </script>
+</body>
+</html>

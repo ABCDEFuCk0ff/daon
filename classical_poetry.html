@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>고전시</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark-mode');
+        }
+    </script>
+</head>
+<body>
+    <main>
+        <header class="page-header">
+            <a href="learning.html" class="back-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </a>
+            <a href="learning.html" class="home-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+            </a>
+            <h1>고전시</h1>
+        </header>
+        <div class="novel-grid">
+            <a href="poetry_detail.html?title=관동별곡" class="novel-button">관동별곡</a>
+            <a href="poetry_detail.html?title=사미인곡" class="novel-button">사미인곡</a>
+            <a href="poetry_detail.html?title=속미인곡" class="novel-button">속미인곡</a>
+            <a href="poetry_detail.html?title=어부사시사" class="novel-button">어부사시사</a>
+            <a href="poetry_detail.html?title=성산별곡" class="novel-button">성산별곡</a>
+            <a href="poetry_detail.html?title=청산별곡" class="novel-button">청산별곡</a>
+            <a href="poetry_detail.html?title=규원가" class="novel-button">규원가</a>
+            <a href="poetry_detail.html?title=면앙정가" class="novel-button">면앙정가</a>
+            <a href="poetry_detail.html?title=상춘곡" class="novel-button">상춘곡</a>
+            <a href="poetry_detail.html?title=도산십이곡" class="novel-button">도산십이곡</a>
+            <a href="poetry_detail.html?title=고산구곡가" class="novel-button">고산구곡가</a>
+            <a href="poetry_detail.html?title=누항사" class="novel-button">누항사</a>
+            <a href="poetry_detail.html?title=탄궁가" class="novel-button">탄궁가</a>
+            <a href="poetry_detail.html?title=거산호" class="novel-button">거산호</a>
+            <a href="poetry_detail.html?title=관서별곡" class="novel-button">관서별곡</a>
+            <a href="poetry_detail.html?title=농가월령" class="novel-button">농가월령</a>
+            <a href="poetry_detail.html?title=장한가" class="novel-button">장한가</a>
+            <a href="poetry_detail.html?title=오륜가" class="novel-button">오륜가</a>
+            <a href="poetry_detail.html?title=차마설" class="novel-button">차마설</a>
+            <a href="poetry_detail.html?title=고풍의상" class="novel-button">고풍의상</a>
+            <a href="poetry_detail.html?title=결빙의 아버지" class="novel-button">결빙의 아버지</a>
+            <a href="poetry_detail.html?title=일동장유가" class="novel-button">일동장유가</a>
+            <a href="poetry_detail.html?title=북방에서 정현웅에게" class="novel-button">북방에서 정현웅에게</a>
+            <a href="poetry_detail.html?title=샛별 지자 종다리 떴다" class="novel-button">샛별 지자 종다리 떴다</a>
+            <a href="poetry_detail.html?title=시비에 개 짓거늘" class="novel-button">시비에 개 짓거늘</a>
+            <a href="poetry_detail.html?title=논밭 갈아 기음 매고" class="novel-button">논밭 갈아 기음 매고</a>
+            <a href="poetry_detail.html?title=독자왕유희유오영" class="novel-button">독자왕유희유오영</a>
+            <a href="poetry_detail.html?title=어우가" class="novel-button">어우가</a>
+            <a href="poetry_detail.html?title=농가" class="novel-button">농가</a>
+            <a href="poetry_detail.html?title=월훈" class="novel-button">월훈</a>
+            <a href="poetry_detail.html?title=청산행" class="novel-button">청산행</a>
+            <a href="poetry_detail.html?title=가지가 담을 넘을 때" class="novel-button">가지가 담을 넘을 때</a>
+        </div>
+    </main>
+    <script>
+        // body에 dark-mode 클래스 적용
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+
+        // 학습 완료 상태 확인 및 버튼 스타일 적용
+        const completedList = JSON.parse(localStorage.getItem('learning_completed')) || [];
+        const completedTitles = completedList.map(item => (typeof item === 'string' ? item : item.title));
+        const buttons = document.querySelectorAll('.novel-button');
+        buttons.forEach(btn => {
+            if (completedTitles.includes(btn.textContent.trim())) {
+                btn.classList.add('completed');
+            }
+        });
+    </script>
+</body>
+</html>

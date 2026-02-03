@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>내 정보</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .info-form {
+            max-width: 400px;
+            margin: 0 auto;
+            text-align: left;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+        .info-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        .info-input:focus {
+            border-color: #444;
+            outline: none;
+        }
+        .profile-name {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        .profile-email {
+            color: #666;
+            font-size: 14px;
+        }
+        body.dark-mode .profile-name {
+            color: #e0e0e0;
+        }
+        body.dark-mode .profile-email {
+            color: #ccc;
+        }
+    </style>
+    <script>
+        if (!localStorage.getItem('isLoggedIn') && !localStorage.getItem('isGuest')) {
+            window.location.href = 'index.html';
+        }
+    </script>
+    <script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark-mode');
+        }
+    </script>
+</head>
+<body>
+    <div id="toast" class="toast top"></div>
+    <main>
+        <header class="page-header">
+            <a href="my-page.html" class="back-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </a>
+            <h1>내 정보 수정</h1>
+        </header>
+        <div class="detail-content">
+            <div id="guest-message" style="display: none; text-align: center; padding: 50px 0;">
+                <p style="font-size: 18px; color: #666;">로그인이 필요한 기능입니다.</p>
+                <button onclick="window.location.href='index.html'" class="start-button" style="margin-top: 20px; font-size: 14px; padding: 10px 20px;">로그인 하러 가기</button>
+            </div>
+            <div class="info-form">
+                <div id="profile-section" style="text-align: center; margin-bottom: 30px; display: none;">
+                    <img id="profile-pic" src="" alt="Profile" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                    <div id="profile-name" class="profile-name"></div>
+                    <div id="profile-email" class="profile-email"></div>
+                </div>
+                <div class="form-group">
+                    <label for="user-korean-level">한국어 수준</label>
+                    <select id="user-korean-level" class="info-input">
+                        <option value="">선택하세요</option>
+                        <option value="초급">초급</option>
+                        <option value="중급">중급</option>
+                        <option value="고급">고급</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>국어 과목 수준</label>
+                    <div style="display: flex; gap: 10px;">
+                        <select id="user-literature-level" class="info-input" style="flex: 1;">
+                            <option value="">문학 선택</option>
+                            <option value="초급">초급</option>
+                            <option value="중급">중급</option>
+                            <option value="고급">고급</option>
+                        </select>
+                        <select id="user-reading-level" class="info-input" style="flex: 1;">
+                            <option value="">독서 선택</option>
+                            <option value="초급">초급</option>
+                            <option value="중급">중급</option>
+                            <option value="고급">고급</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="user-residence-years">한국 거주 기간</label>
+                    <input type="text" id="user-residence-years" class="info-input" placeholder="예: 3년">
+                </div>
+                <button id="save-info-btn" class="start-button" style="width: 100%; margin-top: 10px;">저장하기</button>
+            </div>
+        </div>
+    </main>
+    <script>
+        // body에 dark-mode 클래스 적용
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+
+        if (localStorage.getItem('isGuest')) {
+            document.querySelector('.info-form').style.display = 'none';
+            document.getElementById('guest-message').style.display = 'block';
+        } else {
+            const toast = document.getElementById('toast');
+            const profileSection = document.getElementById('profile-section');
+            const profilePic = document.getElementById('profile-pic');
+            const profileName = document.getElementById('profile-name');
+            const profileEmail = document.getElementById('profile-email');
+            const koreanLevelInput = document.getElementById('user-korean-level');
+            const literatureLevelInput = document.getElementById('user-literature-level');
+            const readingLevelInput = document.getElementById('user-reading-level');
+            const residenceYearsInput = document.getElementById('user-residence-years');
+            const saveBtn = document.getElementById('save-info-btn');
+            
+            // 유효성 검사 함수
+            function checkInputs() {
+                const isKoreanLevelFilled = koreanLevelInput.value !== "";
+                const isLiteratureLevelFilled = literatureLevelInput.value !== "";
+                const isReadingLevelFilled = readingLevelInput.value !== "";
+                const isResidenceYearsFilled = residenceYearsInput.value.trim() !== "";
+
+                if (isKoreanLevelFilled && isLiteratureLevelFilled && isReadingLevelFilled && isResidenceYearsFilled) {
+                    saveBtn.disabled = false;
+                    saveBtn.style.opacity = '1';
+                    saveBtn.style.cursor = 'pointer';
+                } else {
+                    saveBtn.disabled = true;
+                    saveBtn.style.opacity = '0.5';
+                    saveBtn.style.cursor = 'not-allowed';
+                }
+            }
+
+            // 입력 필드에 이벤트 리스너 추가
+            koreanLevelInput.addEventListener('change', checkInputs);
+            literatureLevelInput.addEventListener('change', checkInputs);
+            readingLevelInput.addEventListener('change', checkInputs);
+            residenceYearsInput.addEventListener('input', checkInputs);
+
+            // 저장된 정보 불러오기
+            const savedInfo = JSON.parse(localStorage.getItem('myInfo')) || {};
+            if (savedInfo.koreanLevel) koreanLevelInput.value = savedInfo.koreanLevel;
+            if (savedInfo.literatureLevel) literatureLevelInput.value = savedInfo.literatureLevel;
+            if (savedInfo.readingLevel) readingLevelInput.value = savedInfo.readingLevel;
+            if (savedInfo.residenceYears) residenceYearsInput.value = savedInfo.residenceYears;
+
+            // 초기 로드 시 유효성 검사 실행
+            checkInputs();
+
+            // Google 계정 정보 표시
+            if (savedInfo.email || savedInfo.picture) {
+                profileSection.style.display = 'block';
+                if (savedInfo.picture) profilePic.src = savedInfo.picture;
+                if (savedInfo.name) profileName.textContent = savedInfo.name;
+                if (savedInfo.email) profileEmail.textContent = savedInfo.email;
+            } else {
+                // 정보가 없으면 기본 이미지나 숨김 처리 (여기서는 숨김 상태 유지)
+            }
+
+            function showToast(message) {
+                toast.textContent = message;
+                toast.classList.add("show");
+                setTimeout(() => { toast.classList.remove("show"); }, 2000);
+            }
+
+            document.getElementById('save-info-btn').addEventListener('click', () => {
+                const info = {
+                    ...savedInfo, // 기존 정보(Google 정보 포함) 유지
+                    koreanLevel: koreanLevelInput.value,
+                    literatureLevel: literatureLevelInput.value,
+                    readingLevel: readingLevelInput.value,
+                    residenceYears: residenceYearsInput.value
+                };
+                localStorage.setItem('myInfo', JSON.stringify(info));
+                showToast('정보가 저장되었습니다.');
+            });
+        }
+    </script>
+</body>
+</html>

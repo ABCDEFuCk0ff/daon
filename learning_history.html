@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>학습 기록</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        if (!localStorage.getItem('isLoggedIn') && !localStorage.getItem('isGuest')) {
+            window.location.href = 'index.html';
+        }
+    </script>
+    <script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark-mode');
+        }
+    </script>
+</head>
+<body>
+    <main>
+        <header class="page-header">
+            <a href="my-page.html" class="back-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </a>
+            <h1>학습 기록</h1>
+        </header>
+        <div class="detail-content">
+            <div id="guest-message" style="display: none; text-align: center; padding: 50px 0;">
+                <p style="font-size: 18px; color: #666;">로그인이 필요한 기능입니다.</p>
+                <button onclick="window.location.href='index.html'" class="start-button" style="margin-top: 20px; font-size: 14px; padding: 10px 20px;">로그인 하러 가기</button>
+            </div>
+            <div id="history-list" class="novel-grid" style="grid-template-columns: repeat(2, 1fr);"></div>
+                <p id="no-history-msg" style="display: none;" class="no-data">아직 학습 완료한 작품이 없습니다.</p>
+        </div>
+    </main>
+    <script>
+        // body에 dark-mode 클래스 적용
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+
+        if (localStorage.getItem('isGuest')) {
+            document.getElementById('history-list').style.display = 'none';
+            document.getElementById('no-history-msg').style.display = 'none';
+            document.getElementById('guest-message').style.display = 'block';
+        } else {
+        // 문학 학습 기록 로드
+        const historyList = document.getElementById('history-list');
+        const noHistoryMsg = document.getElementById('no-history-msg');
+        const completedKey = 'learning_completed';
+        const completedList = JSON.parse(localStorage.getItem(completedKey)) || [];
+
+        if (completedList.length === 0) {
+            noHistoryMsg.style.display = 'block';
+        } else {
+            completedList.forEach(item => {
+                let title = item;
+                let date = '';
+
+                // 데이터가 객체 형태인 경우 (날짜 포함)
+                if (typeof item === 'object' && item !== null) {
+                    title = item.title;
+                    date = item.date || '';
+                }
+
+                const link = document.createElement('a');
+                link.href = `novel_detail.html?title=${encodeURIComponent(title)}`;
+                link.innerHTML = `<span>${title}</span><span style="font-size: 0.85em; opacity: 0.7;">${date}</span>`;
+                link.className = 'novel-button history-item';
+                historyList.appendChild(link);
+            });
+        }
+        }
+    </script>
+</body>
+</html>

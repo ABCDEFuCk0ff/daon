@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>학습</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        if (!localStorage.getItem('isLoggedIn') && !localStorage.getItem('isGuest')) {
+            window.location.href = 'index.html';
+        }
+    </script>
+    <script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark-mode');
+        }
+    </script>
+</head>
+<body>
+    <div id="toast" class="toast top"></div>
+    <main>
+        <header class="page-header">
+            <h1>학습 페이지</h1>
+        </header>
+        <section class="learning-section">
+            <h2>문학</h2>
+            <div class="button-grid">
+                <a href="classical_novel.html" class="grid-button">고전소설</a>
+                <a href="classical_poetry.html" class="grid-button">고전시</a>
+                <a href="modern_novel.html" class="grid-button">현대소설</a>
+                <a href="modern_poetry.html" class="grid-button">현대시</a>
+            </div>
+        </section>
+    </main>
+
+    <nav class="bottom-nav">
+        <a href="learning.html" class="active">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+            학습
+        </a>
+        <a href="analysis.html">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
+            분석
+        </a>
+        <a href="wordbook.html">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+            단어장
+        </a>
+        <a href="quiz.html">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+            퀴즈
+        </a>
+        <a href="my-page.html">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            MY
+        </a>
+    </nav>
+
+    <script>
+        const toast = document.getElementById('toast');
+
+        // body에 dark-mode 클래스 적용
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+
+        function showToast(message, type = 'success') {
+            toast.textContent = message;
+            toast.className = 'toast top'; 
+            toast.classList.add(type);
+            toast.classList.add("show");
+            setTimeout(() => { toast.classList.remove("show"); }, 1000);
+        }
+
+        document.addEventListener('keydown', function(event) {
+            switch(event.key) {
+                case '1': window.location.href = 'learning.html'; break;
+                case '2': window.location.href = 'analysis.html'; break;
+                case '3': window.location.href = 'wordbook.html'; break;
+                case '4': window.location.href = 'quiz.html'; break;
+                case '5': window.location.href = 'my-page.html'; break;
+            }
+        });
+    </script>
+</body>
+</html>

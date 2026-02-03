@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MY</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        if (!localStorage.getItem('isLoggedIn') && !localStorage.getItem('isGuest')) {
+            window.location.href = 'index.html';
+        }
+    </script>
+    <script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark-mode');
+        }
+    </script>
+</head>
+<body>
+    <div id="toast" class="toast top"></div>
+    <main>
+        <header class="page-header">
+            <h1>MY 페이지</h1>
+        </header>
+        <div class="my-menu-list">
+            <button class="my-menu-button" onclick="window.location.href='my_info.html'">내 정보</button>
+            <button class="my-menu-button" onclick="window.location.href='favorites.html'">즐겨찾기</button>
+            <button class="my-menu-button" onclick="window.location.href='search.html'">작품 검색</button>
+            <button class="my-menu-button" onclick="window.location.href='learning_history.html'">학습 기록</button>
+            <button class="my-menu-button" onclick="window.location.href='progress_check.html'">진도 확인</button>
+            <button class="my-menu-button" onclick="window.location.href='language_settings.html'">언어 설정</button>
+            <button class="my-menu-button" onclick="window.location.href='other_settings.html'">기타 설정</button>
+            <button class="my-menu-button" id="logout-btn" style="color: #d9534f;">로그아웃</button>
+        </div>
+    </main>
+
+    <nav class="bottom-nav">
+        <a href="learning.html">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+            학습
+        </a>
+        <a href="analysis.html">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
+            분석
+        </a>
+        <a href="wordbook.html">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+            단어장
+        </a>
+        <a href="quiz.html">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+            퀴즈
+        </a>
+        <a href="my-page.html" class="active">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            MY
+        </a>
+    </nav>
+
+    <script>
+        const toast = document.getElementById('toast');
+
+        // body에 dark-mode 클래스 적용
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+
+        function showToast(message, type = 'success') {
+            toast.textContent = message;
+            toast.className = 'toast top';
+            toast.classList.add(type);
+            toast.classList.add("show");
+            setTimeout(() => { toast.classList.remove("show"); }, 1000);
+        }
+
+        document.addEventListener('keydown', function(event) {
+            switch(event.key) {
+                case '1': window.location.href = 'learning.html'; break;
+                case '2': window.location.href = 'analysis.html'; break;
+                case '3': window.location.href = 'wordbook.html'; break;
+                case '4': window.location.href = 'quiz.html'; break;
+                case '5': window.location.href = 'my-page.html'; break;
+            }
+        });
+
+        // 게스트 모드 처리
+        if (localStorage.getItem('isGuest')) {
+            const guestDisabledBtns = [
+                "window.location.href='search.html'",
+                "window.location.href='my_info.html'",
+                "window.location.href='favorites.html'",
+                "window.location.href='learning_history.html'",
+                "window.location.href='progress_check.html'",
+            ];
+            
+            const buttons = document.querySelectorAll('.my-menu-button');
+            buttons.forEach(btn => {
+                const onclickAttr = btn.getAttribute('onclick');
+                const idAttr = btn.getAttribute('id');
+                
+                if ((onclickAttr && guestDisabledBtns.some(s => onclickAttr.includes(s))) || (idAttr && guestDisabledBtns.includes(idAttr))) {
+                    btn.style.opacity = '0.5';
+                    btn.onclick = (e) => { e.preventDefault(); e.stopPropagation(); showToast('로그인이 필요한 기능입니다.', 'error'); };
+                }
+            });
+
+            const logoutBtn = document.getElementById('logout-btn');
+            logoutBtn.textContent = '로그인 하러 가기';
+            logoutBtn.style.color = '#d9534f';
+        } else {
+            // 내 정보 입력 확인
+            const myInfo = JSON.parse(localStorage.getItem('myInfo')) || {};
+            if (!myInfo.koreanLevel || !myInfo.literatureLevel || !myInfo.readingLevel || !myInfo.residenceYears) {
+                setTimeout(() => {
+                    showToast("원활한 학습을 위해 [내 정보]를 입력해주세요.", 'error');
+                }, 500);
+            }
+        }
+
+    </script>
+    <script type="module">
+        import { auth } from './firebase.js';
+        import { signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        // 로그아웃 버튼 이벤트 리스너
+        const logoutBtn = document.getElementById('logout-btn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', handleLogout);
+        }
+
+        function handleLogout() {
+            // 게스트 모드인 경우
+            if (localStorage.getItem('isGuest')) {
+                localStorage.removeItem('isGuest');
+                window.location.href = 'index.html';
+                return;
+            } 
+            
+            // 일반 로그인인 경우 확인 창 표시
+            if (!confirm('정말 로그아웃 하시겠습니까?')) {
+                return;
+            }
+
+            // Firebase 로그아웃 처리
+            signOut(auth).then(() => {
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('username');
+                localStorage.removeItem('myInfo');
+                showToast('로그아웃 되었습니다.', 'white');
+                setTimeout(() => { window.location.href = 'index.html'; }, 300);
+            }).catch((error) => {
+                console.error('Logout Error:', error);
+                showToast('로그아웃 실패: ' + error.message, 'error');
+            });
+        }
+    </script>
+</body>
+</html>

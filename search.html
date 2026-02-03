@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>작품 검색</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        if (!localStorage.getItem('isLoggedIn') && !localStorage.getItem('isGuest')) {
+            window.location.href = 'index.html';
+        }
+    </script>
+    <script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark-mode');
+        }
+    </script>
+</head>
+<body>
+    <main>
+        <header class="page-header">
+            <a href="my-page.html" class="back-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </a>
+            <h1>작품 검색</h1>
+        </header>
+        <div class="detail-content">
+            <input type="text" class="search-input" placeholder="작품 제목을 입력하세요" autofocus>
+            <div id="search-results" class="novel-grid"></div>
+            <p class="no-results-message" style="display: none;">검색 결과가 없습니다.</p>
+        </div>
+    </main>
+
+    <script>
+        // body에 dark-mode 클래스 적용
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+
+        const classicalNovels = ["춘향전", "심청전", "흥부전", "토끼전", "별주부전", "구운몽", "사씨남정기", "홍길동전", "전우치전", "운영전", "만복사저포기", "옥루몽", "김원전", "최고운전", "채봉감별곡", "배비장전", "박씨전", "숙향전", "조웅전", "적벽가", "유충렬전", "이생규장전", "창선감의록", "심생전", "장끼전", "서동지전", "숙영낭자전", "임경업전", "옹고집전", "금방울전", "정수정전", "상사동기", "이대봉전", "김진옥전", "이화전", "박태보전", "낙성비룡", "김현감호", "최척전", "임장군전"];
+        const classicalPoetry = ["관동별곡", "사미인곡", "속미인곡", "어부사시사", "성산별곡", "청산별곡", "규원가", "면앙정가", "상춘곡", "도산십이곡", "고산구곡가", "누항사", "탄궁가", "거산호", "관서별곡", "농가월령", "장한가", "오륜가", "차마설", "고풍의상", "결빙의 아버지", "일동장유가", "북방에서 정현웅에게", "샛별 지자 종다리 떴다", "시비에 개 짓거늘", "논밭 갈아 기음 매고", "독자왕유희유오영", "어우가", "농가", "월훈", "청산행", "가지가 담을 넘을 때"];
+        const modernNovels = ["관촌수필", "천변풍경", "난장이가 쏘아올린 작은 공", "삼대", "날개", "학", "소나기", "삼포 가는 길", "오발탄", "광장", "김약국의 딸들", "독 짓는 늙은이", "무녀도", "너와 나만의 시간", "평지", "자전거 도둑", "아주 느린 시간", "명랑한 밤길", "도도한 생활", "소리의 빛", "허생전", "허생의 처", "매우 잘생긴 우산 하나", "역로", "바위", "김서방전", "어머니", "비 오는 날이면 가리봉동에 가야 한다", "철없는 사람들", "인간시장", "태백산맥 (일부)", "우리들의 일그러진 영웅", "봄·봄", "산촌여정", "황진이", "카메라와 워커", "빈집", "길", "그 많던 싱아는 누가 다 먹었을까"];
+        const modernPoetry = ["폭포", "산", "서시", "생명의 서", "별헤는 밤", "님의 침묵", "진달래꽃", "자화상", "또 다른 고향", "추억에서", "파밭 가에서", "살아있는 것은 흔들리면서 - 순례11", "내 마음의 고향6 - 초설", "멸치", "샤갈의 마을에 내리는 눈", "출생기", "강우", "벽", "눈물", "황혼", "불사조", "역사", "나목", "전라도 가시내", "들국", "흙", "느티나무로부터", "오래된 잠버릇", "어둠도 자세히 보면 환하다", "맨발", "풀벌레들의 작은 귀를 생각함", "배를 매며", "결빙의 아버지", "병원", "꽃씨", "산상의 노래", "성에꽃", "희망의 거처", "지리산 뻐꾹새", "아침 시"];
+
+        const allWorks = [
+            ...classicalNovels.map(t => ({ title: t, url: 'novel_detail.html', type: '고전소설' })),
+            ...classicalPoetry.map(t => ({ title: t, url: 'poetry_detail.html', type: '고전시' })),
+            ...modernNovels.map(t => ({ title: t, url: 'modern_novel_detail.html', type: '현대소설' })),
+            ...modernPoetry.map(t => ({ title: t, url: 'modern_poetry_detail.html', type: '현대시' }))
+        ];
+
+        const searchInput = document.querySelector('.search-input');
+        const resultsContainer = document.getElementById('search-results');
+        const noResultsMessage = document.querySelector('.no-results-message');
+
+        function performSearch() {
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            resultsContainer.innerHTML = '';
+            
+            if (!searchTerm) {
+                noResultsMessage.style.display = 'none';
+                return;
+            }
+
+            const filtered = allWorks.filter(work => work.title.toLowerCase().includes(searchTerm));
+
+            if (filtered.length === 0) {
+                noResultsMessage.style.display = 'block';
+            } else {
+                noResultsMessage.style.display = 'none';
+                filtered.forEach(work => {
+                    const a = document.createElement('a');
+                    a.href = `${work.url}?title=${encodeURIComponent(work.title)}`;
+                    a.className = 'novel-button';
+                    a.style.flexDirection = 'column';
+                    a.style.gap = '2px';
+                    a.innerHTML = `<span>${work.title}</span><span style="font-size: 0.7em; opacity: 0.7;">${work.type}</span>`;
+                    
+                    resultsContainer.appendChild(a);
+                });
+            }
+        }
+
+        searchInput.addEventListener('input', performSearch);
+    </script>
+</body>
+</html>

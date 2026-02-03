@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>분석</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+        if (!localStorage.getItem('isLoggedIn') && !localStorage.getItem('isGuest')) {
+            window.location.href = 'index.html';
+        }
+    </script>
+    <script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark-mode');
+        }
+    </script>
+</head>
+<body class="chat-page">
+    <div id="toast" class="toast top"></div>
+    <main>
+        <header class="page-header">
+            <h1>분석 페이지</h1>
+        </header>
+        <section class="chat-section">
+            <div class="chat-container">
+                <div class="chat-content">
+                    <div class="chat-box" id="chat-messages">
+                        <div class="chat-message ai">
+                            안녕하세요! 한국어 공부나 학교 공부가 어렵다면 언제든 물어보세요. 제가 쉽게 설명해 드릴게요!
+                        </div>
+                    </div>
+                    <div class="suggestion-container" id="suggestion-container">
+                        <!-- 자바스크립트로 추천 질문이 동적으로 생성됩니다 -->
+                    </div>
+                </div>
+                <div class="chat-input-container">
+                    <input type="text" id="user-input" placeholder="메시지를 입력하세요...">
+                    <button id="send-button">전송</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <nav class="bottom-nav">
+        <a href="learning.html">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+            학습
+        </a>
+        <a href="analysis.html" class="active">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
+            분석
+        </a>
+        <a href="wordbook.html">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+            단어장
+        </a>
+        <a href="quiz.html">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+            퀴즈
+        </a>
+        <a href="my-page.html">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            MY
+        </a>
+    </nav>
+
+    <script>
+        // Google AI Studio에서 발급받은 API 키
+        const API_KEY = "AIzaSyAA_V9l6OMhBJ5TxdzYIZS6SHbiXC2xYBI";
+        const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent';
+
+        const chatMessages = document.getElementById('chat-messages');
+        const userInput = document.getElementById('user-input');
+        const sendButton = document.getElementById('send-button');
+        const suggestionContainer = document.getElementById('suggestion-container');
+        const toast = document.getElementById('toast');
+
+        // body에 dark-mode 클래스 적용
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+
+        // 대화 기록을 저장할 배열
+        let conversationHistory = [];
+
+        // 사용자 정보에서 한국어 수준 가져오기
+        const myInfo = JSON.parse(localStorage.getItem('myInfo')) || {};
+        const koreanLevel = myInfo.koreanLevel || '중급'; // 기본값: 중급
+
+        let levelDescription = "학생은 한국어에 익숙한 편입니다. 일반적인 고등학생 수준의 어휘를 사용해도 좋습니다.";
+        if (koreanLevel === '초급') {
+            levelDescription = "학생은 한국어가 아직 서툽니다. 매우 쉽고 간단한 단어와 짧은 문장 위주로 설명해주세요. 어려운 단어는 반드시 풀어서 설명해야 합니다.";
+        } else if (koreanLevel === '고급') {
+            levelDescription = "학생은 한국어에 매우 능숙합니다. 전문 용어나 다소 어려운 어휘를 사용해도 괜찮지만, 필요하다면 간단한 설명을 덧붙여주세요.";
+        }
+
+        // AI가 한국어로 답변하도록 시스템 명령어 설정
+        const systemInstruction = {
+            parts: [{ text: `You are a helpful assistant for immigrant youth students in Korea. Please respond in easy and clear Korean.
+당신은 한국 교과 학습에 도움을 받고 싶은 이주배경 청소년(고등학생)을 돕는 친절한 AI 선생님입니다.
+당신의 가장 중요한 역할은 학생이 스스로 학습 목표를 달성하도록 돕는 것입니다. 단순히 정답을 알려주기보다, 학생이 답을 찾아가는 과정을 이해할 수 있도록 '왜'와 '어떻게'를 중심으로 설명해주세요. 학생이 스스로 생각하고 질문하도록 격려하는 것이 중요합니다.
+
+**학생의 한국어 수준: ${koreanLevel}**
+${levelDescription}
+
+답변은 줄바꿈을 자주 활용하여 가독성을 높이고, 핵심 내용을 간결하게 요약해서 전달하세요.
+긴 문장보다는 개조식이나 짧은 단락을 사용하세요.
+학생을 격려하고 지지하는 따뜻한 말투를 사용해주세요.
+
+당신은 이 프로그램에 포함된 다음 문학 작품들에 대한 정보를 알고 있습니다. 사용자가 이 작품들에 대해 질문하면, 당신의 지식을 바탕으로 답변해주세요.
+
+**고전소설:**
+춘향전, 심청전, 흥부전, 토끼전, 별주부전, 구운몽, 사씨남정기, 홍길동전, 전우치전, 운영전, 만복사저포기, 옥루몽, 김원전, 최고운전, 채봉감별곡, 배비장전, 박씨전, 숙향전, 조웅전, 적벽가, 유충렬전, 이생규장전, 창선감의록, 심생전, 장끼전, 서동지전, 숙영낭자전, 임경업전, 옹고집전, 금방울전, 정수정전, 상사동기, 이대봉전, 김진옥전, 이화전, 박태보전, 낙성비룡, 김현감호, 최척전, 임장군전
+
+**고전시:**
+관동별곡, 사미인곡, 속미인곡, 어부사시사, 성산별곡, 청산별곡, 규원가, 면앙정가, 상춘곡, 도산십이곡, 고산구곡가, 누항사, 탄궁가, 거산호, 관서별곡, 농가월령, 장한가, 오륜가, 차마설, 고풍의상, 결빙의 아버지, 일동장유가, 북방에서 정현웅에게, 샛별 지자 종다리 떴다, 시비에 개 짓거늘, 논밭 갈아 기음 매고, 독자왕유희유오영, 어우가, 농가, 월훈, 청산행, 가지가 담을 넘을 때
+
+**현대소설:**
+관촌수필, 천변풍경, 난장이가 쏘아올린 작은 공, 삼대, 날개, 학, 소나기, 삼포 가는 길, 오발탄, 광장, 김약국의 딸들, 독 짓는 늙은이, 무녀도, 너와 나만의 시간, 평지, 자전거 도둑, 아주 느린 시간, 명랑한 밤길, 도도한 생활, 소리의 빛, 허생전, 허생의 처, 매우 잘생긴 우산 하나, 역로, 바위, 김서방전, 어머니, 비 오는 날이면 가리봉, 철없는 사람들, 인간시장, 태백산맥 (일부), 우리들의 일그러진 영웅, 봄·봄, 산촌여정, 황진이, 카메라와 워커, 빈집, 길, 그 많던 싱아는 누가 다 먹었을까
+
+**현대시:**
+폭포, 산, 서시, 생명의 서, 별헤는 밤, 님의 침묵, 진달래꽃, 자화상, 또 다른 고향, 추억에서, 파밭 가에서, 살아있는 것은 흔들리면서 - 순례11, 내 마음의 고향6 - 초설, 멸치, 샤갈의 마을에 내리는 눈, 출생기, 강우, 벽, 눈물, 황혼, 불사조, 역사, 나목, 전라도 가시내, 들국, 흙, 느티나무로부터, 오래된 잠버릇, 어둠도 자세히 보면 환하다, 맨발, 풀벌레들의 작은 귀를 생각함, 배를 매며, 결빙의 아버지, 병원, 꽃씨, 산상의 노래, 성에꽃, 희망의 거처, 지리산 뻐꾹새, 아침 시
+
+또한, 이 프로그램에는 다음과 같은 학습용 단어들이 포함되어 있습니다. 사용자가 이 단어들의 뜻이나 개념을 물어보면 친절하게 설명해주세요.
+
+**한국 교육 제도·입시 용어:**
+자습, 모의고사, EBS, 재수, 수학여행, 개강, 개학, 종례, 조회, 학사일정, 생활기록부, 자기소개서, 비교과, 동아리, 진로진학상담, 수시, 정시, 창체, 학점제, 늘봄학교
+
+**분석과 해석 방법:**
+분석, 비교, 관계, 영향, 결과, 원인, 과정, 단계, 방법, 목적, 주제, 내용, 요약, 중심, 세부, 관점, 시각, 태도, 가치, 윤리
+
+**논증과 비판적 사고:**
+주장, 근거, 논리, 비판, 평가, 개선, 지속, 가능성, 확률, 적응, 다양성, 개성, 정체성, 문화적, 글로벌, 국제, 세계, 평화, 전쟁, 인권
+
+**사회·정치 체계:**
+국민, 정부, 대통령, 국회, 법, 권리, 의무, 자유, 평등, 민주주의, 문화, 전통, 역사, 과거, 현재, 미래, 산업, 경제, 직업, 진로
+
+**지구·물리 기본 개념:**
+지구, 기후, 온난화, 에너지, 빛, 소리, 힘, 운동, 속도, 거리, 무게, 양
+
+**사회적 상호작용과 창의:**
+도덕성, 책임, 존중, 배려, 협력, 갈등, 해결, 소통, 표현, 창의, 창의력, 상상, 아이디어, 연구, 실험, 관찰, 조사, 자료, 증거, 사실
+
+**탐구·논술·보고서 핵심:**
+예방, 구조, 신뢰, 서술, 서론, 본론, 결론, 인용, 참고문헌, 논증, 가설, 증명, 추론, 해석, 관찰력, 통찰, 경쟁, 입시, 대학, 꿈
+
+**기초 수학 개념:**
+자연수, 정수, 짝수, 홀수, 덧셈, 뺄셈, 곱셈, 나눗셈, 몫, 나머지, 분수, 진분수, 약분, 통분, 소수, 백분율, 도형, 직선, 선분, 각
+
+**수학 개념:**
+실수, 무리수, 제곱근, 소인수분해, 최대공약수, 최소공배수, 일차방정식, 이차방정식, 인수분해, 함수, 일차함수, 이차함수, 지수함수, 로그함수, 삼각함수, 수열, 등차수열, 등비수열, 미분, 적분
+
+**논리적 사고와 표현:**
+생각, 의견, 이유, 설명, 이해하다, 기억하다, 질문, 대답, 토론, 발표하다, 준비하다, 계획, 목표, 노력, 성공, 실패, 변화, 발전, 환경, 자연
+
+**현대 사회 문제:**
+차별, 불평등, 빈곤, 소비, 생산, 무역, 기술, 혁신, 정보, 데이터, 미디어, 광고, 영향력, 대중, 사회, 공동체, 규칙, 질서, 안전, 위험
+`
+            }]
+        };
+
+        // 메시지를 채팅창에 추가하는 함수
+        function addMessage(text, sender, messageId = null, isHtml = false) {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('chat-message', sender);
+            
+            if (isHtml) {
+                messageElement.innerHTML = text;
+            } else if (sender === 'ai') {
+                // 마크다운 렌더링 (줄바꿈 처리 포함)
+                messageElement.innerHTML = marked.parse(text, { breaks: true });
+            } else {
+                messageElement.textContent = text;
+            }
+            
+            if (messageId) {
+                messageElement.id = messageId;
+            }
+            chatMessages.appendChild(messageElement);
+            // 새 메시지가 추가되면 스크롤을 맨 아래로 이동
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            return messageElement;
+        }
+
+        // 메시지 전송 및 API 호출을 처리하는 함수
+        async function handleSendMessage() {
+            const messageText = userInput.value.trim();
+            if (messageText === '' || sendButton.disabled) return;
+
+            // 첫 메시지 전송 시 추천 질문 숨기기
+            if (suggestionContainer) {
+                suggestionContainer.style.display = 'none';
+            }
+
+            // 사용자 메시지를 UI와 대화 기록에 추가
+            addMessage(messageText, 'user');
+            conversationHistory.push({ role: 'user', parts: [{ text: messageText }] });
+
+            userInput.value = '';
+            sendButton.disabled = true;
+
+            // 로딩 메시지 표시
+            const loadingMessage = addMessage('<div class="typing-indicator"><span></span><span></span><span></span></div>', 'ai', 'loading-message', true);
+
+            try {
+                const requestBody = {
+                    contents: conversationHistory,
+                    systemInstruction: systemInstruction,
+                };
+
+                const response = await fetch(`${API_URL}?key=${API_KEY}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(requestBody),
+                });
+
+                loadingMessage.remove();
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error.message || 'API 호출에 실패했습니다.');
+                }
+
+                const data = await response.json();
+
+                if (data.candidates && data.candidates.length > 0 && data.candidates[0].content) {
+                    const aiResponseText = data.candidates[0].content.parts[0].text;
+                    addMessage(aiResponseText, 'ai');
+                    conversationHistory.push({ role: 'model', parts: [{ text: aiResponseText }] });
+                } else {
+                    // 응답이 없거나 안전 문제로 차단된 경우
+                    addMessage('AI로부터 유효한 답변을 받지 못했습니다. 다른 질문을 시도해주세요.', 'error');
+                    conversationHistory.pop(); // 실패한 사용자 입력을 기록에서 제거
+                }
+
+            } catch (error) {
+                const loadingElem = document.getElementById('loading-message');
+                if (loadingElem) loadingElem.remove();
+                console.error('Error:', error);
+                addMessage(`오류가 발생했습니다: ${error.message}`, 'error');
+                if (conversationHistory.length > 0 && conversationHistory[conversationHistory.length - 1].role === 'user') {
+                    conversationHistory.pop(); // 오류 발생 시 사용자 입력을 기록에서 제거
+                }
+            } finally {
+                sendButton.disabled = false;
+                userInput.focus();
+            }
+        }
+
+        // 이벤트 리스너 설정
+        sendButton.addEventListener('click', handleSendMessage);
+        userInput.addEventListener('keydown', (event) => {
+            if (event.isComposing) return;
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault(); // 폼 제출 방지
+                handleSendMessage();
+            }
+        });
+
+        // 추천 질문 목록 및 랜덤 생성 로직
+        const suggestionPool = [
+            "고전소설 '춘향전'에 대해 알려줘",
+            "현대시 '진달래꽃'의 주제는 뭐야?",
+            "'수시'와 '정시'의 차이점을 설명해줘",
+            "'삼포 가는 길'의 줄거리를 요약해줘",
+            "고전시 '관동별곡'의 특징은?",
+            "'역설법'과 '반어법'의 차이는?",
+            "현대소설 '광장'의 주인공에 대해 알려줘",
+            "'모의고사' 대비 팁을 알려줘",
+            "'운율' 형성 방법에는 뭐가 있어?",
+            "고전소설 '홍길동전'의 의의는?",
+            "'직유법'과 '은유법' 예시를 들어줘",
+            "현대시 '서시'를 해석해줘"
+        ];
+
+        function loadRandomSuggestions() {
+            const shuffled = suggestionPool.sort(() => 0.5 - Math.random());
+            const selected = shuffled.slice(0, 4);
+            
+            suggestionContainer.innerHTML = '';
+            selected.forEach(text => {
+                const button = document.createElement('button');
+                button.className = 'suggestion-button';
+                button.textContent = text;
+                button.addEventListener('click', () => {
+                    userInput.value = text;
+                    handleSendMessage();
+                });
+                suggestionContainer.appendChild(button);
+            });
+        }
+
+        // 페이지 로드 시 추천 질문 생성
+        loadRandomSuggestions();
+
+        // 초기 AI 메시지를 대화 기록에 추가
+        const initialAiMessage = chatMessages.querySelector('.chat-message.ai').textContent;
+        conversationHistory.push({ role: 'model', parts: [{ text: initialAiMessage }] });
+
+        function showToast(message, type = 'success') {
+            toast.textContent = message;
+            toast.className = 'toast top'; 
+            toast.classList.add(type);
+            toast.classList.add("show");
+            setTimeout(() => { toast.classList.remove("show"); }, 1000);
+        }
+
+        // 키보드 단축키 이벤트 리스너
+        document.addEventListener('keydown', function(event) {
+            if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') return;
+
+            switch(event.key) {
+                case '1': window.location.href = 'learning.html'; break;
+                case '2': window.location.href = 'analysis.html'; break;
+                case '3': window.location.href = 'wordbook.html'; break;
+                case '4': window.location.href = 'quiz.html'; break;
+                case '5': window.location.href = 'my-page.html'; break;
+            }
+        });
+    </script>
+</body>
+</html>

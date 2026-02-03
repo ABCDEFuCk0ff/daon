@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>버전 기록</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .version-item {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+        .version-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        .version-number {
+            font-weight: bold;
+            font-size: 18px;
+            color: #333;
+        }
+        .version-date {
+            font-size: 14px;
+            color: #888;
+        }
+        .version-content ul {
+            padding-left: 20px;
+            margin: 0;
+        }
+        .version-content li {
+            margin-bottom: 5px;
+            color: #555;
+        }
+        
+        /* Dark mode support */
+        body.dark-mode .version-item {
+            background-color: #1e1e1e;
+            border-color: #333;
+        }
+        body.dark-mode .version-number {
+            color: #e0e0e0;
+        }
+        body.dark-mode .version-content li {
+            color: #bbb;
+        }
+        body.dark-mode .version-date {
+            color: #aaa;
+        }
+    </style>
+    <script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark-mode');
+        }
+    </script>
+</head>
+<body>
+    <main>
+        <header class="page-header">
+            <a href="other_settings.html" class="back-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </a>
+            <h1>버전 기록</h1>
+        </header>
+        <div class="detail-content">
+            <div class="version-item">
+                <div class="version-header">
+                    <span class="version-number">v1.0.0</span>
+                    <span class="version-date">2024.05.20</span>
+                </div>
+                <div class="version-content">
+                    <ul>
+                        <li>앱 정식 출시</li>
+                        <li>학습, 분석, 단어장, 퀴즈 기능 탑재</li>
+                        <li>다크 모드 지원</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-item">
+                <div class="version-header">
+                    <span class="version-number">v0.9.5 (Beta)</span>
+                    <span class="version-date">2024.05.19</span>
+                </div>
+                <div class="version-content">
+                    <ul>
+                        <li>하단 네비게이션 바 아이콘(일러스트) 적용</li>
+                        <li>모바일 화면 UI 최적화 (버튼/텍스트 크기 조정)</li>
+                        <li>다크 모드 설정 유지 기능 강화</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-item">
+                <div class="version-header">
+                    <span class="version-number">v0.9.0 (Beta)</span>
+                    <span class="version-date">2024.05.18</span>
+                </div>
+                <div class="version-content">
+                    <ul>
+                        <li>기타 설정 페이지 신설</li>
+                        <li>단어 목록 및 진도 초기화 기능 이동</li>
+                        <li>로그인 하러 가기 버튼 디자인 변경</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-item">
+                <div class="version-header">
+                    <span class="version-number">v0.8.5 (Beta)</span>
+                    <span class="version-date">2024.05.17</span>
+                </div>
+                <div class="version-content">
+                    <ul>
+                        <li>퀴즈 기능 대폭 개선 (범위 선택, 문제 수 조절)</li>
+                        <li>퀴즈 타이머(게이지) 및 결과 페이지(오답 확인) 추가</li>
+                        <li>문학 퀴즈 통합 및 단어 퀴즈 고도화</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-item">
+                <div class="version-header">
+                    <span class="version-number">v0.8.0 (Beta)</span>
+                    <span class="version-date">2024.05.16</span>
+                </div>
+                <div class="version-content">
+                    <ul>
+                        <li>마이 페이지 기능 확장 (내 정보 수정, 진도 확인)</li>
+                        <li>학습 기록 및 즐겨찾기 기능 구현</li>
+                        <li>진도율 시각화 (게이지 바)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="version-item">
+                <div class="version-header">
+                    <span class="version-number">v0.7.0 (Beta)</span>
+                    <span class="version-date">2024.05.15</span>
+                </div>
+                <div class="version-content">
+                    <ul>
+                        <li>게스트 모드(로그인 없이 시작) 도입</li>
+                        <li>로그인 시스템 개편 (임시 로그인 제거)</li>
+                        <li>진도 초기화 보안 강화 (비밀번호 확인)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+    </script>
+</body>
+</html>

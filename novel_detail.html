@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>작품 상세</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Nanum Myeongjo', serif; }
+        #novel-title {
+            font-size: 34px;
+        }
+    </style>
+    <script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark-mode');
+        }
+    </script>
+</head>
+<body>
+    <a href="javascript:history.back()" class="back-button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    </a>
+    <a href="learning.html" class="home-button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+    </a>
+    <main>
+        <header class="page-header">
+            <h1 id="novel-title">작품 제목</h1>
+        </header>
+        <div class="detail-content">
+            <p>이곳에 작품의 상세 내용이 표시됩니다.</p>
+        </div>
+
+        <!-- 하단 액션 버튼 영역 -->
+        <div class="action-container">
+            <div class="status-row">
+                <button id="completed-btn" class="action-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    학습완료
+                </button>
+                <button id="favorite-btn" class="action-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                    즐겨찾기
+                </button>
+            </div>
+            <div class="difficulty-label">난이도</div>
+            <div class="star-rating">
+                <span class="rating-label">쉬움</span>
+                <svg class="star" data-value="1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                <svg class="star" data-value="2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                <svg class="star" data-value="3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                <svg class="star" data-value="4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                <svg class="star" data-value="5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                <span class="rating-label">어려움</span>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Floating Navigation Buttons -->
+    <button id="prev-btn" class="action-btn nav-btn floating-nav-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        <span class="btn-text">이전 작품</span>
+    </button>
+    <button id="next-btn" class="action-btn nav-btn floating-nav-btn">
+        <span class="btn-text">다음 작품</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+    </button>
+
+    <script>
+        // body에 dark-mode 클래스 적용
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+
+        // 작품별 상세 데이터
+        const novelData = {
+            "춘향전": {
+                description: "조선 후기 <span class=\"tooltip\" data-tooltip=\"노래하듯 부르는 한국 전통 음악극\">판소리</span>계 소설의 대표작입니다. <span class=\"tooltip\" data-tooltip=\"지방을 다스리는 관리 (시장님 같은 역할)\">남원 부사</span>의 아들 이몽룡과 <span class=\"tooltip\" data-tooltip=\"옛날에 춤과 노래를 하던 직업 여성\">기생</span> 월매의 딸 성춘향의 <span class=\"tooltip\" data-tooltip=\"신분의 차이를 뛰어넘는\">신분을 초월한</span> 사랑과 <span class=\"tooltip\" data-tooltip=\"한 사람만 사랑하는 마음\">정절</span>을 다루고 있습니다. 판소리 '춘향가'가 소설로 정착된 것으로, <span class=\"tooltip\" data-tooltip=\"오랜 시간 동안 여러 사람의 이야기가 쌓여 만들어진 문학\">적층 문학</span>의 성격을 지니며 다양한 <span class=\"tooltip\" data-tooltip=\"내용이 조금씩 다른 여러 버전의 책\">이본</span>이 존재합니다.",
+                plot: "남원 부사의 아들 이몽룡과 기생 월매의 딸 성춘향은 광한루에서 만나 사랑에 빠져 <span class=\"tooltip\" data-tooltip=\"평생 함께 살자는 결혼 약속\">백년가약</span>을 맺습니다. 그러나 이몽룡이 아버지를 따라 한양으로 가게 되어 두 사람은 이별하게 됩니다. 새로 부임한 변학도는 춘향에게 <span class=\"tooltip\" data-tooltip=\"높은 사람의 잠자리를 시중드는 일\">수청</span>을 강요하지만, 춘향은 몽룡에 대한 정절을 지키며 거절하다가 옥에 갇혀 고초를 겪습니다. 한편, 과거에 급제하여 <span class=\"tooltip\" data-tooltip=\"왕의 명령으로 몰래 지방 관리를 감시하는 관리\">암행어사</span>가 된 이몽룡은 거지 행색으로 남원에 내려와 춘향의 마음을 확인한 뒤, 변학도의 생일 잔치에 출두하여 그를 <span class=\"tooltip\" data-tooltip=\"나쁜 관리를 쫓아내고 창고를 잠그는 벌\">봉고파직</span>하고 춘향을 구출하여 행복하게 살게 됩니다.",
+                interpretation: "표면적으로는 '열녀 불경 이부(한 여자는 두 남편을 섬기지 않는다)'라는 유교적 도덕관을 내세우고 있지만, 이면에는 신분 제약에 굴하지 않는 인간 해방 의식과 탐관오리에 대한 저항 정신이 담겨 있습니다. 춘향의 항거는 단순한 정절을 넘어 부당한 권력에 맞서는 민중의 의지를 대변합니다.",
+                historicalBackground: "조선 후기, 상품 화폐 경제의 발달로 신분제가 흔들리고 서민들의 자의식이 성장하던 시기입니다. 부패한 관리들의 수탈에 대한 백성들의 분노와 신분 상승에 대한 욕구가 작품 속에 투영되어 있습니다.",
+                examPoints: [
+                    "<strong><span class=\"tooltip\" data-tooltip=\"이야기 밖의 작가가 불쑥 끼어들어 의견을 말하는 것\">서술자의 개입(편집자적 논평)</span>:</strong> 서술자가 작품 속에 개입하여 인물이나 사건에 대해 평가하는 부분이 자주 출제됩니다. (예: '춘향의 높은 절개 어찌 아니 칭찬하리오')",
+                    "<strong><span class=\"tooltip\" data-tooltip=\"재미있고 웃긴 성질\">해학성</span>과 <span class=\"tooltip\" data-tooltip=\"잘못된 점을 빗대어 비판하는 것 (돌려 까기)\">풍자</span>:</strong> 방자, 향단, 그리고 어사 출두 장면 등에서 지배층의 무능과 부패를 풍자하고 웃음을 유발합니다.",
+                    "<strong>언어의 이중성:</strong> 양반 계층의 <span class=\"tooltip\" data-tooltip=\"옛날 이야기에서 나온 한자 말\">고사성어(한자어)</span>와 서민 계층의 비속어가 혼재되어 사용됩니다. 이는 향유 계층이 양반과 평민 모두였음을 보여줍니다."
+                ],
+                difficultPoints: [
+                    "<strong><span class=\"tooltip\" data-tooltip=\"판소리 가사처럼 리듬감이 있는 문체\">판소리 사설 투의 문체</span>:</strong> <span class=\"tooltip\" data-tooltip=\"말의 리듬감 (노래 가사처럼)\">운율감</span>이 느껴지는 문체(4·4조 등)와 장면을 극대화하여 묘사하는 부분이 있어 현대 소설과 다르게 느껴질 수 있습니다.",
+                    "<strong>한자어와 고사:</strong> 옛글을 인용하거나 한자어가 많아 어휘 풀이가 필요할 수 있습니다."
+                ],
+                confusingPoints: [
+                    "<strong>주제의 이중성:</strong> 표면적으로는 '유교적 정절(<span class=\"tooltip\" data-tooltip=\"남편에게 끝까지 의리를 지키는 여자\">열녀</span>)'을 강조하지만, 이면적으로는 '신분 제약에 대한 저항'과 '인간 해방'이라는 <span class=\"tooltip\" data-tooltip=\"일반 백성들의 생각\">민중적 의식</span>을 담고 있습니다.",
+                    "<strong>춘향의 신분:</strong> 기생의 딸(천민)이지만, 스스로를 양반집 규수처럼 생각하며 정절을 지키려는 태도를 보입니다. 이는 신분 상승 욕구를 반영합니다."
+                ]
+            },
+            "심청전": {
+                description: "조선 후기 판소리계 소설로, <span class=\"tooltip\" data-tooltip=\"부모님을 잘 모시는 마음\">효(孝)</span> 사상을 주제로 한 대표적인 작품입니다. 눈먼 아버지의 눈을 뜨게 하기 위해 자신을 희생하는 심청의 이야기를 통해 유교적 가치관과 불교적 <span class=\"tooltip\" data-tooltip=\"착한 일을 하면 복을 받고 나쁜 일을 하면 벌을 받음\">인과응보</span> 사상을 보여줍니다.",
+                plot: "심청은 태어나자마자 어머니를 잃고 눈먼 아버지 심 봉사를 정성껏 모십니다. 어느 날 아버지가 공양미 300석을 부처님께 바치면 눈을 뜰 수 있다는 말을 듣게 되고, 심청은 남경 상인들에게 자신의 몸을 팔아 <span class=\"tooltip\" data-tooltip=\"심청이가 빠진 거친 바다\">인당수</span>의 제물이 됩니다. 물에 빠진 심청은 지극한 효심에 감동한 용왕의 도움으로 연꽃을 타고 세상에 나와 왕비가 됩니다. 이후 심청은 아버지를 찾기 위해 맹인 잔치를 열고, 그곳에서 딸을 만난 심 봉사는 기쁨에 눈을 번쩍 뜨게 됩니다.",
+                interpretation: "유교의 핵심 가치인 '효'를 주제로 하지만, 심청이 죽음에서 부활하여 고귀한 신분이 되는 과정은 불교의 <span class=\"tooltip\" data-tooltip=\"원인과 결과에 따라 운명이 결정됨\">인과응보</span> 사상과 도교적 신비주의가 결합된 것입니다. 가난하고 힘없는 여성이 자기 희생을 통해 영웅적 승리를 거두는 구조입니다.",
+                historicalBackground: "조선 후기, 가난 속에서도 효를 실천하려는 민중들의 도덕적 의지와 현실의 고통을 종교적 구원으로 해결하려는 소망이 반영되었습니다. 또한 상업 활동이 활발해지면서 금전적 가치가 중시되던 사회상도 엿볼 수 있습니다.",
+                examPoints: [
+                    "<strong>효 사상의 강조:</strong> 심청의 희생을 통해 부모에 대한 효도가 가장 중요한 가치임을 강조합니다.",
+                    "<strong>환상적 요소:</strong> 용궁 세계, 연꽃을 타고 환생하는 장면 등 비현실적이고 신비로운 요소가 등장합니다."
+                ],
+                difficultPoints: [
+                    "<strong><span class=\"tooltip\" data-tooltip=\"부처님께 바치는 쌀\">공양미</span>:</strong> 절에 바치는 쌀을 의미합니다.",
+                    "<strong><span class=\"tooltip\" data-tooltip=\"신에게 바치는 살아있는 생명\">제물</span>:</strong> 뱃길의 안전을 위해 바다에 바치는 희생양을 뜻합니다."
+                ],
+                confusingPoints: [
+                    "<strong>심 봉사의 성격:</strong> 딸을 사랑하지만 어리석고 무능력한 면모도 함께 보여주는 입체적인 인물입니다."
+                ]
+            },
+            "흥부전": {
+                description: "조선 후기 판소리계 소설로, 형제간의 우애와 <span class=\"tooltip\" data-tooltip=\"착한 사람은 복을 받고 나쁜 사람은 벌을 받음\">권선징악</span>을 다룹니다. 착한 흥부와 욕심 많은 놀부의 대조적인 삶을 통해 당시 사회의 빈부 격차 문제도 반영하고 있습니다.",
+                plot: "욕심쟁이 형 놀부는 부모의 유산을 독차지하고 동생 흥부를 빈손으로 내쫓습니다. 흥부는 갖은 고생을 하며 가난하게 살지만, 다리가 부러진 제비를 정성껏 치료해 줍니다. 이듬해 제비가 물어다 준 박씨를 심어 박을 타니 온갖 보물이 쏟아져 나와 부자가 됩니다. 소식을 들은 놀부는 일부러 제비 다리를 부러뜨리고 고쳐주지만, 박 속에서 도깨비와 똥물이 나와 망하게 됩니다. 흥부는 그런 놀부를 도와주고, 형제는 화해하여 행복하게 삽니다.",
+                interpretation: "표면적으로는 형제간의 우애와 권선징악을 다루지만, 이면에는 조선 후기 신분 변동과 빈부 격차 문제를 다루고 있습니다. 흥부는 몰락한 양반을, 놀부는 부를 축적한 신흥 서민 계층을 상징하며, 당시의 경제적 갈등 양상을 보여줍니다.",
+                historicalBackground: "조선 후기 <span class=\"tooltip\" data-tooltip=\"농사 기술의 발달로 부자가 된 농민\">경영형 부농</span>의 등장과 유랑 농민의 증가라는 사회적 변동기를 배경으로 합니다. 장자 상속 제도로 인한 형제간의 재산 분쟁 문제도 반영하고 있습니다.",
+                examPoints: [
+                    "<strong>인물의 대조:</strong> 흥부(선, 가난)와 놀부(악, 부유)의 대립 구조가 명확합니다.",
+                    "<strong>사회상 반영:</strong> 조선 후기 신분 질서의 동요와 빈농/부농의 분화 과정을 보여줍니다."
+                ],
+                difficultPoints: [
+                    "<strong><span class=\"tooltip\" data-tooltip=\"지난 잘못을 뉘우치고 착한 사람이 됨\">개과천선</span>:</strong> 놀부가 벌을 받고 나서 착한 사람으로 변하는 것을 말합니다."
+                ],
+                confusingPoints: [
+                    "<strong>흥부의 성격:</strong> 착하지만 경제적으로 무능력한 인물로 그려지기도 하여, 현대적 관점에서는 비판의 대상이 되기도 합니다."
+                ]
+            },
+            "토끼전": {
+                description: "<span class=\"tooltip\" data-tooltip=\"동물을 주인공으로 하여 인간 세상을 풍자하는 이야기\">우화 소설</span>이자 판소리계 소설입니다. 토끼와 자라(별주부)의 속고 속이는 대결을 통해 지배층의 무능과 부패를 비판하고 피지배층의 지혜를 강조합니다.",
+                plot: "남해 용왕이 병이 들자, 토끼의 간이 명약이라는 말을 듣고 자라(별주부)가 육지로 나갑니다. 자라는 높은 벼슬을 주겠다며 토끼를 꼬드겨 용궁으로 데려갑니다. 죽을 위기에 처한 토끼는 '간을 육지에 두고 왔다'는 기발한 거짓말로 용왕을 속이고 육지로 도망쳐 목숨을 건집니다.",
+                interpretation: "무능하고 부패한 지배층(용왕)과 그에 기생하는 관료(자라)를 풍자하고, 힘없는 피지배층(토끼)이 지혜로 위기를 극복하는 모습을 통해 민중의 저항 의식을 보여줍니다. 헛된 욕심을 부리면 화를 입는다는 교훈도 담고 있습니다.",
+                historicalBackground: "조선 후기, 탐관오리의 수탈이 극심했던 사회 현실을 동물에 빗대어 비판했습니다. 백성들이 겪는 고통과 이를 극복하려는 생존 본능이 작품 속에 녹아있습니다.",
+                examPoints: [
+                    "<strong>풍자와 해학:</strong> 용왕과 신하들의 무능함을 풍자하고, 토끼의 꾀를 통해 웃음을 유발합니다.",
+                    "<strong>이본의 결말:</strong> 판본에 따라 토끼가 도망가는 결말, 자라가 자살하는 결말 등 다양합니다."
+                ],
+                difficultPoints: [
+                    "<strong><span class=\"tooltip\" data-tooltip=\"남의 비위를 맞추는 달콤한 말\">감언이설</span>:</strong> 자라가 토끼를 꼬드길 때 하는 거짓말들을 말합니다."
+                ],
+                confusingPoints: [
+                    "<strong>주제의 양면성:</strong> 자라의 충성심을 강조하는지, 토끼의 지혜를 강조하는지에 따라 해석이 달라질 수 있습니다."
+                ]
+            },
+            "별주부전": {
+                description: "'토끼전'과 같은 이야기를 다루지만, 자라(별주부)의 <span class=\"tooltip\" data-tooltip=\"임금님을 향한 변치 않는 마음\">충성심</span>에 더 초점을 맞춘 작품입니다.",
+                plot: "용왕의 병을 고치기 위해 토끼의 간을 구하러 육지로 떠나는 별주부의 비장한 결심과 고난이 강조됩니다. 토끼에게 속아 간을 구하지 못하고 돌아오지만, 그의 충성심은 높이 평가받습니다. (기본 줄거리는 토끼전과 동일하나 자라의 시점이 강조됨)",
+                interpretation: "토끼의 지혜보다는 자라의 '우직한 충성심'을 주제로 내세웁니다. 유교적 덕목인 '충(忠)'을 강조하여, 신하가 임금을 위해 목숨을 바치는 것을 미덕으로 여겼던 당시의 가치관을 보여줍니다.",
+                historicalBackground: "지배 체제의 안정을 원했던 양반 계층의 시각이 반영된 이본입니다. 사회적 혼란 속에서도 유교적 질서를 지키려는 보수적인 의식이 담겨 있습니다.",
+                examPoints: [
+                    "<strong>유교적 충의:</strong> 자신의 목숨을 걸고 임무를 수행하려는 별주부의 태도가 강조됩니다."
+                ],
+                difficultPoints: [
+                    "<strong><span class=\"tooltip\" data-tooltip=\"벼슬 이름\">별주부</span>:</strong> 자라가 맡은 관직의 이름입니다."
+                ],
+                confusingPoints: [
+                    "<strong>토끼전과의 차이:</strong> 내용은 거의 같으나 제목에 따라 강조하는 인물과 주제 의식이 조금씩 다를 수 있습니다."
+                ]
+            },
+            "구운몽": {
+                description: "조선 숙종 때 김만중이 지은 <span class=\"tooltip\" data-tooltip=\"꿈을 꾸고 나서 깨달음을 얻는 구조의 소설\">몽자류 소설</span>의 효시입니다. '아홉 사람이 꾼 꿈'이라는 뜻으로, 인생의 부귀영화가 덧없음을 깨닫는 과정을 그립니다.",
+                plot: "육관 대사의 제자 성진은 팔선녀와 희롱하며 세속적 욕망을 품은 죄로 인간 세상에 양소유로 환생합니다. 양소유는 뛰어난 능력으로 장원 급제하고 전쟁에서 공을 세워 승상이 되며, 8명의 여인(2명의 부인과 6명의 첩)과 인연을 맺고 최고의 부귀영화를 누립니다. 그러나 노년에 인생의 허무함을 느끼던 중 스승을 만나 꿈에서 깨어나고, 다시 성진으로 돌아와 불교의 도를 닦습니다.",
+                interpretation: "현실(성진) → 꿈(양소유) → 현실(성진)로 이어지는 <span class=\"tooltip\" data-tooltip=\"현실에서 꿈을 꾸고 다시 현실로 돌아오는 구조\">환몽 구조</span>를 통해 '인생무상(인생은 덧없다)'이라는 주제를 전달합니다. 유교의 입신양명과 불교의 공(空) 사상, 도교의 신선 사상이 조화롭게 어우러진 걸작입니다.",
+                historicalBackground: "작가 김만중이 유배 생활 중 홀로 계신 어머니를 위로하기 위해 지은 소설입니다. 당시 양반 사회의 이상적인 삶을 형상화하면서도, 그 끝에 찾아오는 허무함을 종교적으로 승화시켰습니다.",
+                examPoints: [
+                    "<strong><span class=\"tooltip\" data-tooltip=\"이야기 속에 또 다른 이야기가 들어있는 구조\">액자식 구성</span>:</strong> 현실(성진) -> 꿈(양소유) -> 현실(성진)로 이어지는 구조가 특징입니다.",
+                    "<strong>주제 의식:</strong> 유교적 입신양명과 불교적 <span class=\"tooltip\" data-tooltip=\"인생이 헛되고 허무함\">인생무상</span>의 조화를 보여줍니다."
+                ],
+                difficultPoints: [
+                    "<strong><span class=\"tooltip\" data-tooltip=\"사회적으로 성공하여 이름을 날림\">입신양명</span>:</strong> 양소유가 장원 급제하고 높은 벼슬에 오르는 것을 말합니다."
+                ],
+                confusingPoints: [
+                    "<strong>꿈의 의미:</strong> 꿈은 단순히 허무한 것이 아니라, 깨달음을 얻기 위한 필수적인 과정입니다."
+                ]
+            },
+            "사씨남정기": {
+                description: "김만중이 지은 가정 소설로, 처첩 간의 갈등을 통해 숙종이 인현왕후를 폐위시킨 사건을 풍자한 작품입니다.",
+                plot: "한림학사 유연수의 부인 사씨는 덕망이 높았으나 아이를 낳지 못해 첩 교씨를 들입니다. 교씨는 아들을 낳자 정실 자리를 차지하려는 욕심에 사씨를 모함하여 집에서 쫓아냅니다. 사씨는 온갖 고난을 겪으면서도 절개를 지키고, 결국 유연수는 자신의 잘못을 깨닫고 교씨를 처단한 뒤 사씨를 다시 맞아들입니다.",
+                interpretation: "가정 내 처첩 갈등을 통해 권선징악의 교훈을 줍니다. 사씨는 인현왕후, 교씨는 장희빈, 유연수는 숙종을 상징하며, 왕이 첩에게 빠져 정실을 버리는 것이 잘못됨을 우회적으로 비판하고 있습니다.",
+                historicalBackground: "숙종이 인현왕후를 폐위하고 장희빈을 중전으로 책봉한 사건(기사환국)을 배경으로 합니다. 작가 김만중은 이 작품을 통해 숙종의 마음을 돌리고자 했습니다.",
+                examPoints: [
+                    "<strong>권선징악:</strong> 착한 사씨는 복을 받고 악한 교씨는 벌을 받는 결말입니다.",
+                    "<strong>풍자적 성격:</strong> 사씨는 인현왕후, 교씨는 장희빈, 유연수는 숙종을 상징합니다."
+                ],
+                difficultPoints: [
+                    "<strong><span class=\"tooltip\" data-tooltip=\"본부인과 첩 사이의 싸움\">처첩 갈등</span>:</strong> 조선 시대 축첩 제도의 문제점을 보여줍니다."
+                ],
+                confusingPoints: [
+                    "<strong>유연수의 태도:</strong> 교씨에게 속아 사씨를 내쫓는 우유부단한 인물로 그려져 비판받습니다."
+                ]
+            },
+            "홍길동전": {
+                description: "허균이 지은 최초의 한글 소설로 알려져 있습니다. 도술을 부리는 영웅 이야기이자, 사회 모순을 비판하는 사회 소설입니다.",
+                plot: "홍길동은 명문가 양반의 아들로 태어났으나, 어머니가 노비인 탓에 아버지를 아버지라 부르지 못하는 서얼의 설움을 겪습니다. 집을 떠난 길동은 도적의 우두머리가 되어 '활빈당'을 조직하고, 탐관오리의 재물을 빼앗아 가난한 백성을 돕습니다. 나라에서 그를 잡으려 하자 임금에게 병조판서 벼슬을 요구하여 받아낸 뒤, 조선을 떠나 율도국이라는 이상적인 나라를 세우고 왕이 됩니다.",
+                interpretation: "조선 사회의 모순인 적서 차별(신분 제도)과 탐관오리의 부패를 비판하고, 새로운 이상 사회(율도국)를 건설하고자 하는 혁명적인 사상을 담고 있습니다. 최초의 한글 소설로서 국문 문학의 발전에 기여했습니다.",
+                historicalBackground: "조선 중기, 임진왜란 이후 사회적 혼란과 신분제의 동요가 시작되던 시기입니다. 능력 있는 인재가 신분 때문에 등용되지 못하는 현실에 대한 비판 의식이 고조되어 있었습니다.",
+                examPoints: [
+                    "<strong><span class=\"tooltip\" data-tooltip=\"아버지를 아버지라 부르고 형을 형이라 부름\">호부호형</span>:</strong> 길동이 서얼이라서 하지 못했던 일로, 신분 차별의 아픔을 상징합니다.",
+                    "<strong>사회 비판:</strong> 적서 차별 철폐와 탐관오리 척결을 주장합니다."
+                ],
+                difficultPoints: [
+                    "<strong><span class=\"tooltip\" data-tooltip=\"부패하고 욕심 많은 관리\">탐관오리</span>:</strong> 백성을 괴롭히는 나쁜 관리들을 말합니다."
+                ],
+                confusingPoints: [
+                    "<strong>영웅의 일대기:</strong> 고귀한 혈통, 비정상적 출생, 위기, 도술 습득 등 영웅 소설의 전형적인 구조를 따릅니다."
+                ]
+            },
+            "전우치전": {
+                description: "실존 인물 전우치를 주인공으로 한 도술 소설입니다. 홍길동전과 비슷하게 도술을 이용해 부패한 관리를 혼내주고 백성을 돕는 이야기입니다.",
+                plot: "전우치는 신기한 도술을 익혀 억울한 백성을 돕고 부패한 관리들을 골탕 먹입니다. 천상 선관을 사칭하여 임금을 속여 황금 들보를 받아내 빈민을 구제하기도 합니다. 나라에서 그를 잡으려 하자 그림 속으로 숨거나 족자로 변하는 등 신출귀몰한 도술을 부리며 권력자들을 조롱하다가, 결국 서화담과 함께 산속으로 들어가 신선이 됩니다.",
+                interpretation: "홍길동전과 유사하게 도술을 통해 사회의 부조리를 고발하고 빈민을 구제하는 영웅의 모습을 그립니다. 하지만 홍길동전보다 국가 권력에 대한 풍자와 조롱의 강도가 더 세고, 개인적이고 유희적인 성격이 강합니다.",
+                historicalBackground: "실존 인물 전우치의 기이한 행적에 대한 전설이 구전되다가 소설로 정착되었습니다. 도교 사상이 민간에 널리 퍼져 있었으며, 무능한 왕권에 대한 민중의 반감이 반영되어 있습니다.",
+                examPoints: [
+                    "<strong>도술의 사용:</strong> 현실의 문제를 해결하는 수단으로 도술이 사용됩니다.",
+                    "<strong>사회 비판:</strong> 지배층의 권위를 조롱하고 백성의 편에 섭니다."
+                ],
+                difficultPoints: [
+                    "<strong><span class=\"tooltip\" data-tooltip=\"신비하고 기이한 술법\">도술</span>:</strong> 마법과 비슷한 초능력을 의미합니다."
+                ],
+                confusingPoints: [
+                    "<strong>홍길동전과의 차이:</strong> 홍길동전이 체제 개혁(이상국가 건설)을 꿈꾼다면, 전우치전은 개인적인 활약과 풍자에 더 집중합니다."
+                ]
+            },
+            "운영전": {
+                description: "조선 시대를 배경으로 한 애정 소설로, 궁녀 운영과 김 진사의 비극적인 사랑을 다룹니다. <span class=\"tooltip\" data-tooltip=\"슬프고 가슴 아픈 결말\">비극적 결말</span>이 특징입니다.",
+                plot: "안평대군의 궁녀인 운영은 궁궐에 초대받은 젊은 선비 김 진사와 눈이 맞아 사랑에 빠집니다. 궁녀는 왕의 여자이기에 다른 남자와 사랑하는 것은 죽을 죄였습니다. 두 사람은 몰래 편지를 주고받으며 사랑을 키우지만 결국 발각되고, 운영은 죄책감과 두려움에 자살을 선택합니다. 김 진사 역시 슬픔을 이기지 못하고 식음을 전폐하다가 죽어 운영의 뒤를 따릅니다.",
+                interpretation: "대부분의 고전 소설이 해피엔딩인 것과 달리 비극적으로 끝나는 작품입니다. 궁녀라는 신분적 굴레와 봉건적 제도가 인간의 자유로운 사랑을 어떻게 억압하는지 고발하고 있습니다.",
+                historicalBackground: "세종의 아들 안평대군의 사저인 수성궁을 배경으로 합니다. 실제로 문학을 사랑했던 안평대군의 풍류와 당시 궁녀들의 폐쇄적인 생활상이 반영되어 있습니다.",
+                examPoints: [
+                    "<strong>신분 제약 비판:</strong> 인간의 자유로운 사랑을 억압하는 봉건적 제도를 비판합니다.",
+                    "<strong>액자식 구성:</strong> 유영이라는 인물이 운영과 김 진사의 유령을 만나 이야기를 듣는 구조입니다."
+                ],
+                difficultPoints: [
+                    "<strong><span class=\"tooltip\" data-tooltip=\"궁궐에서 일하는 여자 관리\">궁녀</span>:</strong> 왕이나 왕족 외에는 남자를 만날 수 없는 신분입니다."
+                ],
+                confusingPoints: [
+                    "<strong>몽유록과의 차이:</strong> 꿈속에서 겪은 일이 아니라 유령을 만나 이야기를 듣는다는 점이 다릅니다."
+                ]
+            },
+            "만복사저포기": {
+                description: "김시습의 단편 소설집 '금오신화'에 실린 작품으로, 산 사람과 죽은 사람의 사랑을 다룬 <span class=\"tooltip\" data-tooltip=\"산 사람과 귀신의 결혼 이야기\">명혼 소설</span>입니다.",
+                plot: "남원에 사는 노총각 양생은 만복사에서 부처님과 저포(주사위) 놀이 내기를 하여 이깁니다. 그 대가로 아름다운 여인을 만나게 되는데, 그녀는 왜구의 침입 때 죽은 처녀의 영혼이었습니다. 양생은 그녀와 며칠간 꿈같은 사랑을 나누지만, 여인은 저승으로 돌아가야 할 운명이었습니다. 여인이 떠난 후 양생은 다시는 결혼하지 않고 지리산에 들어가 약초를 캐며 살다가 세상을 떠납니다.",
+                interpretation: "산 사람과 죽은 사람의 사랑(인귀교환)이라는 비현실적인 소재를 통해, 죽음도 갈라놓을 수 없는 애절한 사랑을 그립니다. 현실 세계의 고독과 부조리를 초월적인 사랑으로 위로받고자 하는 작가의 의식이 담겨 있습니다.",
+                historicalBackground: "작가 김시습은 세조의 왕위 찬탈에 반대하여 평생을 방랑하며 살았습니다. 그의 고독한 삶과 현실에 대한 불만이 비극적이고 신비로운 소설 속에 투영되어 있습니다.",
+                examPoints: [
+                    "<strong>전기적(傳奇的) 요소:</strong> 비현실적이고 기이한 내용을 담고 있습니다.",
+                    "<strong>비극적 결말:</strong> 죽음을 초월한 사랑이지만 결국 이별하게 됩니다."
+                ],
+                difficultPoints: [
+                    "<strong><span class=\"tooltip\" data-tooltip=\"기이하고 신비로운 이야기\">전기 소설</span>:</strong> 현실에서 일어나기 힘든 신비한 일을 다룬 소설입니다."
+                ],
+                confusingPoints: [
+                    "<strong>이생규장전과의 비교:</strong> 둘 다 김시습의 작품이며 산 사람과 죽은 사람의 사랑을 다루지만, 결말과 세부 내용이 다릅니다."
+                ]
+            },
+            "옥루몽": {
+                description: "남영로가 지은 장편 소설로, 천상계의 인물들이 인간계로 내려와 겪는 영웅적인 이야기와 애정 관계를 다룹니다. '구운몽'의 영향을 받았습니다.",
+                plot: "천상계의 문창성이 인간 세상에 내려와 양창곡이라는 인물로 태어납니다. 그는 뛰어난 능력으로 과거에 급제하고, 남쪽의 오랑캐를 정벌하는 등 국가에 큰 공을 세웁니다. 그 과정에서 강남홍, 벽성선 등 여러 여인과 인연을 맺고 부귀영화를 누리다가, 마침내 인간 세상의 인연이 다하여 다시 천상으로 돌아가 신선이 됩니다.",
+                interpretation: "구운몽의 구조를 계승하면서도 영웅적인 투쟁과 정치적 활약을 더 강조한 작품입니다. 남성 주인공의 영웅적 면모와 여러 여성과의 애정 관계를 통해 당시 남성들의 이상향을 보여줍니다.",
+                historicalBackground: "19세기 조선 후기, 소설이 대중적인 오락거리로 자리 잡으면서 방대한 분량의 장편 소설이 유행했습니다. 옥루몽은 그중에서도 가장 인기 있었던 작품 중 하나입니다.",
+                examPoints: [
+                    "<strong>영웅적 일대기:</strong> 주인공이 위기를 극복하고 성공하는 과정이 나타납니다.",
+                    "<strong>남성 중심적 시각:</strong> 한 남자가 여러 부인을 거느리는 내용이 포함되어 있습니다."
+                ],
+                difficultPoints: [
+                    "<strong><span class=\"tooltip\" data-tooltip=\"하늘나라의 세계\">천상계</span>:</strong> 신선들이 사는 세상을 말합니다."
+                ],
+                confusingPoints: [
+                    "<strong>구운몽과의 관계:</strong> 꿈속의 일이 아니라 천상계 인물의 하강(적강) 구조를 취한다는 점이 구운몽과 다릅니다."
+                ]
+            },
+            "김원전": {
+                description: "주인공 김원이 괴물을 퇴치하고 공주를 구하는 영웅 소설이자 변신 모티프가 등장하는 작품입니다.",
+                plot: "김원은 태어날 때 알이나 흉측한 허물에 싸여 있었으나, 허물을 벗고 미남자가 됩니다. 어느 날 머리가 아홉 달린 괴물이 공주를 납치해 가자, 김원은 지하국으로 내려가 괴물을 물리치고 공주를 구출합니다. 부하의 배신으로 지하에 갇히는 위기를 겪지만, 용왕의 도움으로 탈출하여 공주와 결혼하고 부마(왕의 사위)가 되어 행복하게 삽니다.",
+                interpretation: "우리나라의 대표적인 설화인 '지하국 대적 퇴치 설화'가 소설화된 작품입니다. 흉측한 외모(허물)를 벗고 영웅으로 다시 태어나는 '변신 모티프'는 시련을 극복하고 성장하는 인간의 모습을 상징합니다.",
+                historicalBackground: "민간에 널리 퍼져 있던 옛날이야기가 조선 후기에 소설로 기록된 것입니다. 괴물을 물리치는 영웅의 이야기는 백성들에게 통쾌함과 희망을 주었습니다.",
+                examPoints: [
+                    "<strong>지하국 대적 퇴치 설화:</strong> 전래 동화와 유사한 구조를 가지고 있습니다.",
+                    "<strong>변신 모티프:</strong> 김원이 허물을 벗고 미남으로 변하는 내용이 나옵니다."
+                ],
+                difficultPoints: [
+                    "<strong><span class=\"tooltip\" data-tooltip=\"이야기의 기본이 되는 핵심 내용\">모티프</span>:</strong> 이야기 속에 반복적으로 나타나는 요소를 말합니다."
+                ],
+                confusingPoints: [
+                    "<strong>영웅의 모습:</strong> 처음에는 흉측한 모습이었다가 나중에 영웅적인 면모를 드러냅니다."
+                ]
+            },
+            "최고운전": {
+                description: "신라 시대의 학자 최치원을 주인공으로 한 전기 소설입니다. 최치원의 비범한 능력과 중국(당나라)에 대한 우리 민족의 자부심을 보여줍니다.",
+                plot: "최치원은 금돼지의 자식이라는 오해를 받고 버려지지만, 선녀와 연꽃의 도움으로 살아남아 비범한 능력을 보입니다. 중국 황제가 신라를 위협하기 위해 보낸 어려운 수수께끼(석함 속의 물건 맞히기)를 해결하고, 중국으로 건너가 과거에 장원 급제합니다. 황소의 난을 문장으로 평정하는 등 뛰어난 활약을 펼쳐 중국인들의 기를 꺾고 신라로 금의환향합니다.",
+                interpretation: "실존 인물 최치원의 생애에 도술과 기이한 이야기를 덧붙여 영웅화했습니다. 우리 민족의 인재가 중국인보다 훨씬 뛰어나다는 것을 보여줌으로써 민족적 자긍심을 고취시키는 작품입니다.",
+                historicalBackground: "조선 후기, 중국(청나라)에 대한 반감과 우리 민족의 우수성을 확인하고 싶은 심리가 반영되었습니다. 최치원은 문학적으로 가장 추앙받던 인물 중 하나였습니다.",
+                examPoints: [
+                    "<strong>민족적 자긍심:</strong> 우리 민족의 인재가 중국인보다 뛰어나다는 것을 강조합니다.",
+                    "<strong>영웅적 면모:</strong> 글재주(문장력)로 나라를 구하는 영웅의 모습입니다."
+                ],
+                difficultPoints: [
+                    "<strong><span class=\"tooltip\" data-tooltip=\"뛰어나고 특별한 재주\">비범한 능력</span>:</strong> 보통 사람과는 다른 뛰어난 능력을 말합니다."
+                ],
+                confusingPoints: [
+                    "<strong>사실과 허구:</strong> 실존 인물 최치원을 다루지만 내용은 대부분 꾸며낸 이야기입니다."
+                ]
+            },
+            "채봉감별곡": {
+                description: "조선 말기를 배경으로 한 애정 소설로, 세태 소설의 성격을 띱니다. 벼슬을 사고파는 타락한 사회상을 비판합니다.",
+                plot: "평양의 김 진사 딸 채봉은 선비 강필성과 서로 사랑하여 약혼합니다. 그러나 벼슬 욕심에 눈이 먼 김 진사가 돈을 받고 딸을 허 판서의 첩으로 보내려 합니다. 채봉은 집을 도망쳐 나와 기생이 되어서라도 정조를 지키며 필성을 기다립니다. 결국 채봉이 지은 '추풍감별곡'이라는 노래 덕분에 감사가 사연을 알게 되고, 채봉은 필성과 다시 만나 행복하게 됩니다.",
+                interpretation: "부모의 명령보다 자신의 사랑을 선택하고, 기생이 되는 고난을 감수하면서도 운명을 개척하는 주체적인 여성상을 보여줍니다. 벼슬을 사고파는(매관매직) 당시의 부패한 세태를 날카롭게 비판합니다.",
+                historicalBackground: "조선 말기, 세도 정치로 인해 사회 기강이 무너지고 돈이면 벼슬도 살 수 있었던 타락한 사회상을 배경으로 합니다. 근대적인 의식이 싹트기 시작한 시기의 작품입니다.",
+                examPoints: [
+                    "<strong><span class=\"tooltip\" data-tooltip=\"돈을 받고 벼슬을 파는 것\">매관매직</span> 비판:</strong> 돈으로 벼슬을 사는 부패한 사회를 고발합니다.",
+                    "<strong>주체적인 여성상:</strong> 부모의 명령을 거부하고 자신의 사랑을 지키려는 채봉의 태도가 드러납니다."
+                ],
+                difficultPoints: [
+                    "<strong><span class=\"tooltip\" data-tooltip=\"당시 사회의 모습\">세태</span>:</strong> 그 시대의 풍속이나 세상을 돌아가는 형편을 말합니다."
+                ],
+                confusingPoints: [
+                    "<strong>춘향전과의 차이:</strong> 기생이 되는 과정이 자의적 선택(도피책)이라는 점이 다릅니다."
+                ]
+            },
+            "배비장전": {
+                description: "판소리계 소설로, 양반의 위선과 허세를 풍자하는 해학적인 작품입니다.",
+                plot: "제주도 신임 사또를 따라간 배 비장은 평소 여자를 멀리하고 점잖은 척 위선을 떱니다. 이를 본 기생 애랑과 방자가 배 비장을 골탕 먹이기로 계획합니다. 애랑의 유혹에 넘어간 배 비장은 그녀의 방에 숨어들었다가 남편이 온 줄 알고 뒤주 속에 숨습니다. 결국 뒤주 째로 관가 마당으로 옮겨져 망신을 당하고, 알몸으로 헤엄치는 흉내를 내며 큰 웃음거리가 됩니다.",
+                interpretation: "겉으로는 도덕군자인 척하지만 속으로는 욕망에 가득 찬 양반들의 이중성을 통쾌하게 조롱합니다. 권위적인 양반이 기생과 하인에게 놀림감이 되는 전복적인 상황을 통해 웃음을 유발합니다.",
+                historicalBackground: "조선 후기, 양반의 권위가 땅에 떨어지고 서민 의식이 성장하던 시기입니다. 지배층에 대한 서민들의 비판과 풍자가 문학 작품을 통해 활발하게 표출되었습니다.",
+                examPoints: [
+                    "<strong>양반 풍자:</strong> 겉으로는 점잖은 척하지만 속으로는 욕망에 가득 찬 양반을 조롱합니다.",
+                    "<strong>해학성:</strong> 배 비장이 뒤주에 갇히거나 알몸으로 헤엄치는 장면 등에서 웃음을 유발합니다."
+                ],
+                difficultPoints: [
+                    "<strong><span class=\"tooltip\" data-tooltip=\"겉과 속이 다름\">위선</span>:</strong> 겉으로만 착한 척하는 태도를 말합니다."
+                ],
+                confusingPoints: [
+                    "<strong>주제의식:</strong> 단순한 웃음을 넘어 지배층의 허위를 폭로하는 데 목적이 있습니다."
+                ]
+            },
+            "박씨전": {
+                description: "병자호란을 배경으로 한 역사 군담 소설입니다. 박씨 부인이라는 여성 영웅의 활약을 통해 전쟁 패배의 아픔을 위로합니다.",
+                plot: "이시백의 아내 박씨는 천하의 박색(못생긴 얼굴)이라 남편과 시어머니에게 구박을 받습니다. 그러나 허물을 벗고 절세미인이 된 후, 신기한 도술로 남편을 장원 급제 시킵니다. 병자호란이 일어나 오랑캐(청나라 군대)가 쳐들어오자, 박씨는 도술을 부려 적장 용골대를 혼내주고 나라를 위기에서 구합니다.",
+                interpretation: "실제 역사인 병자호란에서는 패배했지만, 소설 속에서는 여성 영웅이 적을 물리치는 것으로 그려 민족적 자존심을 회복하고자 했습니다. 남성보다 뛰어난 여성의 능력을 보여주며 남존여비 사상을 비판하기도 합니다.",
+                historicalBackground: "병자호란(1636년)의 치욕적인 패배 이후, 백성들의 상처받은 마음을 위로하고 청나라에 대한 적개심을 표출하기 위해 창작된 작품입니다. '정신적 승리'를 추구했습니다.",
+                examPoints: [
+                    "<strong>여성 영웅:</strong> 남성보다 뛰어난 능력을 가진 여성이 나라를 구하는 내용입니다.",
+                    "<strong>정신적 승리:</strong> 실제 역사(패배)와 달리 소설 속에서는 승리하여 민족의 자존심을 세웁니다."
+                ],
+                difficultPoints: [
+                    "<strong><span class=\"tooltip\" data-tooltip=\"전쟁 이야기를 다룬 소설\">군담 소설</span>:</strong> 주인공이 전쟁에서 활약하는 이야기를 말합니다."
+                ],
+                confusingPoints: [
+                    "<strong>역사적 사실과 허구:</strong> 병자호란은 실제 역사지만 박씨의 활약은 허구입니다."
+                ]
+            },
+            "숙향전": {
+                description: "천상에서 죄를 짓고 쫓겨난 숙향과 이선의 사랑을 다룬 애정 소설이자 적강 소설입니다.",
+                plot: "천상계의 선녀였던 숙향은 죄를 짓고 인간 세상에 내려와 전쟁통에 부모를 잃고 고아가 됩니다. 수많은 죽을 고비를 넘기며 떠돌다가 이선을 만나 사랑에 빠져 결혼합니다. 시부모의 반대와 박해로 감옥에 갇히는 등 시련을 겪지만, 신령스러운 존재들의 도움으로 위기를 극복합니다. 결국 이선은 과거에 급제하고, 숙향은 헤어진 부모와 재회하며 행복하게 살다가 다시 천상으로 돌아갑니다.",
+                interpretation: "여주인공 숙향이 겪는 고난과 이를 극복하는 과정을 통해, 운명에 순응하지 않고 사랑을 쟁취하려는 의지를 보여줍니다. 도교적 환상성과 낭만적인 사랑 이야기가 결합되어 있습니다.",
+                historicalBackground: "조선 후기, 전란으로 인한 가족 이산의 아픔을 겪은 민중들에게 위로를 주었던 작품입니다. 숙향이 겪는 고난은 당시 민중들의 고달픈 삶을 대변합니다.",
+                examPoints: [
+                    "<strong>도교적 색채:</strong> 선녀, 월궁 등 도교적인 배경과 소재가 많이 등장합니다.",
+                    "<strong>영웅적 일대기 구조:</strong> 고귀한 혈통, 기아(버려짐), 구출, 시련 극복 등의 구조를 따릅니다."
+                ],
+                difficultPoints: [
+                    "<strong><span class=\"tooltip\" data-tooltip=\"하늘에서 인간 세상으로 내려옴\">적강</span>:</strong> 신선이 죄를 지어 인간으로 태어나는 설정을 말합니다."
+                ],
+                confusingPoints: [
+                    "<strong>숙향의 성격:</strong> 수동적으로 보일 수 있으나 사랑을 위해 시련을 견디는 의지적인 면도 있습니다."
+                ]
+            },
+            "조웅전": {
+                description: "조선 후기에 가장 많이 읽힌 영웅 소설 중 하나입니다. 주인공 조웅의 고난과 복수, 영웅적 활약을 다룹니다.",
+                plot: "간신 이두병이 왕위를 찬탈하고 조웅의 아버지를 죽이자, 조웅은 어머니와 함께 도망쳐 숨어 삽니다. 조웅은 도승을 만나 무예를 익히고, 우연히 만난 장 소저와 사랑을 약속합니다. 이후 조웅은 위기에 처한 태자를 구하고 대군을 이끌고 돌아와 이두병을 처단하여 원수를 갚고 나라를 되찾습니다.",
+                interpretation: "부모의 원수를 갚고 나라에 충성한다는 유교적 가치를 담고 있습니다. 특히 주인공이 부모의 허락 없이 자유연애를 하고 결혼하는 내용은 당시로서는 매우 파격적이며, 대중적인 인기를 끈 요인이었습니다.",
+                historicalBackground: "세도 정치로 인해 왕권이 약화되고 탐관오리가 득세하던 조선 후기, 강력한 영웅이 나타나 사회를 바로잡아 주기를 바라는 민중의 열망이 반영되었습니다.",
+                examPoints: [
+                    "<strong>전형적인 영웅 소설:</strong> 영웅의 일대기 구조가 아주 잘 나타나 있습니다.",
+                    "<strong>자유연애:</strong> 조웅이 장 소저와 부모 허락 없이 혼인하는 장면은 당시로서는 파격적입니다."
+                ],
+                difficultPoints: [
+                    "<strong><span class=\"tooltip\" data-tooltip=\"왕의 자리를 뺏으려는 나쁜 신하\">역적/간신</span>:</strong> 이두병과 같은 인물을 말합니다."
+                ],
+                confusingPoints: [
+                    "<strong>유충렬전과의 비교:</strong> 둘 다 영웅 소설이지만 세부적인 갈등 구조나 도술의 비중이 다를 수 있습니다."
+                ]
+            },
+            "적벽가": {
+                description: "판소리 다섯 마당 중 하나로, 중국 소설 '삼국지연의'의 적벽대전 부분을 바탕으로 재창작한 작품입니다.",
+                plot: "중국 삼국시대, 조조가 백만 대군을 이끌고 쳐들어오자 유비와 손권의 연합군이 적벽강에서 맞서 싸웁니다. 제갈공명은 동남풍을 빌려와 조조의 배들을 불태우고(적벽대전), 조조는 비참하게 도망칩니다. 이 과정에서 이름 없는 병사들이 죽음을 두려워하며 고향을 그리워하는 모습과, 영웅 조조가 살려달라고 비는 비굴한 모습이 그려집니다.",
+                interpretation: "원작 '삼국지연의'가 영웅들의 활약에 초점을 맞췄다면, 적벽가는 전쟁에 끌려나온 서민(병사)들의 애환과 고통을 부각했습니다. 또한 절대 권력자인 조조를 우스꽝스럽게 묘사하여 지배층의 권위를 떨어뜨리고 전쟁의 무의미함을 비판합니다.",
+                historicalBackground: "조선 후기 서민 의식의 성장과 함께, 중국의 이야기를 주체적으로 수용하고 재해석한 작품입니다. 지배층의 명분 싸움에 희생되는 민중들의 반전(反戰) 의식이 담겨 있습니다.",
+                examPoints: [
+                    "<strong>군사 설움 타령:</strong> 전쟁에 끌려나온 일반 병사들의 고통과 설움을 해학적으로 표현합니다.",
+                    "<strong>조조의 희화화:</strong> 영웅 조조를 비겁하고 경박한 인물로 묘사하여 조롱합니다."
+                ],
+                difficultPoints: [
+                    "<strong><span class=\"tooltip\" data-tooltip=\"웃음을 자아내면서도 슬픈 느낌\">희화화</span>:</strong> 대상을 우스꽝스럽게 묘사하는 것을 말합니다."
+                ],
+                confusingPoints: [
+                    "<strong>삼국지연의와의 차이:</strong> 원작은 영웅 중심이지만, 적벽가는 서민 중심의 비판 의식이 강합니다."
+                ]
+            },
+            "유충렬전": {
+                description: "조선 후기 대표적인 영웅 소설로, 충신 유충렬이 간신을 물리치고 황제와 아버지를 구하는 이야기입니다.",
+                plot: "명나라 때, 간신 정한담의 모함으로 충신 유심(유충렬의 아버지)은 유배를 가고 유충렬의 집안은 풍비박산이 납니다. 유충렬은 고난 속에 자라다가 도승을 만나 도술을 배웁니다. 이후 정한담이 오랑캐와 결탁하여 반란을 일으키자, 유충렬이 등장하여 화려한 도술로 적들을 물리치고 황제와 아버지를 구출하여 부귀영화를 누립니다.",
+                interpretation: "충신과 간신의 대결 구도를 통해 권선징악과 충효 사상을 강조합니다. 특히 후반부의 전쟁 장면은 도술과 신비한 무기가 등장하여 매우 환상적이고 박진감 넘치게 묘사되어 있습니다.",
+                historicalBackground: "병자호란 등 잦은 외세의 침략으로 고통받던 시기에, 강력한 영웅이 나타나 적을 물리치고 나라를 구해주기를 바라는 민중의 심리가 반영된 '군담 소설'입니다.",
+                examPoints: [
+                    "<strong>충신과 간신의 대립:</strong> 선(충신)과 악(간신)의 대결 구도가 뚜렷합니다.",
+                    "<strong>도술 대결:</strong> 후반부 전쟁 장면에서 화려한 도술 묘사가 특징입니다."
+                ],
+                difficultPoints: [
+                    "<strong><span class=\"tooltip\" data-tooltip=\"임금에게 충성을 다하는 신하\">충신</span>:</strong> 유충렬과 그의 아버지를 말합니다."
+                ],
+                confusingPoints: [
+                    "<strong>조웅전과의 유사성:</strong> 줄거리가 매우 비슷하여 헷갈릴 수 있으나, 등장인물 이름으로 구별해야 합니다."
+                ]
+            },
+            "이생규장전": {
+                description: "김시습의 '금오신화'에 실린 한문 소설로, 죽음을 초월한 남녀의 사랑을 다룹니다.",
+                plot: "고려 시대, 이생은 담장 너머의 최랑을 보고 사랑에 빠져 부모의 반대를 무릅쓰고 결혼합니다. 행복하게 살던 중 홍건적의 난이 일어나 최랑이 도적에게 죽임을 당합니다. 슬픔에 잠긴 이생 앞에 최랑이 환신(귀신)이 되어 나타나고, 두 사람은 다시 부부의 연을 맺고 행복하게 지냅니다. 그러나 몇 년 후 저승의 법을 어길 수 없어 최랑은 떠나고, 이생도 시름시름 앓다가 죽습니다.",
+                interpretation: "죽음을 초월한 남녀의 애절한 사랑을 다룬 전기(傳奇) 소설입니다. 전쟁이라는 폭력적인 현실 앞에서도 굴하지 않는 사랑의 의지를 보여주지만, 결국 죽음이라는 운명을 거스르지 못하는 비극적 결말을 통해 인생의 허무함을 드러냅니다.",
+                historicalBackground: "우리나라 최초의 한문 소설집인 '금오신화'에 실린 작품입니다. 작가 김시습은 세조의 왕위 찬탈에 항거하며 평생을 방랑했는데, 이러한 작가의 고독과 현실 비판 의식이 작품 속에 짙게 배어 있습니다.",
+                examPoints: [
+                    "<strong>전기적 요소:</strong> 죽은 사람과의 사랑이라는 비현실적 소재를 다룹니다.",
+                    "<strong>비극적 결말:</strong> 결국은 이별하고 이생도 병들어 죽는 슬픈 결말입니다."
+                ],
+                difficultPoints: [
+                    "<strong><span class=\"tooltip\" data-tooltip=\"중국에서 쳐들어온 도적 떼\">홍건적의 난</span>:</strong> 고려 말기에 있었던 실제 역사적 사건입니다."
+                ],
+                confusingPoints: [
+                    "<strong>만복사저포기와의 차이:</strong> 이생규장전은 결혼 후 전쟁으로 인한 이별과 재회를 다룬다는 점이 특징입니다."
+                ]
+            },
+            "창선감의록": {
+                description: "조성기가 지은 가정 소설로, 권선징악과 충효 사상을 주제로 합니다.",
+                plot: "명나라 때, 화진은 아버지의 사랑을 받지만 계모 허씨와 이복형 화춘의 시기를 받아 집에서 쫓겨납니다. 화진은 온갖 고난을 겪으면서도 부모에 대한 효심과 형제에 대한 우애를 잃지 않습니다. 결국 화진은 과거에 급제하고 누명을 벗어 가문을 다시 일으킵니다. 그의 지극한 효성에 감동한 계모와 이복형도 잘못을 뉘우치고 화목한 가정을 이룹니다.",
+                interpretation: "제목은 '착한 행실(선)을 드러내고(창), 의리(의)를 느껴 감동하게 한다'는 뜻입니다. 가정 내의 갈등을 유교적 윤리(효, 우애)로 극복하고 악인을 교화시키는 과정을 통해 이상적인 가정의 모습을 제시합니다.",
+                historicalBackground: "조선 후기 사대부 가문에서 중요하게 여겼던 유교적 도덕관을 반영하고 있습니다. 일부다처제 하에서 발생할 수 있는 가정 내의 갈등과 이를 해결하기 위한 규범을 보여주는 교훈적인 소설입니다.",
+                examPoints: [
+                    "<strong>가정 내 갈등:</strong> 처첩 갈등, 형제 갈등 등 가정 내부의 문제를 다룹니다.",
+                    "<strong>교훈적 성격:</strong> 착한 마음으로 감동을 주어 사람을 변화시킨다는 교훈을 줍니다."
+                ],
+                difficultPoints: [
+                    "<strong><span class=\"tooltip\" data-tooltip=\"착한 것을 권하고 악한 것을 벌함\">권선징악</span>:</strong> 고전 소설의 대표적인 주제입니다."
+                ],
+                confusingPoints: [
+                    "<strong>사씨남정기와의 비교:</strong> 가정 소설이라는 점은 같으나, 창선감의록은 악인의 개과천선을 더 강조합니다."
+                ]
+            },
+            "심생전": {
+                description: "이옥이 지은 한문 단편 소설로, 신분 차이로 인한 비극적인 사랑을 그립니다.",
+                plot: "서울의 양반 자제 심생은 우연히 중인 계급의 소녀를 보고 사랑에 빠집니다. 심생은 매일 밤 소녀의 집 담을 넘어가 구애한 끝에 사랑을 얻고 함께 살게 됩니다. 그러나 심생이 과거 공부를 위해 절로 떠난 사이, 소녀는 신분의 차이로 인한 고민 끝에 병을 얻어 죽습니다. 뒤늦게 이 사실을 안 심생도 슬픔에 잠겨 시름시름 앓다가 요절합니다.",
+                interpretation: "엄격한 신분 제도가 존재했던 조선 사회에서, 신분의 벽을 넘지 못한 남녀의 사랑이 비극으로 끝날 수밖에 없음을 보여줍니다. 자유로운 연애를 꿈꾸지만 현실의 벽에 부딪혀 좌절하는 젊은이들의 아픔을 사실적으로 그려냈습니다.",
+                historicalBackground: "조선 후기, 상업과 도시 문화가 발달하면서 중인 계층이 성장하고 신분 질서가 흔들리던 시기입니다. 하지만 여전히 견고했던 양반 중심의 신분 차별이 개인의 행복을 어떻게 파괴하는지 보여줍니다.",
+                examPoints: [
+                    "<strong>신분 제약:</strong> 신분의 벽 때문에 사랑이 이루어지지 못하는 현실을 보여줍니다.",
+                    "<strong>사실적 묘사:</strong> 감정 묘사가 섬세하고 사실적입니다."
+                ],
+                difficultPoints: [
+                    "<strong><span class=\"tooltip\" data-tooltip=\"양반과 평민 사이의 중간 계급\">중인</span>:</strong> 기술직 관리 등이 여기에 속합니다."
+                ],
+                confusingPoints: [
+                    "<strong>운영전과의 유사성:</strong> 신분 차이로 인한 비극적 결말이라는 점이 비슷합니다."
+                ]
+            },
+            "장끼전": {
+                description: "판소리계 우화 소설로, 남존여비 사상을 비판하고 여성의 개가를 긍정적으로 그립니다.",
+                plot: "겨울날 배가 고픈 장끼(수꿩)가 콩을 발견하고 먹으려 합니다. 아내 까투리(암꿩)는 지난밤 꿈이 흉하다며 말리지만, 장끼는 아내의 말을 무시하고 고집을 부리다 덫에 치여 죽습니다. 장끼는 죽어가면서도 까투리에게 재혼하지 말라고 유언하지만, 까투리는 장례를 치른 후 수많은 수컷 새들의 구혼을 받다가 홀아비 장끼와 재혼하여 행복하게 삽니다.",
+                interpretation: "가부장적인 권위를 내세우며 아내의 말을 무시하는 무능한 남성(장끼)을 풍자하고, 남편의 죽음 이후 주체적으로 자신의 삶을 찾아가는 여성(까투리)의 모습을 긍정적으로 그렸습니다. 유교적 도덕관인 '개가(재혼) 금지'를 비판하는 진보적인 작품입니다.",
+                historicalBackground: "조선 후기, 남존여비 사상과 가부장제에 대한 비판 의식이 싹트던 시기입니다. 여성의 재혼을 금기시하던 사회 분위기 속에서 여성의 본능적 욕구와 행복 추구권을 옹호하는 파격적인 내용을 담고 있습니다.",
+                examPoints: [
+                    "<strong>가부장제 비판:</strong> 아내의 말을 무시하고 고집 부리는 장끼를 통해 남성 중심 사회를 풍자합니다.",
+                    "<strong>여성의 개가:</strong> 남편이 죽은 후 재혼하는 것을 긍정적으로 묘사합니다."
+                ],
+                difficultPoints: [
+                    "<strong><span class=\"tooltip\" data-tooltip=\"남편이 죽은 뒤 다시 결혼함\">개가</span>:</strong> 재혼과 같은 말입니다."
+                ],
+                confusingPoints: [
+                    "<strong>우화의 의미:</strong> 동물에 빗대어 인간 사회의 문제를 꼬집는 것입니다."
+                ]
+            },
+            "서동지전": {
+                description: "쥐를 의인화한 우화 소설로, 배은망덕한 인간 세태를 비판합니다.",
+                plot: "부유하고 인심 좋은 쥐 '서동지'는 가난한 다람쥐가 찾아와 도움을 청하자 쌀을 꾸어줍니다. 그러나 다람쥐는 갚을 때가 되자 핑계를 대며 갚지 않고, 오히려 서동지를 관가에 허위로 고발합니다. 재판 과정에서 다람쥐의 배은망덕함이 밝혀져 처벌받게 되지만, 서동지는 다람쥐를 용서하고 풀어달라고 간청합니다. 이에 감동한 다람쥐는 잘못을 뉘우칩니다.",
+                interpretation: "은혜를 원수로 갚는 다람쥐를 통해 각박해진 세태를 비판하고, 서동지의 관용을 통해 도덕적 삶의 중요성을 강조합니다. 또한 무능하면서 허세만 부리는 몰락 양반(다람쥐)과 부를 축적한 신흥 서민(서동지)의 갈등을 보여줍니다.",
+                historicalBackground: "조선 후기 신분 변동과 경제 구조의 변화 속에서 나타난 사회적 갈등을 동물에 빗대어 표현했습니다. 송사(재판)를 소재로 한 '송사 소설'의 형식을 취하고 있습니다.",
+                examPoints: [
+                    "<strong>송사 소설:</strong> 재판하는 과정이 이야기의 중심이 됩니다.",
+                    "<strong>세태 풍자:</strong> 은혜를 원수로 갚는 각박한 인심을 비판합니다."
+                ],
+                difficultPoints: [
+                    "<strong><span class=\"tooltip\" data-tooltip=\"은혜를 잊고 배신함\">배은망덕</span>:</strong> 도와준 사람을 배신하는 태도입니다."
+                ],
+                confusingPoints: [
+                    "<strong>주인공:</strong> 제목은 서동지전이지만, 서동지는 쥐를 높여 부르는 말입니다."
+                ]
+            },
+            "숙영낭자전": {
+                description: "조선 후기 애정 소설로, 꿈속의 인연이 현실로 이어지는 이야기입니다.",
+                plot: "백선군은 꿈속에서 선녀 숙영낭자를 만나 사랑에 빠지고, 현실에서 그녀를 찾아내어 부모의 반대를 무릅쓰고 부부가 됩니다. 그러나 백선군이 과거를 보러 간 사이, 시아버지의 오해로 숙영낭자는 억울함을 호소하며 자살합니다. 돌아온 백선군은 아내의 무죄를 밝혀내고, 옥황상제의 도움으로 숙영낭자는 다시 살아납니다. 두 사람은 행복하게 살다가 함께 승천합니다.",
+                interpretation: "부모의 허락 없는 자유연애와 결혼, 그리고 죽음을 초월한 사랑을 다루고 있습니다. 며느리를 의심하고 억압하는 가부장적 권위를 비판하고, 진실한 사랑의 승리를 보여줍니다.",
+                historicalBackground: "조선 후기, 유교적 엄숙주의에서 벗어나 남녀 간의 자유로운 사랑을 추구하는 경향이 나타났음을 보여줍니다. '재생(환생)'이라는 전기적 요소를 통해 비극을 행복한 결말로 바꾸었습니다.",
+                examPoints: [
+                    "<strong>재생(환생) 모티프:</strong> 죽은 사람이 다시 살아나는 내용이 중요합니다.",
+                    "<strong>가부장적 권위 비판:</strong> 며느리를 억압하는 시부모의 태도가 갈등의 원인입니다."
+                ],
+                difficultPoints: [
+                    "<strong><span class=\"tooltip\" data-tooltip=\"다시 살아남\">환생</span>:</strong> 죽었다가 다시 태어나는 것입니다."
+                ],
+                confusingPoints: [
+                    "<strong>이생규장전과의 차이:</strong> 이생규장전은 귀신과 사랑하지만, 숙영낭자전은 다시 살아나서 해피엔딩을 맞습니다."
+                ]
+            },
+            "임경업전": {
+                description: "실존 인물 임경업 장군을 주인공으로 한 역사 군담 소설입니다. 병자호란의 패배를 안타까워하며 민족적 영웅을 형상화했습니다.",
+                plot: "조선 인조 때의 명장 임경업은 병자호란 당시 뛰어난 지략과 무예로 청나라 군대를 물리치며 활약합니다. 그러나 간신 김자점의 방해로 지원군을 받지 못하고, 결국 인조가 항복하면서 전쟁에서 패배합니다. 이후 임경업은 명나라와 연합하여 청나라를 치려 하지만 부하의 배신으로 실패하고, 귀국 후 김자점의 모함으로 억울하게 옥사합니다.",
+                interpretation: "실존 인물 임경업의 영웅적 활약과 비극적 죽음을 다룬 작품입니다. 전쟁에는 졌지만 정신적으로는 패배하지 않았다는 민족적 자존심을 세우고, 무능한 왕과 간신들을 비판하며 영웅의 죽음을 애도합니다.",
+                historicalBackground: "병자호란의 패배와 소현세자의 죽음, 북벌 계획의 실패 등 암울했던 역사적 사실을 배경으로 합니다. 민중들은 소설 속에서나마 청나라에 복수하고 싶어 했습니다.",
+                examPoints: [
+                    "<strong>비극적 영웅:</strong> 뛰어난 능력을 가졌으나 간신 때문에 뜻을 이루지 못하고 죽습니다.",
+                    "<strong>역사 비판:</strong> 무능한 조정과 간신들을 비판합니다."
+                ],
+                difficultPoints: [
+                    "<strong><span class=\"tooltip\" data-tooltip=\"실제 역사를 바탕으로 한 소설\">역사 소설</span>:</strong> 사실과 허구가 섞여 있습니다."
+                ],
+                confusingPoints: [
+                    "<strong>박씨전과의 비교:</strong> 둘 다 병자호란을 배경으로 하지만, 박씨전은 승리(정신적)를, 임경업전은 비극적 패배와 안타까움을 다룹니다."
+                ]
+            },
+            "옹고집전": {
+                description: "판소리계 소설로, 불효하고 인색한 옹고집이 벌을 받고 새사람이 되는 이야기입니다.",
+                plot: "옹진골에 사는 옹고집은 돈은 많지만 인색하고 불효막심한 사람입니다. 어느 날 시주를 하러 온 도사를 학대하고 쫓아내자, 도사는 지푸라기로 가짜 옹고집을 만들어 진짜 옹고집을 집에서 내쫓습니다. 진짜 옹고집은 거지 신세가 되어 온갖 고생을 하다가 자신의 잘못을 뉘우칩니다. 도사의 도움으로 다시 집으로 돌아온 옹고집은 가짜를 물리치고 착한 사람이 되어 효도를 다합니다.",
+                interpretation: "진짜와 가짜가 주인을 다투는 '진가 쟁주' 모티프를 통해, 겉모습보다는 올바른 마음가짐이 중요함을 일깨웁니다. 물질적 풍요보다는 도덕적 가치(효, 보시)를 중시해야 한다는 교훈을 줍니다.",
+                historicalBackground: "조선 후기, 부를 축적했지만 도덕적으로 타락한 신흥 부유층(요호부민)을 비판하는 서민들의 의식이 반영되었습니다. 불교의 권선징악 사상이 바탕에 깔려 있습니다.",
+                examPoints: [
+                    "<strong>진가 쟁주(진짜와 가짜 싸움):</strong> 진짜와 가짜가 서로 주인이라고 다투는 구조가 특징입니다.",
+                    "<strong>권선징악:</strong> 나쁜 행동을 하면 벌을 받는다는 교훈을 줍니다."
+                ],
+                difficultPoints: [
+                    "<strong><span class=\"tooltip\" data-tooltip=\"고집이 세고 욕심 많은 사람\">옹고집</span>:</strong> 주인공의 별명입니다."
+                ],
+                confusingPoints: [
+                    "<strong>주제의 확장:</strong> 단순한 권선징악뿐만 아니라 돈이면 다 된다는 물질 만능주의를 비판하기도 합니다."
+                ]
+            },
+            "금방울전": {
+                description: "금방울로 태어난 주인공이 겪는 모험과 변신을 다룬 기이한 소설입니다.",
+                plot: "남해 용왕의 아들과 동해 용왕의 딸이 인간 세상에 내려와 장원 부부의 아들(해룡)과 과부의 딸(금방울)로 태어납니다. 금방울은 방울 모습으로 태어나 버려지지만, 신기한 도술로 어머니를 돕고 위험에 처한 해룡을 여러 번 구해줍니다. 나중에 금방울은 허물을 벗고 아름다운 여인이 되어 해룡과 결혼하고, 해룡은 전쟁에서 공을 세워 부귀영화를 누립니다.",
+                interpretation: "금방울이라는 비정상적인 모습으로 태어난 여주인공이 남주인공을 위기에서 구하고 영웅적인 활약을 펼치는 내용입니다. 여성의 능력을 긍정적으로 묘사하고, 겉모습보다는 내면의 능력이 중요함을 강조합니다.",
+                historicalBackground: "여성 영웅 소설이 유행하던 시기에 창작되었습니다. 남성에게 의존하지 않고 주체적으로 문제를 해결하는 여성상을 통해, 당시 여성들의 사회적 욕구를 대리 만족시켜 주었습니다.",
+                examPoints: [
+                    "<strong>변신 모티프:</strong> 방울에서 사람으로 변하는 과정이 중요합니다.",
+                    "<strong>여성 영웅:</strong> 여성이 주도적으로 문제를 해결하고 남성을 돕습니다."
+                ],
+                difficultPoints: [
+                    "<strong><span class=\"tooltip\" data-tooltip=\"이상하고 기묘한 이야기\">기이하다</span>:</strong> 상식적으로 이해하기 힘든 신비한 일입니다."
+                ],
+                confusingPoints: [
+                    "<strong>박씨전과의 유사성:</strong> 추한 모습(또는 방울)에서 미인으로 변신하고 도술을 부린다는 점이 비슷합니다."
+                ]
+            },
+            "정수정전": {
+                description: "여성이 남장을 하고 벼슬길에 올라 나라를 구하는 여성 영웅 소설입니다.",
+                plot: "정수정은 간신 때문에 부모를 잃고 고아가 됩니다. 그녀는 남장을 하고 무예를 익혀 과거에 장원 급제하고 대원수가 됩니다. 오랑캐가 쳐들어오자 출전하여 적을 물리치고 부모의 원수를 갚습니다. 나중에 왕에게 여자임이 밝혀지지만, 왕은 그녀의 공로를 인정하여 벌하지 않고 장연과 결혼하게 합니다. 결혼 후에도 남편보다 우월한 능력을 보이며 행복하게 삽니다.",
+                interpretation: "여성이 남장을 통해 사회적 제약을 뛰어넘고 남성보다 뛰어난 능력을 발휘하여 국가적 위기를 해결한다는 '여성 영웅 소설'입니다. 남존여비의 봉건적 질서를 비판하고 여성의 사회 진출 욕구를 반영했습니다.",
+                historicalBackground: "조선 후기, 여성들의 자의식이 성장하면서 남성과 대등하거나 그보다 뛰어난 능력을 가진 여성 영웅을 다룬 소설들이 많이 등장했습니다. 이는 당시 여성 독자들의 열렬한 지지를 받았습니다.",
+                examPoints: [
+                    "<strong>남장 모티프:</strong> 여성이 사회적 제약을 뛰어넘기 위해 남장을 합니다.",
+                    "<strong>여성 의식의 성장:</strong> 남성보다 뛰어난 능력을 가진 여성을 통해 남존여비 사상을 비판합니다."
+                ],
+                difficultPoints: [
+                    "<strong><span class=\"tooltip\" data-tooltip=\"군대를 지휘하는 최고 대장\">대원수</span>:</strong> 군사 최고 책임자입니다."
+                ],
+                confusingPoints: [
+                    "<strong>홍계월전과의 유사성:</strong> 남장 여성 영웅이 등장한다는 점이 매우 비슷합니다."
+                ]
+            },
+            "상사동기": {
+                description: "조선 후기 애정 소설로, 신분을 초월한 남녀의 사랑을 다룹니다.",
+                plot: "양반 김생은 우연히 만난 회산군 댁의 시녀 영영을 보고 첫눈에 반해 상사병을 앓습니다. 김생은 친구의 도움과 막막파(노파)의 중재로 영영과 몰래 만나 사랑을 나눕니다. 그러나 영영이 궁궐로 팔려갈 위기에 처하자, 김생은 과거에 급제한 후 회산군에게 청하여 영영을 첩으로 맞아들여 행복하게 삽니다.",
+                interpretation: "양반과 천민(시녀)이라는 신분 차이를 극복하고 사랑을 이루는 과정을 다룹니다. 유교적 윤리보다는 남녀 간의 진솔한 감정과 자유로운 연애를 중시하는 조선 후기의 개방적인 애정관을 보여줍니다.",
+                historicalBackground: "조선 후기 도시의 발달과 함께 유흥 문화가 확산되던 시기를 배경으로 합니다. 신분 질서가 동요하면서 개인의 욕망을 긍정하는 분위기가 형성되었습니다.",
+                examPoints: [
+                    "<strong>자유연애:</strong> 부모의 허락 없이 스스로 사랑을 쟁취하는 적극적인 모습이 나타납니다.",
+                    "<strong>신분 제약 극복:</strong> 사랑의 힘으로 신분의 벽을 넘습니다."
+                ],
+                difficultPoints: [
+                    "<strong><span class=\"tooltip\" data-tooltip=\"사랑하는 사람을 그리워해서 생긴 병\">상사병</span>:</strong> 짝사랑 때문에 마음이 아픈 병입니다."
+                ],
+                confusingPoints: [
+                    "<strong>운영전과의 차이:</strong> 운영전은 비극으로 끝나지만, 상사동기는 행복한 결말(해피엔딩)입니다."
+                ]
+            },
+            "이대봉전": {
+                description: "남녀 주인공이 모두 영웅적인 능력을 발휘하는 영웅 소설입니다.",
+                plot: "명나라 때, 이대봉과 장애황은 약혼한 사이였으나 간신의 모함으로 양가 모두 풍비박산이 나고 헤어집니다. 장애황은 남장을 하고 무예를 익혀 과거에 급제하고 대원수가 되어 흉노족을 물리칩니다. 이대봉 역시 도사에게 무예를 배워 선우족을 물리치고 공을 세웁니다. 전쟁터에서 재회한 두 사람은 서로를 알아보고 결혼하여 부귀영화를 누립니다.",
+                interpretation: "남녀 주인공이 대등한 능력을 가지고 국가적 위기를 해결하는 '남녀 쌍영웅' 구조입니다. 특히 여성 주인공 장애황이 남성보다 더 뛰어난 능력을 발휘하고 남성을 구원하는 모습에서 진취적인 여성관을 엿볼 수 있습니다.",
+                historicalBackground: "병자호란 이후의 국난 극복 의지와 여성의 사회적 지위 향상에 대한 욕구가 결합되어 탄생한 작품입니다. 영웅 소설의 전형적인 구조를 따르면서도 여성의 활약을 강조했습니다.",
+                examPoints: [
+                    "<strong>남녀 쌍영웅:</strong> 남자뿐만 아니라 여자 주인공도 영웅적인 활약을 합니다.",
+                    "<strong>재회 구조:</strong> 이별과 시련을 겪은 후 다시 만나는 구조입니다."
+                ],
+                difficultPoints: [
+                    "<strong><span class=\"tooltip\" data-tooltip=\"여자가 남자 옷을 입고 남자인 척함\">남장</span>:</strong> 여성이 사회 활동을 하기 위한 수단이었습니다."
+                ],
+                confusingPoints: [
+                    "<strong>정수정전과의 차이:</strong> 이대봉전은 남녀 주인공이 대등하게 활약하는 편입니다."
+                ]
+            },
+            "김진옥전": {
+                description: "주인공 김진옥이 겪는 고난과 영웅적 활약을 다룬 소설입니다.",
+                plot: "김진옥은 간신의 모함으로 아버지가 유배되고 어머니와 헤어지는 시련을 겪습니다. 그는 도승을 만나 도술을 배우고, 지하국에 내려가 괴물을 물리치고 공주를 구하는 등 영웅적인 모험을 합니다. 이후 전쟁이 일어나자 대원수가 되어 적을 물리치고, 헤어졌던 가족과 재회하여 부귀영화를 누립니다.",
+                interpretation: "지하국 대적 퇴치, 변신, 도술 등 흥미로운 화소가 가득한 전형적인 영웅 소설입니다. 주인공이 겪는 고난과 극복 과정은 당시 민중들에게 대리 만족과 희망을 주었습니다.",
+                historicalBackground: "조선 후기 대중적인 인기를 끌었던 영웅 소설의 특징을 잘 보여줍니다. '김원전' 등 다른 고전 소설의 내용이 혼합되어 나타나기도 합니다.",
+                examPoints: [
+                    "<strong>적강 구조:</strong> 천상계 인물이 지상으로 내려와 고난을 겪는 구조입니다.",
+                    "<strong>우연성:</strong> 위기 때마다 우연히 도움을 받는 장면이 많습니다."
+                ],
+                difficultPoints: [
+                    "<strong><span class=\"tooltip\" data-tooltip=\"뜻밖의 도움을 주는 사람\">조력자</span>:</strong> 주인공을 도와주는 인물입니다."
+                ],
+                confusingPoints: [
+                    "<strong>다른 영웅 소설과의 차별점:</strong> 전형적인 영웅 소설의 구조를 따르므로 다른 작품과 줄거리가 비슷해 보일 수 있습니다."
+                ]
+            },
+            "이화전": {
+                description: "계모의 학대를 받는 전처 자식의 고난을 다룬 가정 소설이자 여성 수난 소설입니다.",
+                plot: "이화는 일찍 어머니를 여의고 계모의 학대를 받으며 자랍니다. 계모는 이화를 죽이려 흉계를 꾸미지만, 이화는 기지를 발휘해 위기를 모면하고 집을 나옵니다. 남장을 하고 글을 배운 이화는 과거에 급제하여 벼슬길에 오릅니다. 이후 자신의 정체를 밝히고 아버지와 재회하며, 악독한 계모를 용서하고 화목한 가정을 이룹니다.",
+                interpretation: "계모와의 갈등이라는 가정 소설의 틀에 남장 여성 영웅의 이야기를 결합했습니다. 여성의 수난과 극복 과정을 통해 가부장제 사회의 모순을 드러내고 여성의 능력을 긍정합니다.",
+                historicalBackground: "조선 후기, 가정 내 갈등과 여성의 사회 진출 욕구가 맞물려 탄생한 작품입니다. '장화홍련전'이나 '콩쥐팥쥐'와 달리 주인공이 죽지 않고 스스로 운명을 개척한다는 점이 특징입니다.",
+                examPoints: [
+                    "<strong>계모형 가정 소설:</strong> 콩쥐팥쥐나 장화홍련전처럼 계모와의 갈등이 주된 내용입니다.",
+                    "<strong>여성의 사회 진출:</strong> 남장을 통해 능력을 발휘합니다."
+                ],
+                difficultPoints: [
+                    "<strong><span class=\"tooltip\" data-tooltip=\"남을 해치려는 나쁜 꾀\">흉계</span>:</strong> 계모가 이화를 해치려고 꾸민 음모입니다."
+                ],
+                confusingPoints: [
+                    "<strong>장화홍련전과의 차이:</strong> 이화전의 주인공은 죽지 않고 스스로 운명을 개척합니다."
+                ]
+            },
+            "박태보전": {
+                description: "실존 인물 박태보의 충절을 다룬 역사 소설입니다. 인현왕후 폐위에 반대하다 고문을 받고 죽은 박태보의 이야기입니다.",
+                plot: "숙종 때, 박태보는 인현왕후를 폐위하려는 왕의 결정에 반대하여 목숨을 걸고 상소를 올립니다. 이에 분노한 숙종은 박태보를 잡아들여 모진 고문을 가하지만, 그는 끝까지 뜻을 굽히지 않습니다. 결국 유배를 떠나던 중 고문 후유증으로 노량진에서 비극적인 죽음을 맞이합니다.",
+                interpretation: "실존 인물 박태보의 강직한 성품과 충절을 사실적으로 그려낸 작품입니다. 불의한 권력(왕의 잘못된 결정)에 맞서 신념을 지키는 선비 정신을 찬양하고, 그의 억울한 죽음을 애도합니다.",
+                historicalBackground: "기사환국(1689년) 당시 인현왕후 폐위를 둘러싼 정치적 갈등을 배경으로 합니다. 당쟁의 소용돌이 속에서 희생된 충신의 모습을 통해 당시 정치 현실을 비판적으로 보여줍니다.",
+                examPoints: [
+                    "<strong>절의와 충성:</strong> 불의에 타협하지 않는 선비의 기개를 보여줍니다.",
+                    "<strong>비극적 결말:</strong> 주인공이 죽음으로써 자신의 신념을 지킵니다."
+                ],
+                difficultPoints: [
+                    "<strong><span class=\"tooltip\" data-tooltip=\"임금에게 올리는 글\">상소</span>:</strong> 자신의 의견을 임금에게 글로 써서 올리는 것입니다."
+                ],
+                confusingPoints: [
+                    "<strong>임경업전과의 공통점:</strong> 실존 인물의 비극적인 삶을 다루어 백성들의 안타까움을 표현했습니다."
+                ]
+            },
+            "낙성비룡": {
+                description: "주인공 이경작이 시련을 극복하고 영웅이 되는 과정을 그린 소설입니다.",
+                plot: "이경작은 간신의 모함으로 부모를 잃고 고아가 되어 걸인 생활을 합니다. 그러나 자신의 비범한 능력을 감추고 '바보' 행세를 하며 때를 기다립니다. 이후 과거에 급제하여 암행어사가 되고, 전쟁이 일어나자 대원수가 되어 적을 물리칩니다. 헤어졌던 가족과 재회하고 부귀영화를 누리며 행복한 결말을 맺습니다.",
+                interpretation: "제목은 '떨어진 별(낙성)이 날아오르는 용(비룡)이 된다'는 뜻으로, 몰락한 주인공이 시련을 딛고 영웅으로 성공하는 과정을 그립니다. 겉모습만 보고 사람을 판단해서는 안 된다는 교훈과 능력 중심 사회에 대한 열망을 담고 있습니다.",
+                historicalBackground: "조선 후기, 몰락 양반이 늘어나고 신분제가 동요하던 시기에 창작되었습니다. 어려운 처지에 있는 사람도 능력이 있으면 성공할 수 있다는 희망을 주었습니다.",
+                examPoints: [
+                    "<strong>영웅의 일생:</strong> 고귀한 혈통, 기아, 구출, 양육, 위기 극복, 승리라는 공식을 따릅니다.",
+                    "<strong>재자가인:</strong> 재주 있는 남자와 아름다운 여자의 만남이 그려집니다."
+                ],
+                difficultPoints: [
+                    "<strong><span class=\"tooltip\" data-tooltip=\"재주 있는 남자와 아름다운 여자\">재자가인</span>:</strong> 잘 어울리는 한 쌍을 말합니다."
+                ],
+                confusingPoints: [
+                    "<strong>평범한 영웅 소설:</strong> 특별히 독특한 점보다는 영웅 소설의 전형성을 잘 보여주는 작품입니다."
+                ]
+            },
+            "김현감호": {
+                description: "신라 시대를 배경으로 한 설화로, 인간과 호랑이의 사랑을 다룹니다.",
+                plot: "신라 원성왕 때, 김현이 흥륜사에서 탑돌이를 하다가 한 처녀를 만나 사랑을 맺습니다. 처녀의 정체는 호랑이였는데, 그녀는 김현을 위해 자신의 형제(나쁜 호랑이들)가 저지른 죄를 대신 갚고자 합니다. 처녀는 김현에게 자신을 죽여 공을 세우라고 부탁하고, 김현의 칼에 죽어 그를 벼슬길에 오르게 합니다. 김현은 그녀를 위해 절을 짓고 명복을 빕니다.",
+                interpretation: "인간과 짐승의 경계를 넘은 사랑과 호랑이 처녀의 숭고한 자기 희생을 다룬 설화입니다. 짐승도 은혜를 알고 희생할 줄 아는데 인간은 어떠해야 하는가에 대한 도덕적 질문을 던집니다.",
+                historicalBackground: "신라 시대의 불교 신앙(탑돌이)과 토속 신앙(호랑이 숭배)이 결합된 배경을 가지고 있습니다. '삼국유사'에 수록되어 전해지는 이야기로, 고대인들의 세계관을 엿볼 수 있습니다.",
+                examPoints: [
+                    "<strong>이물 교혼 설화:</strong> 인간과 동물의 사랑을 다룬 이야기입니다.",
+                    "<strong>자기 희생:</strong> 호랑이 처녀의 숭고한 희생 정신이 드러납니다."
+                ],
+                difficultPoints: [
+                    "<strong><span class=\"tooltip\" data-tooltip=\"탑 주위를 돌며 기도하는 것\">탑돌이</span>:</strong> 불교 행사 중 하나입니다."
+                ],
+                confusingPoints: [
+                    "<strong>설화와 소설:</strong> 소설이라기보다는 짧은 옛날이야기(설화)에 가깝습니다."
+                ]
+            },
+            "최척전": {
+                description: "전쟁으로 인한 가족의 이별과 재회를 다룬 애정 소설이자 역사 소설입니다. 배경이 조선뿐만 아니라 중국, 일본, 베트남까지 확장됩니다.",
+                plot: "남원 사람 최척과 옥영은 사랑하여 결혼하지만, 임진왜란이 일어나 가족이 뿔뿔이 흩어집니다. 최척은 중국으로, 옥영은 일본으로 끌려가지만 기적적으로 베트남(안남)의 한 항구에서 재회합니다. 이후 정유재란으로 또다시 헤어지지만, 끈질긴 생명력으로 살아남아 결국 온 가족이 다시 만나 행복하게 삽니다.",
+                interpretation: "전쟁이라는 거대한 폭력 앞에서 개인이 겪는 고통과 이산의 아픔을 사실적으로 그려냈습니다. 조선, 일본, 중국, 베트남을 넘나드는 광범위한 배경과 우연한 만남을 통해, 전쟁의 비극을 극복하려는 인간의 강인한 의지와 가족애를 감동적으로 보여줍니다.",
+                historicalBackground: "임진왜란(1592)과 정유재란(1597)이라는 실제 역사를 배경으로 합니다. 당시 수많은 백성들이 포로로 잡혀가거나 가족을 잃었던 참혹한 현실을 반영하고 있습니다.",
+                examPoints: [
+                    "<strong>사실적 배경:</strong> 실제 전쟁을 배경으로 하여 백성들의 고통을 사실적으로 묘사했습니다.",
+                    "<strong>강인한 의지:</strong> 전쟁 속에서도 사랑과 가족을 지키려는 의지가 돋보입니다."
+                ],
+                difficultPoints: [
+                    "<strong><span class=\"tooltip\" data-tooltip=\"일본이 조선을 침략한 전쟁\">임진왜란/정유재란</span>:</strong> 선조 때 일어난 큰 전쟁들입니다."
+                ],
+                confusingPoints: [
+                    "<strong>우연과 필연:</strong> 만남은 우연적이지만, 재회를 위한 노력은 필연적입니다."
+                ]
+            },
+            "임장군전": {
+                description: "임경업 장군의 일대기를 다룬 소설로, '임경업전'과 같은 작품입니다. 민중들의 영웅 숭배 심리가 반영되어 있습니다.",
+                plot: "임경업 장군의 영웅적인 활약과 비극적인 죽음을 다룬 이야기로, '임경업전'의 이본(다른 버전)입니다. 임경업이 명나라를 도와 호국(청나라)과 싸우며 용맹을 떨치지만, 간신의 모함으로 뜻을 이루지 못하고 억울하게 죽는 과정을 그립니다. (상세 내용은 임경업전과 대동소이함)",
+                interpretation: "패배한 전쟁(병자호란)의 영웅을 주인공으로 내세워, 현실의 패배를 정신적으로 극복하고자 하는 민중의 심리가 담겨 있습니다. 비극적으로 죽은 영웅에 대한 동정과 숭배 의식이 반영되어 있습니다.",
+                historicalBackground: "실존 인물 임경업은 당시 백성들에게 구국의 영웅으로 추앙받았습니다. 그의 죽음을 안타까워하는 민중들에 의해 다양한 전설과 소설이 만들어졌습니다.",
+                examPoints: [
+                    "<strong>민족 의식 고취:</strong> 패배한 전쟁이지만 정신적으로는 승리하고자 하는 욕구가 반영되었습니다."
+                ],
+                difficultPoints: [
+                    "<strong><span class=\"tooltip\" data-tooltip=\"백성들이 영웅을 우러러보는 마음\">영웅 숭배</span>:</strong> 억울하게 죽은 영웅을 신처럼 모시는 것입니다."
+                ],
+                confusingPoints: [
+                    "<strong>이본:</strong> 임경업전과 같은 내용이지만 전해지는 책에 따라 제목이 다를 수 있습니다."
+                ]
+            }
+        };
+
+        // URL에서 title 파라미터 값을 가져와서 제목으로 설정
+        const urlParams = new URLSearchParams(window.location.search);
+        const title = urlParams.get('title');
+        const contentDiv = document.querySelector('.detail-content');
+
+        // 작품 목록 (네비게이션용)
+        const workList = [
+            "춘향전", "심청전", "흥부전", "토끼전", "별주부전", "구운몽", "사씨남정기", "홍길동전", "전우치전", "운영전", 
+            "만복사저포기", "옥루몽", "김원전", "최고운전", "채봉감별곡", "배비장전", "박씨전", "숙향전", "조웅전", "적벽가", 
+            "유충렬전", "이생규장전", "창선감의록", "심생전", "장끼전", "서동지전", "숙영낭자전", "임경업전", "옹고집전", "금방울전", 
+            "정수정전", "상사동기", "이대봉전", "김진옥전", "이화전", "박태보전", "낙성비룡", "김현감호", "최척전", "임장군전"
+        ];
+
+        if (title) {
+            document.getElementById('novel-title').textContent = title;
+            document.title = title + " - 상세 정보";
+
+            // 데이터가 있는 경우 내용을 생성하여 표시
+            if (novelData[title]) {
+                const data = novelData[title];
+                let html = `<h3>작품 설명</h3><p>${data.description}</p>`;
+
+                if (data.plot) {
+                    html += `<h3>줄거리</h3><p>${data.plot}</p>`;
+                }
+
+                if (data.interpretation) {
+                    html += `<h3>작품 해석</h3><p>${data.interpretation}</p>`;
+                }
+
+                if (data.historicalBackground) {
+                    html += `<h3>시대적 배경</h3><p>${data.historicalBackground}</p>`;
+                }
+                
+                html += `<h3>시험에서 자주 나오는 부분 (핵심 포인트)</h3><ul>`;
+                data.examPoints.forEach(point => {
+                    html += `<li style="margin-bottom: 8px;">${point}</li>`;
+                });
+                html += `</ul>`;
+
+                html += `<h3>어려운 부분</h3><ul>`;
+                data.difficultPoints.forEach(point => {
+                    html += `<li style="margin-bottom: 8px;">${point}</li>`;
+                });
+                html += `</ul>`;
+
+                html += `<h3>헷갈릴만한 부분</h3><ul>`;
+                data.confusingPoints.forEach(point => {
+                    html += `<li style="margin-bottom: 8px;">${point}</li>`;
+                });
+                html += `</ul>`;
+
+                contentDiv.innerHTML = html;
+
+                // 툴팁 터치 이벤트 처리 (모바일 대응)
+                const tooltips = document.querySelectorAll('.tooltip');
+                tooltips.forEach(tooltip => {
+                    tooltip.addEventListener('click', function(e) {
+                        e.stopPropagation(); // 이벤트 버블링 방지
+                        // 다른 열린 툴팁 닫기
+                        tooltips.forEach(t => {
+                            if (t !== tooltip) t.classList.remove('active');
+                        });
+                        // 현재 툴팁 토글
+                        this.classList.toggle('active');
+                    });
+                });
+
+                // 화면의 다른 곳을 클릭하면 툴팁 닫기
+                document.addEventListener('click', function() {
+                    tooltips.forEach(t => t.classList.remove('active'));
+                });
+            } else {
+                contentDiv.innerHTML = "<p>해당 작품에 대한 상세 정보가 아직 등록되지 않았습니다.</p>";
+            }
+
+            // 이전/다음 작품 버튼 로직
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const currentIndex = workList.indexOf(title);
+
+            if (currentIndex !== -1) {
+                // 이전 작품이 있는 경우
+                if (currentIndex > 0) {
+                    const prevTitle = workList[currentIndex - 1];
+                    prevBtn.onclick = () => location.replace(`novel_detail.html?title=${prevTitle}`);
+                    prevBtn.setAttribute('data-tooltip', prevTitle);
+                } else {
+                    prevBtn.classList.add('disabled');
+                }
+
+                // 다음 작품이 있는 경우
+                if (currentIndex < workList.length - 1) {
+                    const nextTitle = workList[currentIndex + 1];
+                    nextBtn.onclick = () => location.replace(`novel_detail.html?title=${nextTitle}`);
+                    nextBtn.setAttribute('data-tooltip', nextTitle);
+                } else {
+                    nextBtn.classList.add('disabled');
+                }
+            } else {
+                // 목록에 없는 작품인 경우 둘 다 비활성화
+                prevBtn.classList.add('disabled');
+                nextBtn.classList.add('disabled');
+            }
+
+            // 게스트 모드 확인
+            const isGuest = localStorage.getItem('isGuest');
+
+            // 즐겨찾기 버튼 로직
+            const favoriteBtn = document.getElementById('favorite-btn');
+            const favKey = 'learning_favorites'; // 로컬 스토리지 키
+            let favorites = JSON.parse(localStorage.getItem(favKey)) || [];
+
+            // 초기 상태 설정 (이미 즐겨찾기 되어있으면 활성화)
+            if (favorites.includes(title)) {
+                favoriteBtn.classList.add('favorite');
+            }
+
+            if (isGuest) {
+                favoriteBtn.classList.add('disabled');
+                favoriteBtn.onclick = () => alert('로그인이 필요한 기능입니다.');
+            } else {
+            favoriteBtn.addEventListener('click', function() {
+                if (favorites.includes(title)) {
+                    // 이미 즐겨찾기 된 경우 -> 해제
+                    favorites = favorites.filter(item => item !== title);
+                    favoriteBtn.classList.remove('favorite');
+                } else {
+                    // 즐겨찾기 안 된 경우 -> 추가
+                    favorites.push(title);
+                    favoriteBtn.classList.add('favorite');
+                }
+                localStorage.setItem(favKey, JSON.stringify(favorites));
+            });
+            }
+
+            // 학습완료/미완료 버튼 로직
+            const completedBtn = document.getElementById('completed-btn');
+            const completedKey = 'learning_completed'; // 로컬 스토리지 키
+            let completedList = JSON.parse(localStorage.getItem(completedKey)) || [];
+
+            // 목록에 해당 작품이 있는지 확인하는 헬퍼 함수 (문자열/객체 호환)
+            const isCompleted = (list, title) => list.some(item => (typeof item === 'string' ? item : item.title) === title);
+
+            // 초기 상태 설정 (이미 완료된 경우 활성화)
+            if (isCompleted(completedList, title)) {
+                completedBtn.classList.add('completed');
+            }
+
+            if (isGuest) {
+                completedBtn.classList.add('disabled');
+                completedBtn.onclick = () => alert('로그인이 필요한 기능입니다.');
+            } else {
+            completedBtn.addEventListener('click', function() {
+                completedList = JSON.parse(localStorage.getItem(completedKey)) || []; // 최신 상태 불러오기
+                
+                if (!isCompleted(completedList, title)) {
+                    const date = new Date().toLocaleDateString(); // 현재 날짜 (예: 2024. 1. 1.)
+                    completedList.push({ title: title, date: date });
+                    localStorage.setItem(completedKey, JSON.stringify(completedList));
+                    completedBtn.classList.add('completed');
+                } else {
+                    completedList = completedList.filter(item => (typeof item === 'string' ? item : item.title) !== title);
+                    localStorage.setItem(completedKey, JSON.stringify(completedList));
+                    completedBtn.classList.remove('completed');
+                }
+            });
+            }
+
+            // 별점(난이도) 기능 로직
+            const stars = document.querySelectorAll('.star');
+            const starContainer = document.querySelector('.star-rating');
+            const ratingKey = 'learning_ratings';
+            let ratings = JSON.parse(localStorage.getItem(ratingKey)) || {};
+
+            function updateStars(rating) {
+                stars.forEach(star => {
+                    if (parseInt(star.dataset.value) <= rating) {
+                        star.classList.add('active');
+                    } else {
+                        star.classList.remove('active');
+                    }
+                });
+            }
+
+            if (ratings[title]) {
+                updateStars(ratings[title]);
+            }
+
+            if (isGuest) {
+                starContainer.style.opacity = '0.5';
+                starContainer.onclick = () => alert('로그인이 필요한 기능입니다.');
+            } else {
+            stars.forEach(star => {
+                star.addEventListener('mouseover', function() {
+                    const value = parseInt(this.dataset.value);
+                    updateStars(value);
+                });
+
+                star.addEventListener('click', function() {
+                    const value = parseInt(this.dataset.value);
+                    ratings = JSON.parse(localStorage.getItem(ratingKey)) || {};
+                    
+                    // 이미 선택된 별점을 다시 누르면 취소 (0점)
+                    const newRating = (ratings[title] === value) ? 0 : value;
+                    ratings[title] = newRating;
+                    updateStars(newRating);
+                    localStorage.setItem(ratingKey, JSON.stringify(ratings));
+                });
+            });
+
+            starContainer.addEventListener('mouseleave', function() {
+                const currentRating = ratings[title] || 0;
+                updateStars(currentRating);
+            });
+            }
+
+            // 스와이프 기능 (좌우 이동)
+            let touchStartX = 0;
+            let touchEndX = 0;
+
+            document.addEventListener('touchstart', e => {
+                touchStartX = e.changedTouches[0].screenX;
+            });
+
+            document.addEventListener('touchend', e => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            });
+
+            function handleSwipe() {
+                const threshold = 50; // 최소 스와이프 거리
+                if (touchStartX - touchEndX > threshold) {
+                    // 왼쪽으로 스와이프 -> 다음 작품
+                    if (!document.getElementById('next-btn').classList.contains('disabled')) document.getElementById('next-btn').click();
+                }
+                if (touchEndX - touchStartX > threshold) {
+                    // 오른쪽으로 스와이프 -> 이전 작품
+                    if (!document.getElementById('prev-btn').classList.contains('disabled')) document.getElementById('prev-btn').click();
+                }
+            }
+
+            // 키보드 방향키 이벤트 (컴퓨터 테스트용)
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft') {
+                    if (!prevBtn.classList.contains('disabled')) prevBtn.click();
+                } else if (e.key === 'ArrowRight') {
+                    if (!nextBtn.classList.contains('disabled')) nextBtn.click();
+                }
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>언어 설정</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        if (!localStorage.getItem('isLoggedIn')) {
+            window.location.href = 'index.html';
+        }
+    </script>
+    <script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark-mode');
+        }
+    </script>
+</head>
+<body>
+    <main>
+        <header class="page-header">
+            <a href="my-page.html" class="back-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </a>
+            <h1>언어 설정</h1>
+        </header>
+        <div class="detail-content">
+            <div class="my-menu-list">
+                <button class="my-menu-button active" style="text-align: center;">한국어</button>
+                <button class="my-menu-button" style="text-align: center;">English</button>
+                <button class="my-menu-button" style="text-align: center;">中文</button>
+                <button class="my-menu-button" style="text-align: center;">Tiếng Việt</button>
+                <button class="my-menu-button" style="text-align: center;">Русский</button>
+                <button class="my-menu-button" style="text-align: center;">日本語</button>
+                <button class="my-menu-button" style="text-align: center;">ภาษาไทย</button>
+                <button class="my-menu-button" style="text-align: center;">Монгол</button>
+                <button class="my-menu-button" style="text-align: center;">Tagalog</button>
+            </div>
+        </div>
+    </main>
+    <script>
+        // body에 dark-mode 클래스 적용
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+
+        const buttons = document.querySelectorAll('.my-menu-button');
+        const savedLang = localStorage.getItem('selectedLanguage');
+
+        if (savedLang) {
+            buttons.forEach(btn => btn.classList.remove('active'));
+            buttons.forEach(btn => {
+                if (btn.textContent.trim() === savedLang) btn.classList.add('active');
+            });
+        }
+
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {
+                buttons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                localStorage.setItem('selectedLanguage', button.textContent.trim());
+            });
+        });
+    </script>
+</body>
+</html>

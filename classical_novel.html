@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>고전소설</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark-mode');
+        }
+    </script>
+</head>
+<body>
+    <main>
+        <header class="page-header">
+            <a href="learning.html" class="back-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </a>
+            <a href="learning.html" class="home-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+            </a>
+            <h1>고전소설</h1>
+        </header>
+        <div class="novel-grid">
+            <a href="novel_detail.html?title=춘향전" class="novel-button">춘향전</a>
+            <a href="novel_detail.html?title=심청전" class="novel-button">심청전</a>
+            <a href="novel_detail.html?title=흥부전" class="novel-button">흥부전</a>
+            <a href="novel_detail.html?title=토끼전" class="novel-button">토끼전</a>
+            <a href="novel_detail.html?title=별주부전" class="novel-button">별주부전</a>
+            <a href="novel_detail.html?title=구운몽" class="novel-button">구운몽</a>
+            <a href="novel_detail.html?title=사씨남정기" class="novel-button">사씨남정기</a>
+            <a href="novel_detail.html?title=홍길동전" class="novel-button">홍길동전</a>
+            <a href="novel_detail.html?title=전우치전" class="novel-button">전우치전</a>
+            <a href="novel_detail.html?title=운영전" class="novel-button">운영전</a>
+            <a href="novel_detail.html?title=만복사저포기" class="novel-button">만복사저포기</a>
+            <a href="novel_detail.html?title=옥루몽" class="novel-button">옥루몽</a>
+            <a href="novel_detail.html?title=김원전" class="novel-button">김원전</a>
+            <a href="novel_detail.html?title=최고운전" class="novel-button">최고운전</a>
+            <a href="novel_detail.html?title=채봉감별곡" class="novel-button">채봉감별곡</a>
+            <a href="novel_detail.html?title=배비장전" class="novel-button">배비장전</a>
+            <a href="novel_detail.html?title=박씨전" class="novel-button">박씨전</a>
+            <a href="novel_detail.html?title=숙향전" class="novel-button">숙향전</a>
+            <a href="novel_detail.html?title=조웅전" class="novel-button">조웅전</a>
+            <a href="novel_detail.html?title=적벽가" class="novel-button">적벽가</a>
+            <a href="novel_detail.html?title=유충렬전" class="novel-button">유충렬전</a>
+            <a href="novel_detail.html?title=이생규장전" class="novel-button">이생규장전</a>
+            <a href="novel_detail.html?title=창선감의록" class="novel-button">창선감의록</a>
+            <a href="novel_detail.html?title=심생전" class="novel-button">심생전</a>
+            <a href="novel_detail.html?title=장끼전" class="novel-button">장끼전</a>
+            <a href="novel_detail.html?title=서동지전" class="novel-button">서동지전</a>
+            <a href="novel_detail.html?title=숙영낭자전" class="novel-button">숙영낭자전</a>
+            <a href="novel_detail.html?title=임경업전" class="novel-button">임경업전</a>
+            <a href="novel_detail.html?title=옹고집전" class="novel-button">옹고집전</a>
+            <a href="novel_detail.html?title=금방울전" class="novel-button">금방울전</a>
+            <a href="novel_detail.html?title=정수정전" class="novel-button">정수정전</a>
+            <a href="novel_detail.html?title=상사동기" class="novel-button">상사동기</a>
+            <a href="novel_detail.html?title=이대봉전" class="novel-button">이대봉전</a>
+            <a href="novel_detail.html?title=김진옥전" class="novel-button">김진옥전</a>
+            <a href="novel_detail.html?title=이화전" class="novel-button">이화전</a>
+            <a href="novel_detail.html?title=박태보전" class="novel-button">박태보전</a>
+            <a href="novel_detail.html?title=낙성비룡" class="novel-button">낙성비룡</a>
+            <a href="novel_detail.html?title=김현감호" class="novel-button">김현감호</a>
+            <a href="novel_detail.html?title=최척전" class="novel-button">최척전</a>
+            <a href="novel_detail.html?title=임장군전" class="novel-button">임장군전</a>
+        </div>
+    </main>
+    <script>
+        // body에 dark-mode 클래스 적용
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+
+        // 학습 완료 상태 확인 및 버튼 스타일 적용
+        const completedList = JSON.parse(localStorage.getItem('learning_completed')) || [];
+        const completedTitles = completedList.map(item => (typeof item === 'string' ? item : item.title));
+        const buttons = document.querySelectorAll('.novel-button');
+        buttons.forEach(btn => {
+            if (completedTitles.includes(btn.textContent.trim())) {
+                btn.classList.add('completed');
+            }
+        });
+    </script>
+</body>
+</html>
