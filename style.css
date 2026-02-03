@@ -494,6 +494,19 @@ body.dark-mode .detail-content h3 {
 }
 
 @media (max-width: 768px) {
+    main {
+        padding: 20px;
+    }
+    .wordbook-content {
+        padding: 0 10px 20px;
+        margin: 0 -20px;
+        height: calc(100vh - 152px); /* 모바일 화면 높이에 맞게 조정 */
+    }
+    .suggestion-button {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+
     .learning-section,
     .chat-container,
     .my-menu-list,
@@ -516,8 +529,9 @@ body.dark-mode .detail-content h3 {
 
     .quiz-select-button {
         height: 60px;
-        font-size: 13px;
-        padding: 5px;
+        font-size: 11px;
+        padding: 2px;
+        line-height: 1.25;
     }
 
     .my-menu-button {
@@ -862,37 +876,6 @@ body.dark-mode .detail-content h3 {
     background-color: rgba(0, 0, 0, 0.3);
 }
 
-/* Tooltip for Floating Navigation Buttons */
-.floating-nav-btn[data-tooltip]:hover::after {
-    content: attr(data-tooltip);
-    position: absolute;
-    bottom: calc(100% + 10px);
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #333;
-    color: #fff;
-    padding: 6px 10px;
-    border-radius: 4px;
-    font-size: 12px;
-    white-space: nowrap;
-    z-index: 1000;
-    pointer-events: none;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-}
-
-.floating-nav-btn[data-tooltip]:hover::before {
-    content: '';
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    border-width: 5px;
-    border-style: solid;
-    border-color: #333 transparent transparent transparent;
-    z-index: 1000;
-    pointer-events: none;
-}
-
 /* Page Transition Animations */
 @keyframes slide-out-left {
     from { transform: translateX(0); opacity: 1; }
@@ -1005,7 +988,7 @@ body.dark-mode .detail-content h3 {
 /* Quiz Selection Page Styles */
 .quiz-select-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3열 배치 */
+    grid-template-columns: repeat(3, minmax(0, 1fr)); /* 3열 배치, 버튼 크기 고정 */
     gap: 12px;
     margin-top: 20px;
 }
